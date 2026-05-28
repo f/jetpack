@@ -42,8 +42,8 @@ function is_block_notes_enabled() {
 	/**
 	 * Filter whether Block Notes is enabled.
 	 *
-	 * Since $$next-version$$, the default value reflects computed Block Notes
-	 * availability instead of a temporary hardcoded false.
+	 * The default value now reflects computed Block Notes availability instead
+	 * of a temporary hardcoded false.
 	 *
 	 * @since 15.8
 	 *
