@@ -42,7 +42,10 @@ function is_block_notes_enabled() {
 	/**
 	 * Filter whether Block Notes is enabled.
 	 *
-	 * @since $$next-version$$
+	 * Since $$next-version$$, the default value reflects computed Block Notes
+	 * availability instead of a temporary hardcoded false.
+	 *
+	 * @since 15.8
 	 *
 	 * @param bool $enabled Whether Block Notes is enabled.
 	 */
