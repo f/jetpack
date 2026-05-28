@@ -8,7 +8,6 @@
 namespace Automattic\Jetpack\Extensions\BlockNotes;
 
 use Automattic\Jetpack\Connection\Manager as Connection_Manager;
-use Automattic\Jetpack\My_Jetpack\Products\Jetpack_Ai;
 use Automattic\Jetpack\Status;
 use Automattic\Jetpack\Status\Host;
 
@@ -27,65 +26,27 @@ const HEADLESS_AGENT_PROVIDER = 'block-notes/headless-agent-provider';
 /**
  * Check if Block Notes is enabled.
  *
- * Enabled when the Big Sky plugin is active, or when the site has
- * a paid Jetpack AI plan and AI features are not disabled.
+ * Enabled when the Big Sky plugin is active, or when Jetpack AI features
+ * are available. Actual AI usage and quota enforcement happen when the
+ * agent request is made, matching Image Studio.
  *
  * @return bool
  */
 function is_block_notes_enabled() {
-	/**
-	 * Temporarily disabled while we investigate expensive API calls
-	 * triggered by has_paid_ai_plan() on every Gutenberg page load for
-	 * self-hosted sites. Filter allows tests and development to re-enable.
-	 *
-	 * @since 15.8
-	 *
-	 * @param bool $enabled Whether Block Notes is force-enabled. Default false.
-	 */
-	if ( ! apply_filters( 'jetpack_block_notes_enabled', false ) ) {
-		return false;
-	}
-
 	if ( is_big_sky_enabled() ) {
-		return true;
-	}
-
-	if ( ! has_jetpack_ai_features() ) {
-		return false;
-	}
-
-	if ( ! has_paid_ai_plan() ) {
-		return false;
-	}
-
-	return true;
-}
-
-/**
- * Check if the site has a paid Jetpack AI plan.
- *
- * On WordPress.com, uses the lightweight wpcom_site_has_feature() lookup.
- * On self-hosted and Atomic sites, uses the My Jetpack product class.
- *
- * @return bool
- */
-function has_paid_ai_plan() {
-	$has_paid_plan = false;
-
-	if ( defined( 'IS_WPCOM' ) && IS_WPCOM && function_exists( 'wpcom_site_has_feature' ) ) {
-		$has_paid_plan = wpcom_site_has_feature( 'ai-assistant', get_current_blog_id() );
-	} elseif ( class_exists( Jetpack_Ai::class ) ) {
-		$has_paid_plan = Jetpack_Ai::has_paid_plan_for_product();
+		$enabled = true;
+	} else {
+		$enabled = has_jetpack_ai_features();
 	}
 
 	/**
-	 * Filter whether the site has a paid AI plan.
+	 * Filter whether Block Notes is enabled.
 	 *
-	 * @since 15.7
+	 * @since $$next-version$$
 	 *
-	 * @param bool $has_paid_plan Whether the site has a paid AI plan.
+	 * @param bool $enabled Whether Block Notes is enabled.
 	 */
-	return apply_filters( 'jetpack_block_notes_has_paid_ai_plan', $has_paid_plan );
+	return apply_filters( 'jetpack_block_notes_enabled', $enabled );
 }
 
 /**
@@ -103,9 +64,7 @@ function is_big_sky_enabled() {
 /**
  * Check whether AI features are available.
  *
- * - wpcom simple: always returns true. The jetpack_ai_enabled filter
- *   does not apply here; the paid plan check in has_paid_ai_plan()
- *   gates access instead.
+ * - wpcom simple: always available.
  * - Otherwise requires a connected owner, not in offline mode, and
  *   AI not disabled via the jetpack_ai_enabled filter.
  *
@@ -122,6 +81,21 @@ function has_jetpack_ai_features() {
 		&& ! ( new Status() )->is_offline_mode()
 		&& apply_filters( 'jetpack_ai_enabled', true );
 }
+
+/**
+ * Signal to Big Sky that Jetpack is handling Block Notes.
+ *
+ * Sets the jetpack_block_notes_enabled filter to true so that Big Sky skips
+ * its own Block Notes loading when Jetpack has AI features available.
+ *
+ * @return void
+ */
+function signal_block_notes_active() {
+	if ( is_block_notes_enabled() ) {
+		add_filter( 'jetpack_block_notes_enabled', '__return_true', 5 );
+	}
+}
+add_action( 'init', __NAMESPACE__ . '\signal_block_notes_active' );
 
 /**
  * Check if the current screen is the post editor for a 'post' post type.
