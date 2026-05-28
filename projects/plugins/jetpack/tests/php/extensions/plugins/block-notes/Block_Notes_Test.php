@@ -292,9 +292,9 @@ class Block_Notes_Test extends \WP_UnitTestCase {
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Test signal_block_notes_active adds the jetpack_block_notes_enabled filter when enabled.
+	 * Test signal_block_notes_active adds the jetpack_block_notes_enabled filter when Big Sky is enabled.
 	 */
-	public function test_signal_adds_filter_when_enabled() {
+	public function test_signal_adds_filter_when_big_sky_enabled() {
 		$this->enable_big_sky();
 		BlockNotes\signal_block_notes_active();
 		$this->assertTrue( apply_filters( 'jetpack_block_notes_enabled', false ) );
@@ -307,6 +307,15 @@ class Block_Notes_Test extends \WP_UnitTestCase {
 		$this->disable_ai_features();
 		BlockNotes\signal_block_notes_active();
 		$this->assertFalse( apply_filters( 'jetpack_block_notes_enabled', false ) );
+	}
+
+	/**
+	 * Test signal_block_notes_active does not override later AI feature changes without Big Sky.
+	 */
+	public function test_signal_does_not_override_late_ai_disable_without_big_sky() {
+		BlockNotes\signal_block_notes_active();
+		$this->disable_ai_features();
+		$this->assertFalse( BlockNotes\is_block_notes_enabled() );
 	}
 
 	// -------------------------------------------------------------------------

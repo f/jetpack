@@ -86,12 +86,13 @@ function has_jetpack_ai_features() {
  * Signal to Big Sky that Jetpack is handling Block Notes.
  *
  * Sets the jetpack_block_notes_enabled filter to true so that Big Sky skips
- * its own Block Notes loading when Jetpack has AI features available.
+ * its own Block Notes loading when Jetpack is handling the Big Sky-provided
+ * Block Notes entry point.
  *
  * @return void
  */
 function signal_block_notes_active() {
-	if ( is_block_notes_enabled() ) {
+	if ( is_big_sky_enabled() && is_block_notes_enabled() ) {
 		add_filter( 'jetpack_block_notes_enabled', '__return_true', 5 );
 	}
 }
