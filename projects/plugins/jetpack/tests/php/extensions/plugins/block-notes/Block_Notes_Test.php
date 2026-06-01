@@ -1001,50 +1001,6 @@ class Block_Notes_Test extends \WP_UnitTestCase {
 	}
 
 	// -------------------------------------------------------------------------
-	// register_headless_agent_provider() tests
-	// -------------------------------------------------------------------------
-
-	/**
-	 * Test that agents_manager_agent_providers includes Block Notes provider
-	 * when AI features are available.
-	 */
-	public function test_agent_providers_includes_block_notes_when_enabled() {
-		$providers = BlockNotes\register_headless_agent_provider( array() );
-
-		$this->assertContains( BlockNotes\HEADLESS_AGENT_PROVIDER, $providers );
-	}
-
-	/**
-	 * Test that agents_manager_agent_providers does NOT include Block Notes
-	 * provider when AI features are disabled.
-	 */
-	public function test_agent_providers_excludes_block_notes_when_disabled() {
-		$this->disable_ai_features();
-
-		$providers = BlockNotes\register_headless_agent_provider( array() );
-
-		$this->assertNotContains( BlockNotes\HEADLESS_AGENT_PROVIDER, $providers );
-	}
-
-	/**
-	 * Test that register_headless_agent_provider preserves existing providers.
-	 */
-	public function test_agent_providers_preserves_existing_providers() {
-		$existing  = array( 'some-other/provider' );
-		$providers = BlockNotes\register_headless_agent_provider( $existing );
-
-		$this->assertContains( 'some-other/provider', $providers );
-		$this->assertContains( BlockNotes\HEADLESS_AGENT_PROVIDER, $providers );
-	}
-
-	/**
-	 * Test HEADLESS_AGENT_PROVIDER constant value.
-	 */
-	public function test_headless_agent_provider_constant() {
-		$this->assertEquals( 'block-notes/headless-agent-provider', BlockNotes\HEADLESS_AGENT_PROVIDER );
-	}
-
-	// -------------------------------------------------------------------------
 	// register_meta_fields() tests
 	// -------------------------------------------------------------------------
 
