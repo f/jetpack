@@ -279,12 +279,13 @@ class Block_Notes_Test extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Enabled via Big Sky unless the kill switch filter disables it.
+	 * Kill switch filter can disable Block Notes even when Big Sky is active.
 	 */
-	public function test_is_enabled_via_big_sky_without_ai_features() {
+	public function test_is_not_enabled_via_big_sky_when_filter_disables_block_notes() {
 		$this->disable_ai_features();
 		$this->enable_big_sky();
-		$this->assertTrue( BlockNotes\is_block_notes_enabled() );
+		add_filter( 'jetpack_block_notes_enabled', '__return_false' );
+		$this->assertFalse( BlockNotes\is_block_notes_enabled() );
 	}
 
 	// -------------------------------------------------------------------------
@@ -292,12 +293,29 @@ class Block_Notes_Test extends \WP_UnitTestCase {
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Test signal_block_notes_active adds the jetpack_block_notes_enabled filter when Big Sky is enabled.
+	 * Test signal_block_notes_active adds the skip signal when Big Sky is enabled.
 	 */
 	public function test_signal_adds_filter_when_big_sky_enabled() {
+		$skip_signal_callback = 'Automattic\Jetpack\Extensions\BlockNotes\skip_big_sky_block_notes_loader';
+
 		$this->enable_big_sky();
 		BlockNotes\signal_block_notes_active();
+
+		$this->assertSame( 5, has_filter( 'jetpack_block_notes_enabled', $skip_signal_callback ) );
 		$this->assertTrue( apply_filters( 'jetpack_block_notes_enabled', false ) );
+	}
+
+	/**
+	 * Test is_block_notes_enabled does not add the Big Sky skip signal by itself.
+	 */
+	public function test_is_block_notes_enabled_does_not_add_big_sky_skip_signal() {
+		$skip_signal_callback = 'Automattic\Jetpack\Extensions\BlockNotes\skip_big_sky_block_notes_loader';
+
+		$this->assertFalse( has_filter( 'jetpack_block_notes_enabled', $skip_signal_callback ) );
+
+		$this->assertTrue( BlockNotes\is_block_notes_enabled() );
+
+		$this->assertFalse( has_filter( 'jetpack_block_notes_enabled', $skip_signal_callback ) );
 	}
 
 	/**
@@ -315,6 +333,20 @@ class Block_Notes_Test extends \WP_UnitTestCase {
 	public function test_signal_does_not_override_late_ai_disable_without_big_sky() {
 		BlockNotes\signal_block_notes_active();
 		$this->disable_ai_features();
+		$this->assertFalse( BlockNotes\is_block_notes_enabled() );
+	}
+
+	/**
+	 * Test signal_block_notes_active does not override later feature gate changes.
+	 */
+	public function test_signal_does_not_override_feature_gate_when_big_sky_later_disabled() {
+		$this->enable_big_sky();
+		BlockNotes\signal_block_notes_active();
+
+		update_option( 'big_sky_enable', '' );
+		$this->disable_ai_features();
+
+		$this->assertTrue( apply_filters( 'jetpack_block_notes_enabled', false ) );
 		$this->assertFalse( BlockNotes\is_block_notes_enabled() );
 	}
 

@@ -48,7 +48,19 @@ function is_block_notes_enabled() {
 	 *
 	 * @param bool $enabled Whether Block Notes is enabled.
 	 */
-	return apply_filters( 'jetpack_block_notes_enabled', $enabled );
+	$skip_signal_callback = __NAMESPACE__ . '\skip_big_sky_block_notes_loader';
+	$skip_signal_priority = has_filter( 'jetpack_block_notes_enabled', $skip_signal_callback );
+	if ( false !== $skip_signal_priority ) {
+		remove_filter( 'jetpack_block_notes_enabled', $skip_signal_callback, $skip_signal_priority );
+	}
+
+	$enabled = apply_filters( 'jetpack_block_notes_enabled', $enabled );
+
+	if ( false !== $skip_signal_priority ) {
+		add_filter( 'jetpack_block_notes_enabled', $skip_signal_callback, $skip_signal_priority );
+	}
+
+	return $enabled;
 }
 
 /**
@@ -87,18 +99,28 @@ function has_jetpack_ai_features() {
 /**
  * Signal to Big Sky that Jetpack is handling Block Notes.
  *
- * Sets the jetpack_block_notes_enabled filter to true so that Big Sky skips
- * its own Block Notes loading when Jetpack is handling the Big Sky-provided
- * Block Notes entry point.
+ * Sets a jetpack_block_notes_enabled filter callback to true so that Big Sky
+ * skips its own Block Notes loading when Jetpack is handling the Big
+ * Sky-provided Block Notes entry point. Jetpack's own is_block_notes_enabled()
+ * ignores this callback when evaluating the feature gate.
  *
  * @return void
  */
 function signal_block_notes_active() {
 	if ( is_big_sky_enabled() && is_block_notes_enabled() ) {
-		add_filter( 'jetpack_block_notes_enabled', '__return_true', 5 );
+		add_filter( 'jetpack_block_notes_enabled', __NAMESPACE__ . '\skip_big_sky_block_notes_loader', 5 );
 	}
 }
 add_action( 'init', __NAMESPACE__ . '\signal_block_notes_active' );
+
+/**
+ * Tell Big Sky to skip its native Block Notes loader.
+ *
+ * @return bool
+ */
+function skip_big_sky_block_notes_loader() {
+	return true;
+}
 
 /**
  * Check if the current screen is the post editor for a 'post' post type.
