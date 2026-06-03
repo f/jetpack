@@ -1,4 +1,4 @@
 Significance: patch
 Type: bugfix
 
-Block Notes: Re-enable Jetpack loading without checking paid plan purchases during editor availability.
+Block Notes: Avoid subscription checks when opening the editor.
