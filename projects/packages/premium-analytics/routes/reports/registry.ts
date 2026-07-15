@@ -11,6 +11,7 @@ import { __ } from '@wordpress/i18n';
 // barrel re-exports `fields.tsx` (JSX + `@wordpress/route` Link), which would
 // pull the UI into the route guard's import chain. `config/tabs.ts` only
 // depends on the routing helper and i18n, so it's safe to import here.
+import { resolveSection as resolveLocationsSection } from './locations/config/tabs';
 import { resolveTabId } from './posts/config/tabs';
 import type { ComponentType } from 'react';
 
@@ -73,6 +74,14 @@ export const REPORTS: Record< string, ReportDefinition > = {
 		id: 'comment-followers',
 		getTitle: () => __( 'Comments Subscribers', 'jetpack-premium-analytics' ),
 		load: () => import( './comment-followers/page' ),
+	},
+	locations: {
+		id: 'locations',
+		getTitle: () => __( 'Locations', 'jetpack-premium-analytics' ),
+		getDescription: () =>
+			__( 'See where your visitors are viewing from.', 'jetpack-premium-analytics' ),
+		resolveSection: resolveLocationsSection,
+		load: () => import( './locations/page' ),
 	},
 	posts: {
 		id: 'posts',

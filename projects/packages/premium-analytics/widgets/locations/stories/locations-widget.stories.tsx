@@ -5,6 +5,7 @@ import {
 	widgetDashboardWithWidgetArgTypes,
 	type WidgetDashboardWithWidgetControls,
 } from '../../stories/widget-dashboard-with-widget';
+import { withStoryRouter } from '../../stories/with-story-router';
 import { withWidgetCanvas } from '../../stories/with-widget-canvas';
 import { registerReportMocks } from '../../../packages/widgets-toolkit/src/stories/mocks/register-report-mocks';
 import { registerStatsMocks } from '../../../packages/widgets-toolkit/src/stories/mocks/register-stats-mocks';
@@ -118,20 +119,20 @@ type DashboardStory = StoryObj< LocationsDashboardStoryProps >;
 export const Default: StoryObj< LocationsStoryControls > = {
 	render: renderLocationsWidget,
 	args: { withComparison: false, geoGranularity: 'country' },
-	decorators: [ withWidgetCanvas ],
+	decorators: [ withWidgetCanvas, withStoryRouter ],
 };
 
 export const WithComparison: StoryObj< LocationsStoryControls > = {
 	render: renderLocationsWidget,
 	args: { withComparison: true, geoGranularity: 'country' },
-	decorators: [ withWidgetCanvas ],
+	decorators: [ withWidgetCanvas, withStoryRouter ],
 };
 
 // Cities mode — city rows in the leaderboard, aggregated by country on the map.
 export const CitiesMode: StoryObj< LocationsStoryControls > = {
 	render: renderLocationsWidget,
 	args: { withComparison: false, geoGranularity: 'city' },
-	decorators: [ withWidgetCanvas ],
+	decorators: [ withWidgetCanvas, withStoryRouter ],
 };
 
 /**
@@ -142,7 +143,7 @@ export const Loading: StoryObj< LocationsStoryControls > = {
 	render: () => renderLocationsOnPreset( 'last-90-days' ),
 	// Off the shared autodocs page — path-keyed override; see forceStatsMockState.
 	tags: [ '!autodocs' ],
-	decorators: [ withWidgetCanvas ],
+	decorators: [ withWidgetCanvas, withStoryRouter ],
 	beforeEach: () => {
 		forceStatsMockState( 'stats/location-views', 'loading' );
 		return () => forceStatsMockState( 'stats/location-views', null );
@@ -156,7 +157,7 @@ export const Loading: StoryObj< LocationsStoryControls > = {
 export const Error: StoryObj< LocationsStoryControls > = {
 	render: () => renderLocationsOnPreset( 'last-7-days' ),
 	tags: [ '!autodocs' ],
-	decorators: [ withWidgetCanvas ],
+	decorators: [ withWidgetCanvas, withStoryRouter ],
 	beforeEach: () => {
 		forceStatsMockState( 'stats/location-views', 'error' );
 		return () => forceStatsMockState( 'stats/location-views', null );
@@ -170,7 +171,7 @@ export const Error: StoryObj< LocationsStoryControls > = {
 export const Empty: StoryObj< LocationsStoryControls > = {
 	render: () => renderLocationsOnPreset( 'last-365-days' ),
 	tags: [ '!autodocs' ],
-	decorators: [ withWidgetCanvas ],
+	decorators: [ withWidgetCanvas, withStoryRouter ],
 	beforeEach: () => {
 		forceStatsMockState( 'stats/location-views', 'empty' );
 		return () => forceStatsMockState( 'stats/location-views', null );
