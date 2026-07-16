@@ -86,7 +86,7 @@ const StageInner = () => {
 	const { uploadQueue, startUpload, retryUpload } = useUpload();
 	const { mutateAsync: deleteVideo } = useDeleteVideo();
 	const { mutateAsync: setPrivacyAsync } = useSetPrivacy();
-	const { mutate: uploadFromLibrary } = useUploadFromLibrary();
+	const { mutateAsync: uploadFromLibrary } = useUploadFromLibrary();
 	const { isAtLimit, isFree, isUnlimited, videoCount, limit } = useFreeTier();
 	const runUpgrade = useVideoPressUpgrade();
 
@@ -193,11 +193,17 @@ const StageInner = () => {
 				next.add( id );
 				return next;
 			} );
-			uploadFromLibrary( id, {
-				onSuccess: () => {
+			// React via the mutateAsync promise rather than mutate-level
+			// callbacks: TanStack detaches the observer from an in-flight
+			// mutation when the same hook instance starts another one,
+			// silently dropping that call's callbacks (see useDeleteVideo) —
+			// with promises, concurrent promotes each keep their own overlay
+			// teardown and notice.
+			uploadFromLibrary( id )
+				.then( () => {
 					createSuccessNotice( __( 'Video uploaded to VideoPress.', 'jetpack-videopress-pkg' ) );
-				},
-				onError: ( error: Error ) => {
+				} )
+				.catch( ( error: Error ) => {
 					const reason = error?.message?.trim();
 					createErrorNotice(
 						reason
@@ -208,8 +214,8 @@ const StageInner = () => {
 							  )
 							: __( 'Failed to upload video to VideoPress.', 'jetpack-videopress-pkg' )
 					);
-				},
-				onSettled: () => {
+				} )
+				.finally( () => {
 					setPromotingIds( prev => {
 						if ( ! prev.has( id ) ) {
 							return prev;
@@ -218,8 +224,7 @@ const StageInner = () => {
 						next.delete( id );
 						return next;
 					} );
-				},
-			} );
+				} );
 		},
 		[ uploadFromLibrary, createSuccessNotice, createErrorNotice ]
 	);
