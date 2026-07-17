@@ -47,7 +47,8 @@ describe( 'uploadFromLibrary', () => {
 		let i = 0;
 		mockApiFetch( async () => responses[ i++ ] );
 
-		await expect( uploadFromLibrary( 1, { delayMs: 0 } ) ).resolves.toEqual( {
+		// A real (1ms) delay so the between-poll sleep path runs too.
+		await expect( uploadFromLibrary( 1, { delayMs: 1 } ) ).resolves.toEqual( {
 			guid: 'g',
 			mediaId: 9,
 		} );
@@ -98,6 +99,14 @@ describe( 'uploadFromLibrary', () => {
 
 		await expect( uploadFromLibrary( 1, { delayMs: 0 } ) ).rejects.toThrow( '403: Invalid Mime' );
 	} );
+
+	it( 'falls back to a generic message when the error status has no detail', async () => {
+		mockApiFetch( async () => ( { status: 'error' } ) );
+
+		await expect( uploadFromLibrary( 1, { delayMs: 0 } ) ).rejects.toThrow(
+			'Unexpected upload status.'
+		);
+	} );
 } );
 
 describe( 'promoteOnSimple', () => {
@@ -131,6 +140,25 @@ describe( 'promoteOnSimple', () => {
 		await expect( promoteOnSimple( 5 ) ).rejects.toMatchObject( {
 			message: 'No VideoPress here.',
 		} );
+	} );
+
+	it( 'rethrows a rejection that is already an Error untouched', async () => {
+		const original = new Error( 'network down' );
+		mockApiFetch( async () => {
+			throw original;
+		} );
+
+		await expect( promoteOnSimple( 5 ) ).rejects.toBe( original );
+	} );
+
+	it( 'normalizes a messageless rejection into the generic Error', async () => {
+		mockApiFetch( async () => {
+			throw { code: 'mystery' };
+		} );
+
+		await expect( promoteOnSimple( 5 ) ).rejects.toThrow(
+			'Failed to promote video to VideoPress.'
+		);
 	} );
 } );
 
