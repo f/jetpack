@@ -289,6 +289,7 @@ class Settings {
 			'setupPaymentPlansUrl'            => $setup_payment_plan_url,
 			'isSitePublic'                    => ! $status->is_private_site() && ! $status->is_coming_soon(),
 			'tracksUserData'                  => Jetpack_Tracks_Client::get_connected_user_tracks_identity(),
+			'modeEnabled'                     => Mode::is_enabled(),
 		);
 
 		return $data;
