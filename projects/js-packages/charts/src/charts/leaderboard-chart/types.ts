@@ -54,6 +54,8 @@ export interface LeaderboardChartProps
 	 * Custom styling for the chart container
 	 */
 	style?: React.CSSProperties & {
+		'--a8c-charts-border-radius-leaderboard-bar'?: string;
+		/** @deprecated Use `--a8c-charts-border-radius-leaderboard-bar`. */
 		'--a8c--charts--leaderboard--bar--border-radius'?: string;
 	};
 
