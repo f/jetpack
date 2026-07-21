@@ -1,29 +1,36 @@
+import { __, _x, sprintf } from '@wordpress/i18n';
 import type { GoalSlug, TailoredOutput, TailoredTask, WizardInput } from './types.ts';
 
 /**
- * English subtitles for catalog task IDs. Unmapped IDs get a generic subtitle so
- * subtitle's minLength:1 is always satisfied.
+ * Subtitles for catalog task IDs, in the admin user's language. Unmapped IDs get
+ * a generic subtitle so subtitle's minLength:1 is always satisfied. Built inside
+ * a function so `__()` runs after the i18n locale data has loaded, not at import.
+ *
+ * @return The subtitle map.
  */
-const TASK_SUBTITLES: Record< string, string > = {
-	first_post_published: 'Write and publish your first post.',
-	first_post_published_newsletter: 'Send your first newsletter to subscribers.',
-	woo_products: 'Add your first product to the store.',
-	woo_customize_store: 'Customize how your store looks.',
-	set_up_payments: 'Set up a way to get paid.',
-	add_10_email_subscribers: 'Grow your list to your first subscribers.',
-	site_theme_selected: 'Pick a theme that fits your site.',
-	add_about_page: 'Tell visitors who you are.',
-	design_edited: 'Make the design your own.',
-	complete_profile: 'Complete your public profile.',
-	verify_email: 'Confirm your email address.',
-	connect_social_media: 'Connect your social accounts.',
-	drive_traffic: 'Help people find your site.',
-	site_launched: 'Launch your site for the world to see.',
-	blog_launched: 'Launch your blog for the world to see.',
-	link_in_bio_launched: 'Launch your link-in-bio page.',
-};
-
-const GENERIC_SUBTITLE = 'Get this set up.';
+function taskSubtitles(): Record< string, string > {
+	return {
+		first_post_published: __( 'Write and publish your first post.', 'jetpack-mu-wpcom' ),
+		first_post_published_newsletter: __(
+			'Send your first newsletter to subscribers.',
+			'jetpack-mu-wpcom'
+		),
+		woo_products: __( 'Add your first product to the store.', 'jetpack-mu-wpcom' ),
+		woo_customize_store: __( 'Customize how your store looks.', 'jetpack-mu-wpcom' ),
+		set_up_payments: __( 'Set up a way to get paid.', 'jetpack-mu-wpcom' ),
+		add_10_email_subscribers: __( 'Grow your list to your first subscribers.', 'jetpack-mu-wpcom' ),
+		site_theme_selected: __( 'Pick a theme that fits your site.', 'jetpack-mu-wpcom' ),
+		add_about_page: __( 'Tell visitors who you are.', 'jetpack-mu-wpcom' ),
+		design_edited: __( 'Make the design your own.', 'jetpack-mu-wpcom' ),
+		complete_profile: __( 'Complete your public profile.', 'jetpack-mu-wpcom' ),
+		verify_email: __( 'Confirm your email address.', 'jetpack-mu-wpcom' ),
+		connect_social_media: __( 'Connect your social accounts.', 'jetpack-mu-wpcom' ),
+		drive_traffic: __( 'Help people find your site.', 'jetpack-mu-wpcom' ),
+		site_launched: __( 'Launch your site for the world to see.', 'jetpack-mu-wpcom' ),
+		blog_launched: __( 'Launch your blog for the world to see.', 'jetpack-mu-wpcom' ),
+		link_in_bio_launched: __( 'Launch your link-in-bio page.', 'jetpack-mu-wpcom' ),
+	};
+}
 
 /**
  * Per-goal task ID lists. Exactly six IDs each; the last is always a launch task.
@@ -86,9 +93,10 @@ const GOAL_TASK_IDS: Record< GoalSlug, string[] > = {
  * @return The six tasks for the goal.
  */
 function buildTasks( goal: GoalSlug ): TailoredTask[] {
+	const subtitles = taskSubtitles();
 	return GOAL_TASK_IDS[ goal ].map( id => ( {
 		id,
-		subtitle: TASK_SUBTITLES[ id ] ?? GENERIC_SUBTITLE,
+		subtitle: subtitles[ id ] ?? __( 'Get this set up.', 'jetpack-mu-wpcom' ),
 	} ) );
 }
 
@@ -110,7 +118,7 @@ function clamp( value: string, max: number ): string {
  * @return A schema-valid tailored output.
  */
 export function selectFallback( input: WizardInput ): TailoredOutput {
-	const siteName = input.site_name.trim() || 'your new site';
+	const siteName = input.site_name.trim() || __( 'your new site', 'jetpack-mu-wpcom' );
 
 	return {
 		tasks: buildTasks( input.goal ),
@@ -119,22 +127,52 @@ export function selectFallback( input: WizardInput ): TailoredOutput {
 			brand_name: clamp( input.site_name, 80 ),
 		},
 		first_post_draft: {
-			title: clamp( 'Getting started with ' + siteName, 80 ),
-			subtitle: clamp( 'Introduce ' + siteName + ' to your readers.', 120 ),
+			title: clamp(
+				sprintf(
+					/* translators: %s: the site name. */
+					__( 'Getting started with %s', 'jetpack-mu-wpcom' ),
+					siteName
+				),
+				80
+			),
+			subtitle: clamp(
+				sprintf(
+					/* translators: %s: the site name. */
+					__( 'Introduce %s to your readers.', 'jetpack-mu-wpcom' ),
+					siteName
+				),
+				120
+			),
 			paragraphs: [
-				'This is the first post on ' +
-					siteName +
-					'. It marks the starting point of something new, and there is plenty more to come.',
-				'Thanks for being here at the very beginning. Stay tuned for what comes next.',
+				sprintf(
+					/* translators: %s: the site name. */
+					__(
+						'This is the first post on %s. It marks the starting point of something new, and there is plenty more to come.',
+						'jetpack-mu-wpcom'
+					),
+					siteName
+				),
+				__(
+					'Thanks for being here at the very beginning. Stay tuned for what comes next.',
+					'jetpack-mu-wpcom'
+				),
 			],
 		},
 		about_page_draft: {
-			title: 'About',
+			title: _x( 'About', 'page title', 'jetpack-mu-wpcom' ),
 			paragraphs: [
-				'This is where the story of ' +
-					siteName +
-					' begins. Use this page to share who is behind the site and what it is all about.',
-				'Tell visitors how it started, what they can expect to find here, and where it is headed next.',
+				sprintf(
+					/* translators: %s: the site name. */
+					__(
+						'This is where the story of %s begins. Use this page to share who is behind the site and what it is all about.',
+						'jetpack-mu-wpcom'
+					),
+					siteName
+				),
+				__(
+					'Tell visitors how it started, what they can expect to find here, and where it is headed next.',
+					'jetpack-mu-wpcom'
+				),
 			],
 		},
 	};
