@@ -1,0 +1,44 @@
+name: Sync developer docs to WordPress.com
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Plan changes without writing to WordPress.com
+        required: true
+        default: true
+        type: boolean
+      status:
+        description: Status for synchronized WordPress pages
+        required: true
+        default: draft
+        type: choice
+        options:
+          - draft
+          - publish
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    name: Sync Markdown documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Sync docs to WordPress.com
+        uses: f/docspress@main
+        with:
+          wordpress-site: ${{ vars.DOCSPRESS_WORDPRESS_SITE }}
+          wordpress-access-token: ${{ secrets.DOCSPRESS_WORDPRESS_ACCESS_TOKEN }}
+          docs-dir: docs
+          root-slug: developer-docs
+          root-title: Jetpack Developer Documentation
+          create-h1: false
+          rewrite-links: true
+          edit-link: false
+          status: ${{ inputs.status }}
+          delete-mode: trash
+          dry-run: ${{ inputs.dry_run }}
