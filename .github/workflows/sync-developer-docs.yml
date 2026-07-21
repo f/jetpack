@@ -32,7 +32,7 @@ jobs:
         uses: f/docspress@main
         with:
           wordpress-site: ${{ vars.DOCSPRESS_WORDPRESS_SITE }}
-          wordpress-access-token: ${{ secrets.DOCSPRESS_WORDPRESS_ACCESS_TOKEN }}
+          wordpress-access-token: ${{ secrets.WP_ACCESS_TOKEN }}
           docs-dir: docs
           root-slug: developer-docs
           root-title: Jetpack Developer Documentation
