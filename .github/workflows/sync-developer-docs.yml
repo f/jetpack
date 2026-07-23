@@ -1,4 +1,4 @@
-name: Sync developer docs to WordPress.com
+name: Sync Jetpack docs to WordPress.com
 
 on:
   workflow_dispatch:
@@ -34,8 +34,9 @@ jobs:
           wordpress-site: ${{ vars.DOCSPRESS_WORDPRESS_SITE }}
           wordpress-access-token: ${{ secrets.WP_ACCESS_TOKEN }}
           docs-dir: docs
+          manifest-file: docs/manifest.json
           root-slug: developer-docs
-          root-title: Jetpack Developer Documentation
+          root-title: Jetpack Documentation
           create-h1: false
           rewrite-links: true
           edit-link: false

@@ -1,4 +1,11 @@
-# How To Translate Jetpack
+---
+title: "Translate Jetpack"
+description: "Contribute Jetpack translations through the correct GlotPress workflow."
+audience: "Jetpack translators and contributors"
+document_type: how-to
+sidebar_position: 40
+---
+Contribute Jetpack translations through the correct GlotPress workflow.
 
 ## Who translates Jetpack? How can I get involved?
 
@@ -16,4 +23,4 @@ You'll find options to create a .PO file and export translations at the bottom o
 
 ## I found a missing translation, but I can’t find the string in GlotPress
 
-Some Jetpack modules, like Comments, Subscriptions, or Likes, are hosted on WordPress.com. Thus, you will have to look in [the WordPress.com GlotPress project](http://translate.wordpress.com/projects/wpcom/) to find the strings to translate.
+Some Jetpack features, such as Comments, Subscriptions, or Likes, include strings hosted on WordPress.com. Look in the [WordPress.com GlotPress project](https://translate.wordpress.com/projects/wpcom/) when the string is not in the Jetpack plugin project.

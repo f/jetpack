@@ -1,6 +1,6 @@
 # Contributing to Jetpack
 
-This is a quick reference for common commands used during development. Please keep detailed explanations and documentation in separate external files. For broader contribution guidelines, see [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+This is a quick reference for common commands used during development. For the complete path from setup through review, start with [Contribute to Jetpack](docs/contributors/index.md). For community expectations and contribution types, see [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
 
 ## Tooling
 

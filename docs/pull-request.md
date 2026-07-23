@@ -1,31 +1,72 @@
-# Life Cycle of a Pull Request
+---
+title: "Take a pull request from draft to merge"
+description: "Prepare, submit, review, and complete a Jetpack pull request."
+audience: "Jetpack contributors"
+document_type: how-to
+sidebar_position: 20
+---
+A good Jetpack pull request has one clear outcome, enough context to evaluate the approach, and evidence that the change works.
 
-When you’re first starting out, your natural instinct when creating a new feature will be to create a local feature branch, and start building away. If you start doing this, *stop*, take your hands off the keyboard, grab a coffee and read on. :)
+## Before opening the pull request
 
-**It’s important to break your feature down into small pieces first**, each piece should become its own pull request.
+1. Follow the [Git workflow](git-workflow.md).
+2. Split unrelated or independently useful work into separate branches.
+3. Read the nearest project `AGENTS.md`, `README.md`, `package.json`, and `composer.json`.
+4. Add or update tests for the changed behavior.
+5. Add a [changelog entry](writing-a-good-changelog-entry.md) for each affected project that requires one.
+6. Run the narrowest relevant formatting, lint, build, and test commands.
+7. Review the entire diff and run `git diff --check`.
 
-Once you know what the first small piece of your feature will be, follow this general process while working:
+## Open a draft
 
-1. [Create a new branch, following our Git Workflow.](git-workflow.md)
-1. Make your first commit: we need something in order to create the initial pull request. Create the pull request and prefix the name with the section of the product, _e.g._ _Sharing: add new Facebook button_. Don’t worry too much if there’s no obvious prefix.
-    - Write a detailed description of the problem you are solving, the part of Jetpack it affects, and how you plan on going about solving it.
-    - If you have write access, add the **<span class="label status-in-progress">[Status] In Progress</span>** label or wait until somebody adds it. This indicates that the pull request isn’t ready for a review and may still be incomplete. On the other hand, it welcomes early feedback and encourages collaboration during the development process.
-1. Start developing and pushing out commits to your new branch.
-    - Push your changes out frequently and try to avoid getting stuck in a long-running branch or a merge nightmare. Smaller changes are much easier to review and to deal with potential conflicts.
-    - Don’t be afraid to change, [squash](http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html), and rearrange commits or to force push - `git push --force-with-lease origin fix/something-broken`. Keep in mind, however, that if other people are committing on the same branch then you can mess up their history. You are perfectly safe if you are the only one pushing commits to that branch.
-    - Squash minor commits such as typo fixes or [fixes to previous commits](http://fle.github.io/git-tip-keep-your-branch-clean-with-fixup-and-autosquash.html) in the pull request.
-    - Remember to [respect Coding Standards & Guidelines.](coding-guidelines.md)
-1. If you have [Composer installed](https://getcomposer.org/), you can run `composer install` and `composer phpcs:lint [directory or files updated]` to check your changes against WordPress coding standards. Many files are not fully within the standard yet, but please ensure your changes respect current coding standards.
-1. If you end up needing more than a few commits, consider splitting the pull request into separate components. Discuss in the new pull request and in the comments why the branch was broken apart and any changes that may have taken place that necessitated the split. Our goal is to catch early in the review process those pull requests that attempt to do too much.
-1. When you feel that you are ready for a formal review or for merging into `trunk` make sure you check this list.
-    - Make sure your Pull Request [includes a changelog entry](writing-a-good-changelog-entry.md) for each project touched.
-    - Make sure all required checks listed at the bottom of the Pull Request are passing.
-    - Make sure your branch merges cleanly and consider rebasing against `trunk` to keep the branch history short and clean.
-    - If there are visual changes, add before and after screenshots in the pull request comments.
-    - Add unit tests, or at a minimum, provide helpful instructions for the reviewer so they can test your changes. This will help speed up the review process.
-    - Check [Coding Standards & Guidelines](coding-guidelines.md) one last time.
-1. Mention that the PR is ready for review. You can use GitHub's features to request reviews, or use existing labels to specify the pull request status. If you have write access, you can mark the PR as **<span class="label status-in-progress">[Status] In Progress</span>**, or as **<span class="label status-needs-review">[Status] Needs Review</span>**. 
-1. The reviewer can also mark the pull request as **<span class="label needs-author-reply">[Status] Needs Author Reply</span>** if they think you need to change anything. You can [learn more about our code reviews here.](code-reviews.md)
-1. Once someone on your team has approved the changes, then it's ready to merge. Always feel free to ask for additional reviews from other teams if you feel it's necessary.
-1. If your PR contains important changes and needs to be included in the next release, let us know! You can do so in the PR description, or in a comment on that PR. If you have the permissions, you can also add the **<span class="label pri-blocker">[Pri] Blocker</span>** label to the PR. You can also reach out to us directly if needed, either by mentioning one of us in the PR or via Slack if you're a member of the Automattic team.
-1. If you get a **<span class="label ready-to-merge">[Status] Ready To Merge</span>** label, the pull request is ready to be merged into `trunk`.
+Open a draft pull request early when the approach would benefit from feedback. The title should identify the product area and outcome, for example:
+
+<!-- wp:docspress/colorful-code {"language":"plaintext","filename":"Pull-request title","code":"Stats: explain an empty reporting period","highlightedLines":"","showLineNumbers":false,"caption":"Lead with the affected product area and the user-visible outcome."} /-->
+
+The description should include:
+
+- the problem and user impact;
+- the chosen approach;
+- important alternatives or constraints;
+- exact test commands and manual steps;
+- screenshots or recordings for visual changes;
+- risks, compatibility concerns, and follow-up work;
+- related issues or pull requests.
+
+Remove credentials, customer data, private URLs, and unreleased security details.
+
+## Make it ready for review
+
+Before requesting review, confirm:
+
+- required checks are passing;
+- the branch contains no accidental or unrelated changes;
+- the pull request includes current testing evidence;
+- visual changes include useful before-and-after evidence;
+- user-facing behavior has documentation or an explicit documentation plan;
+- the branch applies cleanly to current `trunk`.
+
+Maintainers can use `[Status] In Progress` for active work and `[Status] Needs Review` when the pull request is ready.
+
+## Respond to review
+
+- Answer questions with evidence or update the code.
+- Mark a conversation resolved only after the concern is addressed.
+- Summarize substantial revisions for reviewers.
+- Re-run affected checks after every meaningful change.
+- Ask for review from another owning team when the change crosses project boundaries.
+
+Reviewers may apply `[Status] Needs Author Reply` while they are waiting for the author. See [Review Jetpack code](code-reviews.md) for both roles.
+
+## Finish the pull request
+
+A maintainer may move the pull request through `[Status] Needs Testing` and `[Status] Ready to Merge` after code review and manual verification. `[Pri] BLOCKER` is reserved for work without which an agreed release cannot ship.
+
+Before merge:
+
+1. Confirm approvals and required checks are current.
+2. Confirm test evidence covers the final commit.
+3. Confirm changelog and documentation changes are present.
+4. Confirm follow-up work has an owner and link.
+
+After merge, delete the feature branch when it is no longer needed and verify any expected deployment or release automation.

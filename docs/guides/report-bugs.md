@@ -1,63 +1,51 @@
-# Creating a Great Bug Report
+---
+title: "Create a useful bug report"
+description: "Reproduce a Jetpack problem and report the evidence maintainers need to act."
+audience: "site owners, developers, and contributors"
+document_type: how-to
+sidebar_position: 30
+---
 
-[The Issues tab](https://github.com/Automattic/jetpack/issues) is a ticket database used to track projects and bugs -- we use it to manage new features, bug reports, and general project tasks. It's designed to make it as simple as possible for people to report bugs and submit patches to the code.
+Use GitHub for a reproducible Jetpack software defect. Use [Jetpack Support](https://jetpack.com/support/) when the problem is specific to one site or you still need help isolating it.
 
-## Three Steps to Being a GitHub Star
+## Do not report security issues publicly
 
-### 1. Make sure the bug is really a bug
+Follow the repository [security policy](https://github.com/Automattic/jetpack/blob/trunk/SECURITY.md). Report suspected vulnerabilities through the [Automattic HackerOne program](https://hackerone.com/automattic), not a public issue.
 
-Before you report a bug, make sure it's not just internet gremlins or a compatibility problem. Before you begin your investigation, make sure you're running the latest versions of WordPress and Jetpack.
+## Before you open an issue
 
-Start by turning off all your other plugins and switching to the default Twenty Seventeen theme. Do you still see the issue? If so, you might have found a bug.
+1. Update WordPress, Jetpack, and the affected Jetpack product.
+2. Reproduce the problem with a precise sequence of actions.
+3. Check [existing Jetpack issues](https://github.com/Automattic/jetpack/issues).
+4. Test a plugin or theme conflict on a staging site or with a safe troubleshooting workflow.
+5. Confirm whether the problem depends on the browser, device, user role, connection state, or environment.
 
-If the issue disappears, it was probably caused by a conflict with one of your plugins or themes. Now, test them one at a time -- activate only Jetpack and that theme or plugin to eliminate other variables. When the issue reappears, you've found the culprit!
+Do not disable security, caching, payment, or business-critical plugins directly on production to create a reproduction.
 
-### 2. See if it's already been reported
+## Collect the evidence
 
-To check if a bug has already been reported, you can:
+Include:
 
-- Check out the [Known Issues](http://jetpack.me/support/getting-started-with-jetpack/known-issues/) page.
-- Look through the [current list of Opened Issues](https://github.com/Automattic/jetpack/issues?state=open).
-- Browse the [Jetpack Support Forums](http://wordpress.org/support/plugin/jetpack).
+- a concise title that names the feature and failure;
+- WordPress, Jetpack, PHP, and browser versions;
+- the affected Jetpack product, module, block, package, or endpoint;
+- local, staging, or production environment;
+- connected or disconnected state when relevant;
+- exact steps to reproduce;
+- expected and actual results;
+- complete error text and the smallest relevant log excerpt;
+- screenshots or a short recording for visual behavior;
+- the earliest known affected version and a known-good version, if available;
+- a minimal reproduction repository or test when the problem involves code.
 
-Not mentioned in any of those places? Not caused by a conflict with another plugin or theme? By George, you've found a bug! Time to report it.
+Remove access tokens, nonces, cookies, passwords, private URLs, customer data, and unrelated logs.
 
-### 3. Submit a detailed, precise bug report
+## Write reproducible steps
 
-The more specific your ticket is, the easier it will be for someone to zap the bug. Log in to GitHub, [open a new issue](https://github.com/Automattic/jetpack/issues/new?assignees=&labels=%5BType%5D+Bug&template=bug-report.yml), and be sure to fill out all the relevant details: a concise summary and a clear description are key. If it's been mentioned by someone else, like on the [Jetpack Support Forums](http://wordpress.org/support/plugin/jetpack), include a link.
+Use this format:
 
-Here's a sample of what a helpful summary looks like:
+<!-- wp:docspress/colorful-code {"language":"markdown","filename":"Bug report","code":"### Environment\n\nWordPress: [version]\nJetpack: [version]\nPHP: [version]\nBrowser: [browser and version]\nConnection: [connected, disconnected, or not applicable]\n\n### Steps\n\n1. Start from [state].\n2. Open [screen].\n3. Change [setting].\n4. Perform [action].\n\n### Expected\n\n[observable result]\n\n### Actual\n\n[observable result and exact error]","highlightedLines":"1,9,16,20","showLineNumbers":false,"caption":"A compact reproduction separates environment, actions, and observable results."} /-->
 
-> Summary of the issue: *The Jetpack Image widget won't display the selected image.*
->
-> Steps to reproduce:
->
-> *1. Activate the Extra Sidebar Widgets module.*
-> *2. Include the Jetpack Image widget in the sidebar, and fill out all the fields, including the image URL.*
-> *3. Save the Widget and view your site.*
->
-> Expected behavior or result: *The sidebar should display the selected image*
->
-> Actual behavior or result: *An error appears: "Image could not be found."*
->
-> Link to Example (if applicable): *http://example.com/image-widget/*
->
-> Screenshots: _screenshot of error message goes here_
+## Submit and follow up
 
-## Cross-Browser Testing
-
-If you believe you've come across a bug and you've worked through all the steps detailed above, it's worth checking to see if the issue can be reproduced in different browsers. You can find download links to the most recent versions of all the major browsers on [Browse Happy.](http://browsehappy.com/)
-
-You should also check to see if the potential bug is limited to one browser; this is especially important for any bugs that may be Javascript or jQuery-related, as some browsers are more likely to experience those issues than others.
-
-See which browsers Jetpack supports from [coding guidelines](../coding-guidelines.md#versions-supported) or from [the `@wordpress/browserslist-config` package](https://www.npmjs.com/package/@wordpress/browserslist-config).
-
-## Contribute and comment on existing issues
-
-In addition to reporting bugs and submitting patches, you can also follow the progress of any issue you're interested in or add details to an existing issue.
-
-To follow an issue, log in to GitHub, find the issue you're interested in, scroll to the bottom, and click on **Subscribe**:
-
-![subscribe-issue](https://cloud.githubusercontent.com/assets/426388/21441470/74593e46-c898-11e6-8659-137f39d72af3.png)
-
-If you have information to add to an existing ticket, feel free to add a comment to it!
+Open the appropriate [Jetpack issue template](https://github.com/Automattic/jetpack/issues/new/choose). Answer maintainer questions, test proposed fixes in a safe environment, and add new evidence to the original issue instead of opening duplicates.

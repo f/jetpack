@@ -1,80 +1,69 @@
-# Coding Standards & Guidelines
-
-These are some things to keep in mind when writing code for the Jetpack Monorepo ecosystem. Please follow them to speed up the review process and get your code merged faster.
+---
+title: "Follow coding standards and guidelines"
+description: "Apply the language, compatibility, architecture, deprecation, and translation rules used in Jetpack."
+audience: "Jetpack contributors"
+document_type: reference
+sidebar_position: 10
+---
+Use these repository-wide defaults unless the affected project's `README.md`, `package.json`, `composer.json`, or `AGENTS.md` defines a narrower requirement.
 
 ## Language and tools
 
-- **PHP**: Jetpack Monorepo projects rely on WordPress' minimum PHP version requirements by default. There are several exceptions, however, which we will get to later in this document.
-- **PHP Standards**: Jetpack follows [WordPress Core's standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/), with a few additions. The best way to ensure that you adhere to those standards is to set up your IDE [as per the recommendations here](./development-environment.md#use-php-codesniffer-and-eslint-to-make-sure-your-code-respects-coding-standards).
-- **WordPress**: Jetpack supports the current version of WordPress and the immediate previous version. So if the current version is 4.6, Jetpack will support it, as well as 4.5. It's desirable that when Jetpack is installed in older versions, it doesn't fail in a severe way.
-- **JavaScript**: Jetpack Monorepo uses NodeJS as the engine, and version wise it follows Calypso, usually meaning staying on the current LTS version. The package manager is the latest version of PNPM.
-- **Frontend JavaScript**: The Jetpack Monorepo standard is Webpack, Babel, Gutenberg, and React stack. (The preferred configuration)[https://github.com/Automattic/jetpack/blob/trunk/projects/js-packages/webpack-config/README.md] that is shared among all projects is in the `projects/js-packages/webpack-config` project. This is done to make sure that Babel handles browser compatibility.
-- **Other JavaScript**: Teams are free to use other stacks for their projects, and we do have projects that use Svelte with Rollup, for example. In practice it usually means that the team is largely responsible for supporting custom solutions like this, including i18n and updates. There's a notable "conflict" where we would like to avoid bringing in `18n-calypso` for i18n, since Jetpack generally uses translate.wordpress.org which requires Gutenberg's `@wordpress/i18n`.
-- **Linting and testing JavaScript**: We have generally settled on `jest` and `@testing-library/*` for unit testing. Linting is done with `eslint`, with most configuration at the Monorepo level. Ideally projects should be sparing in overriding the eslint config beyond selecting the appropriate presets for `react`/`typescript`/etc.
+- **PHP**: Projects follow the repository's supported PHP range by default. Some projects require a newer minimum. Read [`.github/versions.sh`](https://github.com/Automattic/jetpack/blob/trunk/.github/versions.sh) and the affected project's metadata instead of copying a version number into a new guide.
+- **PHP standards**: Jetpack follows [WordPress coding standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/), plus repository-specific rules. Configure the tools described in [Development environment](development-environment.md#follow-coding-standards).
+- **WordPress**: Read the affected plugin's metadata and compatibility tests for the supported range. A change should fail safely outside that range.
+- **JavaScript and TypeScript**: Use the repository Node.js and pnpm versions in [`.github/versions.sh`](https://github.com/Automattic/jetpack/blob/trunk/.github/versions.sh). Prefer existing monorepo packages and configuration.
+- **Frontend JavaScript**: Use the shared [Jetpack Webpack configuration](https://github.com/Automattic/jetpack/blob/trunk/projects/js-packages/webpack-config/README.md) when it fits the project. It provides consistent build and browser targets.
+- **Other JavaScript stacks**: A project that uses another stack owns its build, internationalization, compatibility, testing, and update path. Do not add a second stack without a clear project-level reason.
+- **Linting and unit tests**: Use the root ESLint configuration and the test framework already used by the project. Avoid project overrides that duplicate repository defaults.
 - **E2E tests**: The situation is a bit complicated:
-  - We've settled on `playwright` for standalone E2E tests. `allure-playwright` is the direct dependency that brings in `playwright` as a sub-dependency.
-  - For tests against Simple and Atomic, however, those live in [the Calypso repo](https://github.com/Automattic/wp-calypso).
-- **General dependencies**: When it comes to dependencies in general, and particularly large ones, it's good practice to choose options already used in the Monorepo and to try to match the versions too.
-  - If some other option is better that what we're currently using, it may be worth starting a project to switch everything to the new option.
-  - When consuming monorepo `js-packages` within the Monorepo, the package should provide `jetpack:src` entries in `.exports` in `package.json` to avoid having to build before `eslint` can run. Do not use `.scripts.prepare` or the like to try to compile on installation, as that slows down and complicates installation for everyone even if they're not using that js-package.
-- **Browsers**: Jetpack Monorepo follows Gutenberg's browser support guidelines by [relying on the `browserlist-config` package](https://make.wordpress.org/core/handbook/best-practices/browser-support/).
+  - Use Playwright for standalone end-to-end tests.
+  - Tests for WordPress.com Simple and Atomic environments may live in [the Calypso repository](https://github.com/Automattic/wp-calypso).
+- **Dependencies**: Prefer a dependency and version already used in the monorepo. When consuming a monorepo `js-package`, expose source through `jetpack:src` in `package.json` exports so repository tools do not require a preparatory build.
+- **Browsers**: Follow the current WordPress browser policy through `@wordpress/browserslist-config`.
 
-### Project based language and tool versions
+### Project-specific versions
 
-If you take a look at the contents of the `projects` folder, you can see that the Monorepo has several types of projects. Some of them can have specific requirements that further extend the base requirements. The most obvious examples of that are plugins that require later PHP versions than what is required by default.
+Projects can narrow these defaults. Before changing code, inspect the nearest `AGENTS.md`, project `README.md`, `package.json`, and `composer.json`.
 
-## The Jetpack Monorepo and its CLI
+## Jetpack CLI requirements
 
-Jetpack CLI requires PHP 8.4 and latest stable Node JS versions. Sometimes the version update lags behind for a while to make sure that [Calypso is using the same version](https://github.com/Automattic/wp-calypso/blob/trunk/.nvmrc).
+The Jetpack CLI uses the repository versions of PHP, Node.js, pnpm, and Composer. Read [`.github/versions.sh`](https://github.com/Automattic/jetpack/blob/trunk/.github/versions.sh) for the current values.
 
-Jetpack CLI is a requirement to work with Jetpack Monorepo, and it depends on the following tools:
+Install:
 
-- **Composer**: [the PHP dependency management tool](https://getcomposer.org/) is required to work with the Monorepo.
-- **PNPM**: [the drop-in replacement for NPM](https://pnpm.io/) is also a requirement.
+- [Composer](https://getcomposer.org/) for PHP dependencies.
+- [pnpm](https://pnpm.io/) for JavaScript and TypeScript dependencies.
 
-This is all you need to get going, please check the [Quick Start][quick-start.md] guide if you need help getting the correct versions installed.
+Follow the [Quick start](quick-start.md) to install and verify the complete toolchain.
 
 ## General guidelines
 
-- **PHPCS**: The PHP Code Sniffer [Code Sniffer rules for Jetpack Coding Standards.](https://github.com/Automattic/jetpack-codesniffer#usage) should be installed for you as a Monorepo dependency. They will make it easier for you to notice any missing documentation or coding standards you should respect. Most IDEs display warnings and notices inside the editor, making it easy to inspect your code.
+- **PHPCS**: The [Jetpack coding-standard rules](https://github.com/Automattic/jetpack-codesniffer#usage) are installed as a monorepo dependency. Run the project's lint command and configure your editor to show violations.
 - If coding a module, make sure you declare the module in the inline doc, [like this](https://github.com/Automattic/jetpack/blob/16bc2fce3ace760ff402f656dcf05255888f23f4/modules/sitemaps/sitemaps.php#L92-L101). The same applies for filters or actions, [as shown here](https://github.com/Automattic/jetpack/blob/16bc2fce3ace760ff402f656dcf05255888f23f4/modules/sitemaps/sitemaps.php#L143-L151).
 - Sanitize URLs, attributes, everything. WordPress.com VIP has this nice [article about the topic](https://wpvip.com/documentation/vip-go/validating-sanitizing-and-escaping/).
-- Create unit tests if you can ([here are the Jetpack plugin tests for reference](https://github.com/Automattic/jetpack/tree/trunk/projects/plugins/jetpack/tests)). If you're not familiar with Unit Testing, you can check [this tutorial](https://pippinsplugins.com/series/unit-tests-wordpress-plugins/).
+- Add unit tests for behavior that can be isolated. Use the [Jetpack plugin tests](https://github.com/Automattic/jetpack/tree/trunk/projects/plugins/jetpack/tests) as repository examples and the [WordPress PHPUnit handbook](https://make.wordpress.org/core/handbook/testing/automated-testing/phpunit/) for platform guidance.
 
 ## Deprecating code
 
 When deprecating code in Jetpack (removing / renaming files, classes, functions, methods), there are a few things to keep in mind:
 
-1. Other plugins / themes may be relying on that code, so we cannot just remove it. A quick way to gauge the use of a function can be to search for it in OpenGrok and [WPDirectory](https://wpdirectory.net/).
-2. Deleting a file that was loaded and in use in the previous release can cause Fatal Errors on sites with aggressive OpCache setups.
+1. Other plugins and themes may rely on the code. Search the repository, public code through [WPDirectory](https://wpdirectory.net/), and any owning-team tools before removal.
+2. Deleting a file used by the previous release can cause fatal errors on sites with aggressive OPcache settings.
 
 For these reasons, here are a few guidelines you can follow:
 
 - Instead of deleting files, mark them as deprecated first with `_deprecated_file`.
 - Deprecate classes, [functions](https://developer.wordpress.org/reference/functions/_deprecated_function/), and methods in the same way, while still returning its replacement if there is one.
-- Deprecated code should remain in Jetpack for 6 months, so third-parties have time to find out about the deprecations and update their codebase.
+- Keep deprecated code for the current project-specific compatibility window. Confirm the removal timeline with project maintainers instead of assuming a universal duration.
 - If possible, reach out to partners who rely on deprecated code to let them know when the code will be removed, and how they can update.
 - If necessary, you can publish an update guide on developer.jetpack.com to help people update.
 
 Example usage for deprecating a function:
 
-```
-/**
- * This is an example function.
- *
- * @deprecated $$next-version$$ Give an explanation about what function to use instead.
- *
- * @return string
- */
-function example_function() {
+<!-- wp:docspress/colorful-code {"language":"php","filename":"includes/example.php","code":"/**\n * This is an example function.\n *\n * @deprecated $$next-version$$ Give an explanation about what function to use instead.\n *\n * @return string\n */\nfunction example_function() {\n\t_deprecated_function( __FUNCTION__, '{plugin/package}-$$next-version$$' );\n\n\treturn 'example';\n}","highlightedLines":"4,9","showLineNumbers":true,"caption":"Use the release placeholder in both the DocBlock and runtime notice; release tooling replaces it with the project version."} /-->
 
-    _deprecated_function( __FUNCTION__, '{plugin/package}-$$next-version$$' );
-
-   return 'example';
-}
-```
-
-For more information on how to use `$$next-version$$`, please see the [packages README](../projects/packages/README.md#package-version-annotations) (relevant for plugins as well).
+For more information on how to use `$$next-version$$`, see the [package version annotations](https://github.com/Automattic/jetpack/blob/trunk/projects/packages/README.md#package-version-annotations). The same convention applies to plugins.
 
 ## Widgets
 
@@ -100,10 +89,11 @@ For more information on how to use `$$next-version$$`, please see the [packages 
 - When using TypeScript in Webpack, use `@babel/preset-typescript` rather than `ts-loader`.
   - To generate `.d.ts` files, use `tsgo` with a tsconfig extending `jetpack-js-tools/tsconfig.tsc-declaration-only.json`.
 
-## Where should my code live?
+## Decide where code belongs
 
-Here are some general guidelines when considering adding new functionality:
+Start with:
 
-- [Packages](../projects/packages/README.md#should-my-code-be-in-a-package)
-- Modules (@todo)
-- module-extras.php (@todo)
+- [Package placement guidance](https://github.com/Automattic/jetpack/blob/trunk/projects/packages/README.md#should-my-code-be-in-a-package)
+- the affected project's `AGENTS.md` and `README.md`;
+- an existing module or package with the same responsibility;
+- project maintainers when ownership is unclear.

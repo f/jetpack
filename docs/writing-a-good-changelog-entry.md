@@ -1,5 +1,10 @@
-# Writing A Good Changelog Entry
-
+---
+title: "Write a good changelog entry"
+description: "Decide whether a Jetpack change needs an entry and write one for the correct audience."
+audience: "Jetpack contributors"
+document_type: how-to
+sidebar_position: 10
+---
 Part of our standard [Pull Request process](./monorepo.md#jetpack-changelogger) includes submitting a changelog entry for your changes, which this document provides guidance on.
 
 ## How do I create a changelog entry?

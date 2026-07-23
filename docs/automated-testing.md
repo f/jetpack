@@ -1,70 +1,84 @@
-# Automated testing overview for Jetpack Monorepo
+---
+title: "Run automated tests"
+description: "Choose and run the Jetpack automated test suite that covers a code change."
+audience: "Jetpack contributors"
+document_type: how-to
+sidebar_position: 20
+---
+Choose the narrowest test that proves the behavior, then add broader coverage for integration risk.
 
-Types of tests
+## Choose a test level
 
-- PHPUnit tests for plugins and packages
-- Javascript tests for React components
-- Javascript tests for Gutenberg blocks
-- E2E tests for plugins
+| Need to prove | Prefer |
+| --- | --- |
+| A PHP function or class behaves correctly in isolation | PHPUnit unit test |
+| PHP code works with WordPress or another public contract | PHPUnit integration test |
+| A React component or JavaScript utility behaves correctly | Jest or Node test |
+| A block edits, saves, migrates, and renders correctly | Block fixture, component, and editor tests |
+| A complete browser workflow works across systems | End-to-end test |
 
-- [PHPUnit tests](#phpunit-tests)
-  - [Unit tests](#unit-tests)
-  - [Integration tests](#integration-tests)
-- [Javascript tests](#javascript-tests)
-  - [React components](#react-components)
-  - [Gutenberg blocks](#gutenberg-blocks)
-- [E2E tests](#e2e-tests)
+## Run a project test
 
-Refer to [Monorepo docs](/docs/monorepo.md#Testing) for information on how tests are integrated into monorepo pipelines.
+From the monorepo root, use the Jetpack CLI:
+
+<!-- wp:docspress/terminal-session {"title":"Run one project test type","shell":"bash","prompt":"$","command":"jetpack test [test] [project]","output":""} /-->
+
+Examples:
+
+<!-- wp:docspress/terminal-session {"title":"Run representative focused checks","shell":"bash","prompt":"$","command":"jetpack test php packages/connection\njetpack test js plugins/jetpack\njetpack test typecheck packages/my-jetpack","output":""} /-->
+
+Read the project-level `composer.json`, `package.json`, `README.md`, and `AGENTS.md` before assuming a test name. Use the [monorepo testing reference](monorepo.md#testing) for CI configuration and coverage.
+
+<!-- wp:docspress/result {"status":"neutral","title":"Record what each command proved","content":"<p>A passing focused test proves only the behavior and environment it exercised. Include the exact command, project path, runtime state, and any skipped test type in the pull-request evidence.</p>","meta":"command · project · result · remaining risk"} /-->
 
 ## PHPUnit tests
 
-These tests are used to test both plugins and packages code. Depending on developer need, they could act as a unit tests by mocking any external dependencies and apis and testing units in isolation, or they could be used as integration tests, with real WordPress installation and database.
+Use PHPUnit for PHP code in plugins and packages. Unit tests isolate a function or class; integration tests exercise WordPress or another public dependency.
 
 ### Unit tests
 
-Unit tests are used to test individual units of code, such as a function or a class. They are meant to be run in isolation, without any external dependencies. They are fast and easy to write. This is a preferred approach to PHP testing, that leads to decoupled and testable code.
+Use a unit test when the behavior can run without WordPress, a database, or a network service. Fast isolated tests encourage smaller and more testable code.
 
-Refer to PHPUnit [documentation](https://phpunit.readthedocs.io/en/9.5/writing-tests-for-phpunit.html) for more details on how to write tests. Also, there are various examples in the repo such as [here](/projects/packages/a8c-mc-stats/tests/php/StatsTest.php).
+Read the [current PHPUnit manual](https://docs.phpunit.de/) and inspect an existing test in the affected project. The [A8C MC Stats tests](https://github.com/Automattic/jetpack/blob/trunk/projects/packages/a8c-mc-stats/tests/php/StatsTest.php) provide one repository example.
 
-Note: Jetpack monorepo is using a bit different code style to one that used in documentation examples.
+Follow Jetpack's code style even when an external example uses another convention.
 
 ### Integration tests
 
-Integration tests are used to test code that interacts with external dependencies, such as WordPress functions, APIs, and database. They are slower than unit tests, but still much faster than E2E tests.
+Use an integration test for code that interacts with WordPress functions, an API contract, or a database. It is slower than a unit test but usually faster and more focused than a browser test.
 
 There are normally two reasons why you would choose integration over unit tests:
 
-- Code is highly coupled with WordPress and it's not possible to test it in isolation.
+- Code is coupled to WordPress and cannot be tested meaningfully in isolation.
 - You want to test how the units interact with each other, to verify that public APIs work as expected.
 
-Normally, integration tests for packages rely on various mocking solutions available:
+Common tools include:
 
-- [brain/monkey](https://packagist.org/packages/brain/monkey) - For mocking and stubbing WordPress functions and classes.
-- [automattic/jetpack-test-environment](../projects/packages/test-environment/README.md) is used to pull in WordPress for testing. It calls in a lightweight version of WordPress (via the [WorDBless](https://packagist.org/packages/automattic/wordbless) package) and provides a way to run tests in a WordPress environment. We use the jetpack-test-environment package within the monorepo to only need one install of WordPress for the entire monorepo.
+- [Brain Monkey](https://packagist.org/packages/brain/monkey) for mocking and stubbing WordPress functions and classes.
+- [Jetpack Test Environment](https://github.com/Automattic/jetpack/blob/trunk/projects/packages/test-environment/README.md) for a shared lightweight WordPress installation based on [WorDBless](https://packagist.org/packages/automattic/wordbless).
 
-There are a lot of examples on how to use these tools in the `/projects/packages` folder, such as [here](/projects/packages/connection/tests/php/ManagerIntegrationTest.php).
+The [Connection package integration test](https://github.com/Automattic/jetpack/blob/trunk/projects/packages/connection/tests/php/ManagerIntegrationTest.php) is one example.
 
-## Javascript tests
+## JavaScript tests
 
-Monorepo provides support for `jest` as testing framework, and `@testing-library/react` as a testing library for React components.
+Use the test runner and Testing Library packages already configured by the affected project.
 
 ### React components
 
-There are examples scattered through the monorepo such as [connection-status-card](/projects/packages/my-jetpack/_inc/components/connection-status-card/index.tsx) card. Refer to [documentation](https://testing-library.com/docs/react-testing-library/intro) for more details.
+Test behavior visible to a user instead of component implementation details. See the [React Testing Library introduction](https://testing-library.com/docs/react-testing-library/intro/) and nearby tests in the affected project.
 
 ### Gutenberg blocks
 
-The [official core documentation](https://developer.wordpress.org/block-editor/contributors/code/testing-overview/) covers quite a lot of basics and would a good starting point for anyone starting with Gutenberg tests. There are multiple types of tests one can write for a block:
+Start with the [Block Editor testing overview](https://developer.wordpress.org/block-editor/contributors/code/testing-overview/). A block can need:
 
-- [`validate` tests](/projects/plugins/jetpack/extensions/shared/test/block-fixtures.md) - Tests that verify expected block output.
-- `edit` tests - Tests for edit handlers.
-- `controls` tests - Tests for block controls.
+- [Fixture validation tests](https://github.com/Automattic/jetpack/blob/trunk/projects/plugins/jetpack/extensions/shared/test/block-fixtures.md) for saved output and migrations.
+- Edit tests for editor behavior.
+- Controls tests for block settings.
 
-Subscriptions block has a good example of how to write these types of tests. Refer to [subscriptions block tests](/projects/plugins/jetpack/extensions/blocks/subscriptions/test) for more details.
+The [Subscriptions block tests](https://github.com/Automattic/jetpack/tree/trunk/projects/plugins/jetpack/extensions/blocks/subscriptions/test) contain examples.
 
-## E2E Tests
+## End-to-end tests
 
-E2E tests are browser based tests that simulate user interactions and behavior. They are used to test user flows end to end, but also could be used as more functional tests for cases where unit and integration tests are not enough. Good example is a gutenberg block tests, where we want to test how block behaves in the editor, and how it renders on the front end.
+Use an end-to-end test for a critical browser workflow that crosses components or systems and cannot be proved adequately at a lower level.
 
-E2E [documentation](/tools/e2e-commons/README.md) goes into details on how setup them and how to write your first test.
+Read the [end-to-end test documentation](https://github.com/Automattic/jetpack/blob/trunk/tools/e2e-commons/README.md) for setup and project conventions.

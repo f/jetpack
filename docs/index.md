@@ -1,29 +1,42 @@
-# Jetpack Developer Documentation
+---
+title: Jetpack documentation
+description: Choose the shortest Jetpack documentation path for your role and goal.
+audience: everyone
+document_type: overview
+sidebar_position: 0
+sidebar_collapsed: false
+---
 
-Build, test, and contribute to Jetpack from its public monorepo. These guides cover the shared development environment and contributor workflows used across Jetpack plugins and packages.
+Jetpack serves several kinds of WordPress users. Start with the path that matches what you are trying to accomplish; you can switch paths at any time.
 
-## Start here
+## Choose your path
 
-- [Quick start](quick-start.md) — install the required tools and run Jetpack locally.
-- [Development environment](development-environment.md) — configure the full local toolchain and Docker environment.
-- [Contributing](CONTRIBUTING.md) — find contribution opportunities and prepare a patch.
-- [Git workflow](git-workflow.md) — create branches and keep changes reviewable.
-- [Pull requests](pull-request.md) — prepare and submit a Jetpack pull request.
+<!-- wp:docspress/audience-paths {"anchor":"choose-your-path","eyebrow":"Choose your Jetpack path","title":"What are you here to do?","description":"Start with the role that best matches your work. Each path keeps its setup, decisions, procedures, troubleshooting, and prompt examples together.","paths":[{"title":"Use Jetpack on my site","description":"Install and connect Jetpack, choose features, improve security and performance, grow an audience, and solve common problems.","url":"/developer-docs/site-owners/","cta":"Site-owner documentation","icon":"WP","accent":"blue","newTab":false},{"title":"Build with Jetpack","description":"Integrate supported hooks, blocks, REST endpoints, packages, connection data, and compatibility tests into a plugin or theme.","url":"/developer-docs/wordpress-developers/","cta":"Developer documentation","icon":"DEV","accent":"gold","newTab":false},{"title":"Run client sites","description":"Plan a client stack, separate staging and production, launch safely, manage multiple sites, and prepare a durable handoff.","url":"/developer-docs/agencies/","cta":"Agency documentation","icon":"AG","accent":"coral","newTab":false},{"title":"Contribute to Jetpack","description":"Set up the monorepo, find the right project, implement and test a change, open a pull request, and help ship a release.","url":"/developer-docs/contributors/","cta":"Contributor documentation","icon":"JP","accent":"green","newTab":false}],"columns":2,"tone":"theme","textAlign":"left","showNumbers":false} /-->
 
-## Build with confidence
+## Choose by goal
 
-- [Coding guidelines](coding-guidelines.md)
-- [Automated testing](automated-testing.md)
-- [Code reviews](code-reviews.md)
-- [Writing a good changelog entry](writing-a-good-changelog-entry.md)
+- **Install or connect Jetpack:** [Get started as a site owner](site-owners/get-started.md)
+- **Decide which Jetpack tools you need:** [Choose Jetpack products and features](site-owners/choose-products.md)
+- **Customize Jetpack in a plugin or theme:** [Choose a developer integration](developers/choose-an-integration.md)
+- **Manage several client sites:** [Manage client sites](agencies/manage-client-sites.md)
+- **Set up the Jetpack monorepo:** [Contributor quick start](quick-start.md)
+- **Look up an endpoint:** [Jetpack REST API](rest-api.md)
+- **Report a problem:** [Troubleshoot Jetpack](site-owners/troubleshoot.md) or [create a useful bug report](guides/report-bugs.md)
 
-## Maintain and release
+## Use these docs with an AI assistant
 
-- [Monorepo tools and project structure](monorepo.md)
-- [Release management](release-management.md)
-- [Deprecating features](deprecating-features.md)
-- [Translations](translations.md)
+Every audience path includes copyable prompt examples. Before you use one:
 
-## API reference
+1. Replace placeholders such as `<site-url>` and `<goal>`.
+2. Remove passwords, access tokens, customer data, private URLs, and other secrets.
+3. Ask the assistant to cite the exact Jetpack documentation page it used.
+4. Verify commands and code in a staging or local environment before production.
 
-- [Jetpack REST API](rest-api.md)
+Start with [Use Jetpack documentation with AI](reference/use-docs-with-ai.md).
+
+## Reference
+
+- [Products and features](reference/products-and-features.md)
+- [Support and developer tools](reference/support-and-tools.md)
+- [Jetpack glossary](reference/glossary.md)
+- [Documentation map and writing model](reference/documentation-map.md)

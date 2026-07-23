@@ -1,709 +1,162 @@
-# Jetpack HTTP API
-
-Jetpack's HTTP API is built as an [extension to the WordPress core REST API](https://developer.wordpress.org/rest-api/extending-the-rest-api/). Thus, you may find additional information on approaching the API in the [REST API Handbook](https://developer.wordpress.org/rest-api/).
-
-* [How to use](#how-to-use)
-* [API Authentication and authorization](#api-request-authorization-via-nonces)
-* [API Reference](#api-reference)
-
-## How to use
-
-All of the extensions that Jetpack adds to the core's REST API infrastructure demand authentication and, of course knowledge of the endpoints (you can find about them under [API Reference](#api-reference)).
-
-### Requesting with jQuery from the browser's console.
-
-If you go to the Jetpack wp-admin page (/wp-admin/admin.php?page=jetpack) on you WordPress site, you can open the console there and write an AJAX request using `jQuery.ajax`. This comes in handy when testing as every request demands a nonce generated for the REST API specifically. More details about this nonce in [API Authentication and authorization](#api-request-authorization-via-nonces).
-
-**Example GET request**
-```javascript
-jQuery.ajax( {
-    url: '/wp-json/jetpack/v4/settings/',
-    method: 'get',
-    beforeSend: function ( xhr ) {
-        xhr.setRequestHeader( 'X-WP-Nonce', Initial_State.WP_API_nonce );
-    },
-    contentType: "application/json",
-    dataType: "json"
-} ).done( function ( response ) {
-    console.log( response );
-} ).error( function ( error ) {
-    console.log( error.responseText );
-} );
-```
-
-**Example POST request**
+---
+title: "Use the Jetpack REST API"
+description: "Discover, authenticate, call, and test the Jetpack plugin REST endpoints registered on a WordPress site."
+audience: "WordPress developers"
+document_type: reference
+sidebar_position: 70
+---
+Jetpack extends the [WordPress REST API](https://developer.wordpress.org/rest-api/) under the `jetpack/v4` namespace. Use this reference when code running on a WordPress site needs a documented Jetpack plugin endpoint.
 
-```javascript
-jQuery.ajax( {
-    url: '/wp-json/jetpack/v4/settings/',
-    method: 'post',
-    beforeSend: function ( xhr ) {
-        xhr.setRequestHeader( 'X-WP-Nonce', Initial_State.WP_API_nonce );
-    },
-    data: JSON.stringify( {
-        'carousel_display_exif': false
-    } ),
-    contentType: "application/json",
-    dataType: "json"
-} ).done( function ( response ) {
-    console.log( response );
-} ).error( function ( error ) {
-    console.log( error.responseText );
-} );
-```
-
-### Requesting with the fetch API from the browser's console.
-
-**Example GET request**
-```javascript
-fetch( '/wp-json/jetpack/v4/settings', {
-	credentials: 'same-origin',
-	headers: {
-		'X-WP-Nonce': Initial_State.WP_API_nonce,
-		'Content-type': 'application/json' }
-} )
-	.then( response => response.json() )
-	.then( response => console.log( response) )
-	.catch( error => console.log( error.responseText ) );
-```
-
-**Example POST request**
-
-```javascript
-fetch( '/wp-json/jetpack/v4/settings', {
-	method: 'post',
-	body: JSON.stringify( { masterbar: true } ),
-	headers: {
-		'X-WP-Nonce': Initial_State.WP_API_nonce,
-		'Content-type': 'application/json' }
-} )
-	.then( response => response.json() )
-	.then( response => console.log( response) )
-	.catch( error => console.log( error.responseText ) );
-```
-
-## API Authentication and authorization
-
-The API requests rely on [cookie-based authentication and a specific nonce](https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/#cookie-authentication)
-for requests to be authorized.
+The registered routes depend on the active Jetpack version, connection state, modules, standalone plugins, and packages. Runtime discovery and the source shipped with the installed version are authoritative.
 
-### API Request Authorization via nonces
+## Understand the API boundary
 
-The WP REST API infrastructure requires a nonce for authorizing of the request itself.
+This page covers routes served by the WordPress site at `/wp-json/jetpack/v4/...`. It does not document the public WordPress.com REST API, Jetpack Cloud APIs, or private Automattic services.
 
-Ensure to use the `X-WP-Nonce` header on your request.
-
-```
-X-WP-Nonce: e1cff122e1
-```
-
-The nonce is being served on the Jetpack admin page by usage of the [wp_localize_script](https://codex.wordpress.org/Function_Reference/wp_localize_script) mechanism for passing values from PHP code to the JS scope. It's created for the action `wp_rest` and made available in the Jetpack Admin Page as:
-
-```
-window.Initial_State.WP_API_nonce;
-```
+<!-- wp:docspress/file-tree {"root":"jetpack/","tree":"projects/\n  plugins/\n    jetpack/\n      _inc/\n        lib/\n          class.core-rest-api-endpoints.php\n          core-api/\n      tests/\n        php/\n          _inc/lib/\n          core-api/\n  packages/\n    connection/\n      src/\n        class-rest-connector.php\n      tests/\n        php/\n          REST_Endpoints_Test.php","caption":"Core plugin routes, connection routes, permission callbacks, arguments, and regression tests are the source of truth for the installed code."} /-->
 
-The root URL for the the API is found on the same page as:
+<!-- wp:docspress/callout {"tone":"warning","title":"An endpoint path is not an authorization grant","content":"<p>Every write must pass its registered permission callback and parameter validation. A REST nonce protects a cookie-authenticated request from cross-site request forgery; it does not give the current user a capability they do not have.</p>","collapsible":false} /-->
 
-```
-window.Initial_State.WP_API_root;
-```
+Before calling an endpoint:
 
-## API Reference
+1. Confirm that it appears in the installed site's REST index.
+2. Inspect its `methods`, `args`, and schema in the discovery response.
+3. Authenticate through a supported WordPress mechanism.
+4. Check the current user's required capability and the route's permission callback.
+5. Exercise writes with disposable data on a local or staging site.
+6. Treat response fields as versioned data unless the route documents a stable contract.
 
-All endpoints return and accept JSON. Make sure you add the proper `content-type` header to your PUT/POST requests sending JSON objects.
+## Discover registered routes
 
-```json
-'Content-type': 'application/json'
-```
+Open `/wp-json/` to inspect the site's complete REST index. The Jetpack namespace index narrows the result:
 
-### Discovery endpoint
+<!-- wp:docspress/api-request {"method":"GET","endpoint":"/wp-json/jetpack/v4","headers":"Accept: application/json","requestBody":"","requestBodyFormat":"json","responseStatus":"200 OK","responseBody":"","responseBodyFormat":"json"} /-->
 
-Core REST API-compatible [capabilities document](https://developer.wordpress.org/rest-api/using-the-rest-api/discovery/) for the endpoints registered by Jetpack.
+Search the response's `routes` object for the exact path you plan to call. A route entry tells you which methods are registered and may expose accepted arguments. A route absent from discovery is unavailable in that environment even if it exists on another Jetpack version.
 
-`GET /wp-json/jetpack/v4`
+<!-- wp:docspress/callout {"tone":"tip","title":"Record discovery with bug reports","content":"<p>When an integration behaves differently across sites, record the WordPress and Jetpack versions, active Jetpack plugins, connection state, and the discovered route definition. Do not attach cookies, nonces, tokens, or private response data.</p>","collapsible":true,"open":false} /-->
 
-### Jetpack settings
+## Authenticate a browser request
 
-**Jetpack settings** are all of the options provided by Jetpack modules. That is, any configurable aspect of the features provided by Jetpack.
-In addition, this endpoint, allows you to enable or disable modules too. You can pass a module slug as key and set it to `true` or `false` for activating or deactivating the module.
+Code running in an authenticated WordPress administration session can use [cookie authentication](https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/#cookie-authentication) with a nonce created for the `wp_rest` action.
 
-This endpoint returns a JSON object with multiple key and current values for them.
-When POSTing to this endpoint, you need to send a JSON object in the body with the new values for each key.
+On the Jetpack administration screen, current Jetpack code exposes the REST root and nonce through:
 
+- `window.Initial_State.WP_API_root`
+- `window.Initial_State.WP_API_nonce`
 
-#### GET /wp-json/jetpack/v4/settings
+These browser-console examples are development diagnostics, not a production client architecture:
 
-Fetch a list of Jetpack settings.
+<!-- wp:docspress/code-tabs {"tabs":[{"label":"fetch","language":"javascript","filename":"Browser console","code":"const root = window.Initial_State.WP_API_root;\nconst nonce = window.Initial_State.WP_API_nonce;\n\nconst response = await fetch( `${ root }jetpack/v4/connection`, {\n\tcredentials: 'same-origin',\n\theaders: {\n\t\tAccept: 'application/json',\n\t\t'X-WP-Nonce': nonce,\n\t},\n} );\n\nif ( ! response.ok ) {\n\tthrow new Error( `Jetpack API returned ${ response.status }` );\n}\n\nconsole.log( await response.json() );"},{"label":"jQuery","language":"javascript","filename":"Browser console","code":"const root = window.Initial_State.WP_API_root;\nconst nonce = window.Initial_State.WP_API_nonce;\n\njQuery.ajax( {\n\turl: `${ root }jetpack/v4/connection`,\n\tmethod: 'GET',\n\theaders: {\n\t\tAccept: 'application/json',\n\t\t'X-WP-Nonce': nonce,\n\t},\n} )\n\t.done( response => console.log( response ) )\n\t.fail( error => console.error( error.responseJSON || error.responseText ) );"}],"showLineNumbers":true,"caption":"Equivalent cookie-authenticated diagnostics using the REST root and nonce already present on the Jetpack admin page."} /-->
 
-**Example response**
+For an external application, use a WordPress-supported authentication method such as [Application Passwords](https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/#basic-authentication-with-application-passwords). Do not scrape the Jetpack administration page for a nonce.
 
-```json
-{
-	"onpublish":false,
-	"onupdate":false,
-	"Bias Language":false,
-	"Cliches":false,
-	"Complex Expression":false,
-	"Diacritical Marks":false,
-	"Double Negative":false,
-	"Hidden Verbs":true,
-	"Jargon Language":false,
-	"Passive voice":false,
-	"Phrases to Avoid":false,
-	"Redundant Expression":true,
-	"guess_lang":false,
-	"ignored_phrases":"billy,asdf,lola,y,l,asd,jsd",
-	"carousel_background_color":"white",
-	"carousel_display_exif":true
-}
-```
+## Send and evaluate a request
 
-#### POST /wp-json/jetpack/v4/settings
+Use the same sequence for every route:
 
-Update multiple settings at once.
+1. Read the route definition from discovery.
+2. Confirm the method and required arguments.
+3. Send `Accept: application/json`.
+4. For a JSON body, send `Content-Type: application/json`.
+5. Include the authentication material required by your WordPress auth method.
+6. Check the HTTP status before reading the response body.
+7. Handle a WordPress `WP_Error` response as structured JSON, not as a successful resource.
 
-**Body parameters**
+### Read connection status
 
-* Accepts a simple object with the key/values of the settings to update.
-If one of the keys you send matches a module slug and the value for it is `true`, the module we be activated. Setting it to `false` will deactivate the module.
+`GET /connection` is intentionally readable without a logged-in user, but it returns status flags rather than credentials or private connection data.
 
-This endpoint is quite permissive, so you will be able to try to update settings for a module that is not yet active.
-You can also try to activate a module an set any of its options on the same request.
+<!-- wp:docspress/api-request {"method":"GET","endpoint":"/wp-json/jetpack/v4/connection","headers":"Accept: application/json","requestBody":"","requestBodyFormat":"json","responseStatus":"200 OK","responseBody":"{\n  \"isActive\": true,\n  \"isStaging\": false,\n  \"isRegistered\": true,\n  \"isUserConnected\": true,\n  \"hasConnectedOwner\": true,\n  \"offlineMode\": {\n    \"isActive\": false,\n    \"constant\": false,\n    \"url\": false,\n    \"filter\": false,\n    \"wpLocalConstant\": false,\n    \"option\": false\n  },\n  \"isPublic\": true\n}","responseBodyFormat":"json"} /-->
 
-Accepts a JSON object in the body like:
-```json
-{
-	"carousel_display_exif": false,
-	"carousel": true
-}
-```
-### Jetpack connection
+The connection package can add or filter fields. Test only the fields your integration needs and define behavior for disconnected, site-only, user-connected, staging, and offline states.
 
-Operations related to Jetpack's connection to WordPress.com
+### Read settings
 
-#### GET /wp-json/jetpack/v4/connection
+The settings response combines module activation states and settings available to the current user. Its keys vary with active modules and the installed version.
 
-Fetch Jetpack's current connection status.
+<!-- wp:docspress/api-request {"method":"GET","endpoint":"/wp-json/jetpack/v4/settings","headers":"Accept: application/json\nX-WP-Nonce: [wp-rest-nonce]","requestBody":"","requestBodyFormat":"json","responseStatus":"200 OK","responseBody":"{\n  \"carousel\": true,\n  \"carousel_background_color\": \"white\"\n}","responseBodyFormat":"json"} /-->
 
-**Example Response**
+Treat the response above as a minimal shape, not a complete settings schema. Discover the route and inspect the installed source before depending on a key.
 
-```json
-{
-	"isActive": true,
-	"offlineMode": {
-		"isActive":false,
-		"constant":false,
-		"url":false,
-		"filter":false
-	}
-}
-```
+### Update one or more settings
 
-#### GET /wp-json/jetpack/v4/connection/url
+Send only the keys you intend to change. The endpoint validates known settings and can return `400` when a value has the wrong type or is not updateable.
 
-Fetch a fresh WordPress.com URL for connecting the Jetpack installation.
+<!-- wp:docspress/api-request {"method":"POST","endpoint":"/wp-json/jetpack/v4/settings","headers":"Accept: application/json\nContent-Type: application/json\nX-WP-Nonce: [wp-rest-nonce]","requestBody":"{\n  \"carousel_background_color\": \"black\"\n}","requestBodyFormat":"json","responseStatus":"200 OK","responseBody":"","responseBodyFormat":"json"} /-->
 
-**Note:** The response is not a JSON object, but a string enclosed in double quotes.
+Read the setting again after a successful write when your workflow needs to prove the stored value. Do not assume a `200` response means every unrelated setting stayed unchanged.
 
-**Example response**
+### Activate or deactivate modules
 
-```
-"https:\/\/jetpack.wordpress.com\/jetpack.authorize\/1\/?response_type=code&client_id=107314117&redirect_uri=https%3A%2F%2Fmysite.mydomain.com%2Fwp-admin%2Fadmin.php%3Fpage%3Djetpack%26action%3Dauthorize%26_wpnonce%63Db10f339f8%26redirect%3Dhttps%253A%252F%252Fmysite.mydomain.com%252Fwp-admin%252Fadmin.php%253Fpage%253Djetpack&state=1&scope=administrator%3A6493e88f3b4130d138e051a48f3b417c5cf503a&user_email=siteowner%40company.com&user_login=mysite&is_active=1&jp_version=5.3&auth_type=calypso&secret=2ejv2bbhwE44GedSjwud7233TN2lGXkxh&locale=en&blogname=mysite+Sandbox&site_url=https%3A%2F%2Fmysite.mydomain.com&home_url=https%3A%2F%2Fmysite.mydomain.com&site_icon=https%3A%2F%2Fi2.wp.com%2Fmysite.mydomain.com%2Fwp-content%2Fuploads%2F2016%2F04%2Fcropped-jetpack-logo.png%3Ffit%3D512%252C512%26ssl%3D1&site_lang=en_US&_ui=7178474&_ut=wpcom%3Auser_id"
-```
+Use the dedicated toggle route for one module. The module slug is part of the path and `active` is a required Boolean.
 
-#### GET /wp-json/jetpack/v4/connection/data
+<!-- wp:docspress/api-request {"method":"POST","endpoint":"/wp-json/jetpack/v4/module/protect/active","headers":"Accept: application/json\nContent-Type: application/json\nX-WP-Nonce: [wp-rest-nonce]","requestBody":"{\n  \"active\": true\n}","requestBodyFormat":"json","responseStatus":"200 OK","responseBody":"","responseBodyFormat":"json"} /-->
 
-Fetch the data of the current's user WordPress.com account.
+For several modules, use `POST /module/all/active` with a `modules` array and an optional shared `active` Boolean. Module availability and connection requirements still apply.
 
-**Example response**
+## Route families
 
-```json
-{
-    "currentUser": {
-        "isConnected": true,
-        "isMaster": true,
-        "username": "admin",
-        "wpcomUser": {
-            "ID": 9123841,
-            "login": "wondell",
-            "email": "wondell@gmail.com",
-            "display_name": "Wondell",
-            "text_direction": "ltr",
-            "site_count": 12,
-            "jetpack_connect": "",
-            "avatar": "http://2.gravatar.com/avatar/5e1a8fhjdj284c3dec35c2?s=64&d=mm&r=g"
-        },
-        "gravatar": "<img alt='' src='http://2.gravatar.com/avatar/5e1a8fhjdj284c3dec35c2?s=40&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/5e1a8fhjdj284c3dec35c2?s=80&amp;d=mm&amp;r=g 2x' class='avatar avatar-40 photo' height='40' width='40' />",
-        "permissions": {
-            "admin_page": true,
-            "connect": true,
-            "disconnect": true,
-            "manage_modules": true,
-            "network_admin": false,
-            "network_sites_page": false,
-            "edit_posts": true,
-            "publish_posts": true,
-            "manage_options": true,
-            "view_stats": true,
-            "manage_plugins": true
-        }
-    }
-}
-```
-
-
-#### POST /wp-json/jetpack/v4/connection
-
-Disconnect the Jetpack installation from WordPress.com servers.
-
-Accepts a JSON object in the body like:
-
-```json
-{
-	"isActive": false
-}
-```
-
-POSTing with `isActive` as `false` will disconnect the site. Sending `isActive: true` has no effect.
-
-#### POST /wp-json/jetpack/v4/connection/user
-
-Unlink current user from the related WordPress.com account.
-
-Accepts a JSON object in the body like:
-
-```json
-{
-	"linked": false
-}
-```
-
-POSTing with `linked` as `false` will disconnect the site. Sending `linked: true` has no effect.
-
-
-### Jetpack modules
-
-#### GET /wp-json/jetpack/v4/module/all
-
-Get a list of all Jetpack's modules, its description, other properties and the module's options
-
-**Note**. The response has a big payload in the body. Use it carefully.
-
-**Example response**
-
-The response is huge. Try it on your browser's console for discovery. Here's a cut down version of it:
-
-```json
-{
-	"protect": {
-	        "name": "Protect",
-		"description": "Block suspicious-looking sign in activity",
-		"sort": 1,
-		"recommendation_order": 4,
-		"introduced": "3.4",
-		"changed": "",
-		"deactivate": true,
-		"free": true,
-		"requires_connection": true,
-		"auto_activate": "Yes",
-		"module_tags": [
-		    "Recommended"
-		],
-		"feature": [
-			"Security"
-		],
-		"additional_search_queries": "security, secure, protection, botnet, brute force, protect, login",
-		"module": "protect",
-		"activated": true,
-		"options": { ... },
-		...
-	}
-	"wordads": { ... },
-	"stats": { ... },
-	"manage": { ... },
-	...
-
-}
-```
-
-#### GET /wp-json/jetpack/v4/module/:module-slug
-
-Get a single module description and properties by its slug.
-
-**Example response** for `/module/likes`
-
-```json
-{
-    "name": "Likes",
-    "description": "Give visitors an easy way to show they appreciate your content.",
-    "sort": 23,
-    "recommendation_order": 20,
-    "introduced": "2.2",
-    "changed": "",
-    "deactivate": true,
-    "free": true,
-    "requires_connection": true,
-    "auto_activate": "No",
-    "module_tags": [
-        "Social"
-    ],
-    "feature": [
-        "Engagement"
-    ],
-    "additional_search_queries": "like, likes, wordpress.com",
-    "options": {
-        "wpl_default": {
-            "description": "WordPress.com Likes are",
-            "type": "string",
-            "default": "on",
-            "enum": [
-                "on",
-                "off"
-            ],
-            "enum_labels": {
-                "on": "On for all posts",
-                "off": "Turned on per post"
-            },
-            "jp_group": "likes",
-            "current_value": "on"
-        },
-        "social_notifications_like": {
-            "description": "Send email notification when someone likes a post",
-            "type": "boolean",
-            "default": 1,
-            "jp_group": "likes",
-            "current_value": true
-        }
-    },
-    "short_description": "Give visitors an easy way to show they appreciate your content."
-}
-```
+The core Jetpack plugin and Connection package currently register these important route families. Specialized packages and active features can add more.
 
-#### POST /wp-json/jetpack/v4/module/:module-slug/active
+| Purpose | Representative routes | Notes |
+| --- | --- | --- |
+| Discovery | `GET /jetpack/v4` | Runtime source for methods and arguments |
+| Connection status and health | `GET /connection`, `/connection/check`, `/connection/test`, `/connection/data`, `/connection/plugins` | Permission requirements differ; user data is not public status data |
+| Connection changes | `POST /connection`, `/connection/user`, `/connection/reconnect` | Disconnect and unlink operations are destructive |
+| Connection entry | `GET /connection/url` | Returns a fresh connection URL for an authorized user |
+| Settings | `GET|POST /settings`, `POST /settings/{slug}` | Available keys are dynamic and validated |
+| Modules | `GET /module/all`, `POST /module/all/active`, `GET|POST /module/{slug}`, `POST /module/{slug}/active`, `GET /module/{slug}/data` | A module may require a site or user connection |
+| Site and plan data | `GET /site`, `/site/features`, `/site/products`, `/site/purchases`, `/site/benefits`, `/site/activity`, `/site/discount`, `/plans`, `/products` | Responses depend on connection, products, and permissions |
+| Security products | `GET /rewind`, `/scan` | Administrative visibility is required |
+| Plugin management | `GET|POST /plugins`, `POST /plugins/{plugin}`, `GET /plugin/{plugin}`, `GET /updates/plugins` | Requires plugin-management capability; prefer WordPress core routes when they meet the need |
+| Feature availability | `GET /features/available`, `/features/enabled` | Registered by current Jetpack feature APIs |
+| Tracking and recommendations | `GET|POST /tracking/settings`, `/recommendations/data`, `/recommendations/step`; recommendation read routes | User and site permissions vary |
+| Site verification and widgets | `GET|POST /verify-site/{service}`, `GET /widgets/{id}` | Inspect route arguments before use |
+| Notices and reset operations | `POST /notice/{notice}`, `POST /options/{options}` | Notice IDs and reset targets are validated |
 
-Activate or deactivate a module by its slug
+<!-- wp:docspress/callout {"tone":"danger","title":"Disconnect, unlink, reset, install, and activation routes change site state","content":"<p>Do not experiment with these routes on production. Confirm ownership, backups, rollback, expected connection behavior, and the exact permission callback. A copied request can disconnect a site, unlink a user, reset settings, or change installed software.</p>","collapsible":false} /-->
 
-Accepts a JSON object in the body like:
-```json
-{
-	"active": true
-}
-```
+## Handle errors explicitly
 
-**Body parameters**
+WordPress REST errors normally include a machine-readable `code`, human-readable `message`, and `data.status`. Your client should:
 
-* `active`: {Boolean} Send false to deactivate the module.
+- branch on the HTTP status and stable error code, not translated message text;
+- preserve enough redacted context for diagnosis;
+- handle `401` and `403` as authentication or capability problems;
+- handle `400` as invalid or unsupported input;
+- avoid automatically retrying a rejected write;
+- tolerate additional response fields;
+- fail safely when a route or required field is absent.
 
-#### POST /wp-json/jetpack/v4/module/activate
+<!-- wp:docspress/colorful-code {"language":"javascript","filename":"jetpack-request.js","code":"export async function jetpackRequest( path, options = {} ) {\n\tconst response = await fetch( `/wp-json/jetpack/v4/${ path }`, {\n\t\tcredentials: 'same-origin',\n\t\theaders: {\n\t\t\tAccept: 'application/json',\n\t\t\t'Content-Type': 'application/json',\n\t\t\t...options.headers,\n\t\t},\n\t\t...options,\n\t} );\n\n\tconst payload = await response.json().catch( () => null );\n\n\tif ( ! response.ok ) {\n\t\tconst error = new Error( payload?.message || `HTTP ${ response.status }` );\n\t\terror.code = payload?.code || 'jetpack_rest_error';\n\t\terror.status = response.status;\n\t\tthrow error;\n\t}\n\n\treturn payload;\n}","highlightedLines":"13-21","showLineNumbers":true,"caption":"A client wrapper should separate HTTP failure from a successful JSON payload and preserve the structured WordPress error code."} /-->
 
-Activate several modules at a time by their slug
+The wrapper deliberately does not invent an authentication strategy. Add the nonce or authorization header at the call site appropriate to the WordPress environment.
 
-**Note**: Try to not rely hard on this endpoint. Activation and deactivation of modules is also possible via the settings endpoint. And it may come in handy to use the settings endpoint instead as you can turn on a module and update settings related to that module at the same time in a single request.
+## Verify an integration
 
-**Body parameters**
+Test at least:
 
-* `modules`: {Array} An array of strings of identifiers of the modules to activate
+- the route absent and present;
+- unauthenticated, authenticated-but-forbidden, and authorized users;
+- valid, missing, wrong-type, and unknown arguments;
+- disconnected, site-connected, and user-connected states when relevant;
+- local/offline, staging, and production-like states;
+- the installed Jetpack version range you claim to support;
+- retries and timeouts for any route that reaches WordPress.com;
+- rollback for every write.
 
-```json
-{
-	"modules": [ "protect", "monitor", "likes" ]
-}
-```
+For Jetpack core route changes, run the focused endpoint and authentication tests from the repository's Docker environment:
 
-#### POST /wp-json/jetpack/v4/module/:module-slug
+<!-- wp:docspress/terminal-session {"title":"Run focused Jetpack REST API tests","shell":"bash","prompt":"$","command":"jetpack docker phpunit jetpack -- --filter=Jetpack_REST_API","output":""} /-->
 
-Update an option's value for a module
+Connection route changes also require the Connection package tests and the consumers identified by that package.
 
-**Note**: Try to not rely hard on this endpoint. We started giving the name **settings** to the modules options and you can update them via the settings endpoint now.
+<!-- wp:docspress/result {"status":"success","title":"The REST integration has a bounded contract","content":"<p>The route is discovered on every supported environment, permission failures are expected and tested, request values match the registered schema, responses are parsed defensively, and every write has a staging proof and rollback.</p>","meta":"discover → authorize → validate → call → verify"} /-->
 
-**URL parameters**
+## Continue
 
-* `module-slug`: {String} The identifier of the module on which to act.
-
-**Body parameters**
-
-* Accepts a simple object with the key of the option to update and the new value.
-
-Accepts a JSON object in the body like:
-```json
-{
-	"option-key": "new-option-value"
-}
-```
-
-#### POST /wp-json/jetpack/v4/reset/:options_or_modules
-
-Reset  Jetpack module options or Jetpack modules activation state to default values.
-
-**URL parameters**
-
-* `options_or_modules`: {String} Available values:
-	* `"options"`: all the modules' options will be re-set to their default values.
-	* `"modules"`: the modules activation state will be reset to their defaults.
-
-	**This endpoint does not take Body parameters**
-
-
-### Jetpack notices
-
-#### POST /wp-json/jetpack/v4/notice/:notice/dismiss
-
-Dismiss a Jetpack notice by Id.
-
-**URL parameters**
-
-* `notice`: {String} The identifier of the notice to dismiss. Possible values:
-	* `"feedback_dash_request"`
-	* `"welcome"`.
-
-### Jetpack Features (not modules)
-
-This has primarily been introduced to distinguish between former modules moved to the Classic Theme Helper package (predominantly Custom Content Types), and existing modules.
-
-#### GET wp-json/jetpack/v4/feature/:feature-slug
-
-Get a single feature status, over-ride property, description and search queries by its slug.
-
-**Example response** for `/feature/custom-content-types`
-
-```json
-{
-    "custom-content-types": {
-        "active": true,
-        "over_ride": false,
-        "description": "Display different types of content on your site with custom content types.",
-        "additional_search_queries": "cpt, custom post types, portfolio, portfolios, testimonial, testimonials",
-    }
-}
-```
-
-
-### Site information
-
-Operations related to information about the site.
-
-#### GET /wp-json/jetpack/v4/site
-
-Get current site data.
-The string value in `data` is a stringified JSON object with data coming from the WordPress.com API about the site.
-
-**Example response**
-
-```json
-{
-    "code": "success",
-    "message": "Site data correctly received.",
-    "data": "{}"
-}
-```
-
-### Protect module related operations
-
-##### GET /wp-json/jetpack/v4/module/protect/data
-
-Get count of blocked attacks by Protect.
-
-**Example response**
-
-**Note**: The response is not an object but a plain string with the number of blocked login attempts.
-
-```json
-"3"
-```
-
-### Plugins related endpoints
-
-#### GET /wp-json/jetpack/v4/plugins
-
-Get a list of the currently installed plugins on the site.
-
-**Example response**
-
-```json
-{
-    "hello.php": {
-        "Name": "Hello Dolly",
-        "PluginURI": "http://wordpress.org/plugins/hello-dolly/",
-        "Version": "1.6",
-        "Description": "This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from <cite>Hello, Dolly</cite> in the upper right of your admin screen on every page.",
-        "Author": "Matt Mullenweg",
-        "AuthorURI": "http://ma.tt/",
-        "TextDomain": "",
-        "DomainPath": "",
-        "Network": false,
-        "Title": "Hello Dolly",
-        "AuthorName": "Matt Mullenweg",
-        "active": false
-    },
-    "jetpack/jetpack.php": {
-        "Name": "Jetpack by WordPress.com",
-        "PluginURI": "https://jetpack.com",
-        "Version": "5.3",
-        "Description": "Get everything you need to <strong>design, secure, and grow your WordPress site</strong>. Jetpack gives you free themes, image tools, related content, and site security, all in one convenient bundle.",
-        "Author": "Automattic",
-        "AuthorURI": "https://jetpack.com",
-        "TextDomain": "jetpack",
-        "DomainPath": "/languages/",
-        "Network": false,
-        "Title": "Jetpack by WordPress.com",
-        "AuthorName": "Automattic",
-        "active": true
-    }
-}
-```
-
-#### GET /wp-json/jetpack/v4/updates/plugins
-
-Get number of updated available for currently installed WordPress plugins.
-
-**Example response** when all plugins are up to date
-
-```json
-{
-	"code": "success",
-	"message": "All plugins are up-to-date. Keep up the good work!",
-	"count":0
-}
-```
-
-**Example response** when some plugins need to be updated
-
-```json
-{
-	"code": "updates-available",
-	"message": "2 plugins need updating.",
-	"count": 2
-}
-```
-
-### Akismet data
-
-#### GET /wp-json/jetpack/v4/module/akismet/data
-
-Get stats from Akismet filtered spam.
-
-**Example response**
-
-```json
-{
-    "6-months": {
-        "spam": 0,
-        "ham": 0,
-        "missed_spam": 0,
-        "false_positives": 0,
-        "accuracy": 0,
-        "breakdown": {
-            "2017-03": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2017-03-01"
-            },
-            "2017-04": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2017-04-01"
-            },
-            "2017-05": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2017-05-01"
-            },
-            "2017-06": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2017-06-01"
-            },
-            "2017-07": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2017-07-01"
-            },
-            "2017-08": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2017-08-01"
-            },
-            "2017-09": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2017-09-01"
-            }
-        },
-        "time_saved": 0
-    },
-    "all": {
-        "spam": 0,
-        "ham": 0,
-        "missed_spam": 0,
-        "false_positives": 0,
-        "accuracy": 0,
-        "breakdown": {
-            "2011": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2011-01-01"
-            },
-            "2012": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2012-01-01"
-            },
-            "2013": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2013-01-01"
-            },
-            "2014": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2014-01-01"
-            },
-            "2015": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2015-01-01"
-            },
-            "2016": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2016-01-01"
-            },
-            "2017": {
-                "spam": 0,
-                "ham": 0,
-                "missed_spam": 0,
-                "false_positives": 0,
-                "da": "2017-01-01"
-            }
-        },
-        "time_saved": 0
-    }
-}
-```
+- Use [Choose a Jetpack integration](developers/choose-an-integration.md) before treating an internal route as a public extension point.
+- Follow [Jetpack coding guidelines](coding-guidelines.md) for capability checks, input validation, output escaping, and compatibility.
+- Build a version and connection-state matrix with [Test a Jetpack integration](developers/test-an-integration.md).
+- Inspect the installed route in the WordPress REST index and the corresponding Jetpack source before shipping.

@@ -1,0 +1,491 @@
+{
+  "pages": [
+    {
+      "id": "root",
+      "slug": "",
+      "title": "Jetpack documentation",
+      "markdown_source": "index.md"
+    },
+
+    {
+      "id": "site-owners",
+      "parent": "root",
+      "slug": "site-owners",
+      "title": "Use Jetpack on your site",
+      "markdown_source": "site-owners/index.md"
+    },
+    {
+      "id": "site-owners-get-started",
+      "parent": "site-owners",
+      "slug": "get-started",
+      "title": "Get started with Jetpack",
+      "markdown_source": "site-owners/get-started.md"
+    },
+    {
+      "id": "site-owners-choose-products",
+      "parent": "site-owners",
+      "slug": "choose-products",
+      "title": "Choose Jetpack products and features",
+      "markdown_source": "site-owners/choose-products.md"
+    },
+    {
+      "id": "site-owners-security",
+      "parent": "site-owners",
+      "slug": "security",
+      "title": "Secure your site with Jetpack",
+      "markdown_source": "site-owners/secure-your-site.md"
+    },
+    {
+      "id": "site-owners-performance",
+      "parent": "site-owners",
+      "slug": "performance",
+      "title": "Improve site performance with Jetpack",
+      "markdown_source": "site-owners/improve-performance.md"
+    },
+    {
+      "id": "site-owners-growth",
+      "parent": "site-owners",
+      "slug": "growth",
+      "title": "Grow your audience with Jetpack",
+      "markdown_source": "site-owners/grow-your-audience.md"
+    },
+    {
+      "id": "site-owners-troubleshoot",
+      "parent": "site-owners",
+      "slug": "troubleshoot",
+      "title": "Troubleshoot Jetpack",
+      "markdown_source": "site-owners/troubleshoot.md"
+    },
+    {
+      "id": "site-owners-prompts",
+      "parent": "site-owners",
+      "slug": "prompts",
+      "title": "Prompt library for site owners",
+      "markdown_source": "site-owners/prompt-library.md"
+    },
+
+    {
+      "id": "developers",
+      "parent": "root",
+      "slug": "wordpress-developers",
+      "title": "Build with Jetpack",
+      "markdown_source": "developers/index.md"
+    },
+    {
+      "id": "developers-choose-integration",
+      "parent": "developers",
+      "slug": "choose-an-integration",
+      "title": "Choose a Jetpack integration",
+      "markdown_source": "developers/choose-an-integration.md"
+    },
+    {
+      "id": "developers-hooks",
+      "parent": "developers",
+      "slug": "hooks-and-filters",
+      "title": "Use Jetpack hooks and filters",
+      "markdown_source": "developers/hooks-and-filters.md"
+    },
+    {
+      "id": "developers-blocks",
+      "parent": "developers",
+      "slug": "blocks-and-editor",
+      "title": "Integrate Jetpack blocks and editor features",
+      "markdown_source": "developers/blocks-and-editor.md"
+    },
+    {
+      "id": "developers-connection",
+      "parent": "developers",
+      "slug": "connection-and-data",
+      "title": "Work with Jetpack connection and data",
+      "markdown_source": "developers/connection-and-data.md"
+    },
+    {
+      "id": "developers-test-integration",
+      "parent": "developers",
+      "slug": "test-an-integration",
+      "title": "Test a Jetpack integration",
+      "markdown_source": "developers/test-an-integration.md"
+    },
+    {
+      "id": "developers-prompts",
+      "parent": "developers",
+      "slug": "prompts",
+      "title": "Prompt library for WordPress developers",
+      "markdown_source": "developers/prompt-library.md"
+    },
+    {
+      "id": "developers-rest-api",
+      "parent": "developers",
+      "slug": "rest-api",
+      "title": "Use the Jetpack REST API",
+      "markdown_source": "rest-api.md"
+    },
+
+    {
+      "id": "agencies",
+      "parent": "root",
+      "slug": "agencies",
+      "title": "Run Jetpack across client sites",
+      "markdown_source": "agencies/index.md"
+    },
+    {
+      "id": "agencies-plan",
+      "parent": "agencies",
+      "slug": "plan-a-client-site",
+      "title": "Plan Jetpack for a client site",
+      "markdown_source": "agencies/plan-a-client-site.md"
+    },
+    {
+      "id": "agencies-launch",
+      "parent": "agencies",
+      "slug": "launch-a-client-site",
+      "title": "Launch a client site with Jetpack",
+      "markdown_source": "agencies/launch-a-client-site.md"
+    },
+    {
+      "id": "agencies-manage",
+      "parent": "agencies",
+      "slug": "manage-client-sites",
+      "title": "Manage client sites with Jetpack",
+      "markdown_source": "agencies/manage-client-sites.md"
+    },
+    {
+      "id": "agencies-staging",
+      "parent": "agencies",
+      "slug": "staging-and-deployment",
+      "title": "Use Jetpack on staging and production",
+      "markdown_source": "agencies/staging-and-deployment.md"
+    },
+    {
+      "id": "agencies-handoff",
+      "parent": "agencies",
+      "slug": "handoff-and-support",
+      "title": "Hand off and support a client site",
+      "markdown_source": "agencies/handoff-and-support.md"
+    },
+    {
+      "id": "agencies-prompts",
+      "parent": "agencies",
+      "slug": "prompts",
+      "title": "Prompt library for agencies",
+      "markdown_source": "agencies/prompt-library.md"
+    },
+    {
+      "id": "agencies-hosting-partners",
+      "parent": "agencies",
+      "slug": "hosting-partners",
+      "title": "Jetpack hosting partners",
+      "markdown_source": "partners/README.md"
+    },
+
+    {
+      "id": "contributors",
+      "parent": "root",
+      "slug": "contributors",
+      "title": "Contribute to Jetpack",
+      "markdown_source": "contributors/index.md"
+    },
+    {
+      "id": "contributors-guide",
+      "parent": "contributors",
+      "slug": "contribution-guide",
+      "title": "Contribution guide",
+      "markdown_source": "CONTRIBUTING.md"
+    },
+    {
+      "id": "contributors-setup",
+      "parent": "contributors",
+      "slug": "getting-started",
+      "title": "Set up Jetpack development",
+      "markdown_source": "contributors/getting-started/index.md"
+    },
+    {
+      "id": "contributors-quick-start",
+      "parent": "contributors-setup",
+      "slug": "quick-start",
+      "title": "Start Jetpack development",
+      "markdown_source": "quick-start.md"
+    },
+    {
+      "id": "contributors-development-environment",
+      "parent": "contributors-setup",
+      "slug": "development-environment",
+      "title": "Configure the development environment",
+      "markdown_source": "development-environment.md"
+    },
+    {
+      "id": "contributors-workflow",
+      "parent": "contributors",
+      "slug": "workflow",
+      "title": "Follow the contributor workflow",
+      "markdown_source": "contributors/workflow/index.md"
+    },
+    {
+      "id": "contributors-git",
+      "parent": "contributors-workflow",
+      "slug": "git",
+      "title": "Use the Jetpack Git workflow",
+      "markdown_source": "git-workflow.md"
+    },
+    {
+      "id": "contributors-pull-requests",
+      "parent": "contributors-workflow",
+      "slug": "pull-requests",
+      "title": "Take a pull request from draft to merge",
+      "markdown_source": "pull-request.md"
+    },
+    {
+      "id": "contributors-code-reviews",
+      "parent": "contributors-workflow",
+      "slug": "code-reviews",
+      "title": "Review Jetpack code",
+      "markdown_source": "code-reviews.md"
+    },
+    {
+      "id": "contributors-quality",
+      "parent": "contributors",
+      "slug": "quality",
+      "title": "Meet Jetpack quality standards",
+      "markdown_source": "contributors/quality/index.md"
+    },
+    {
+      "id": "contributors-coding-guidelines",
+      "parent": "contributors-quality",
+      "slug": "coding-guidelines",
+      "title": "Follow coding standards and guidelines",
+      "markdown_source": "coding-guidelines.md"
+    },
+    {
+      "id": "contributors-automated-testing",
+      "parent": "contributors-quality",
+      "slug": "automated-testing",
+      "title": "Run automated tests",
+      "markdown_source": "automated-testing.md"
+    },
+    {
+      "id": "contributors-report-bugs",
+      "parent": "contributors-quality",
+      "slug": "report-bugs",
+      "title": "Create a useful bug report",
+      "markdown_source": "guides/report-bugs.md"
+    },
+    {
+      "id": "contributors-testing",
+      "parent": "contributors",
+      "slug": "testing",
+      "title": "Test Jetpack",
+      "markdown_source": "contributors/testing/index.md"
+    },
+    {
+      "id": "contributors-beta-testing",
+      "parent": "contributors-testing",
+      "slug": "beta-testing",
+      "title": "Test a Jetpack beta",
+      "markdown_source": "testing/beta-testing.md"
+    },
+    {
+      "id": "contributors-regression",
+      "parent": "contributors-testing",
+      "slug": "regression",
+      "title": "Run the Jetpack regression checklist",
+      "markdown_source": "testing/regression-checklist/README.md"
+    },
+    {
+      "id": "contributors-regression-global",
+      "parent": "contributors-regression",
+      "slug": "global-checklist",
+      "title": "Check global regression coverage",
+      "markdown_source": "testing/regression-checklist/regression-checklist.md"
+    },
+    {
+      "id": "contributors-test-suites",
+      "parent": "contributors-testing",
+      "slug": "test-suites",
+      "title": "Run product-area test suites",
+      "markdown_source": "contributors/testing/test-suites/index.md"
+    },
+    {
+      "id": "contributors-test-blocks",
+      "parent": "contributors-test-suites",
+      "slug": "blocks",
+      "title": "Test blocks and editor extensions",
+      "markdown_source": "contributors/testing/test-suites/blocks/index.md"
+    },
+    {
+      "id": "contributors-test-extensions",
+      "parent": "contributors-test-blocks",
+      "slug": "gutenberg-extensions",
+      "title": "Test Gutenberg extensions",
+      "markdown_source": "testing/regression-checklist/test-suites/extensions/all.md"
+    },
+    {
+      "id": "contributors-test-contact-form",
+      "parent": "contributors-test-blocks",
+      "slug": "contact-form",
+      "title": "Test the Contact Form block",
+      "markdown_source": "testing/regression-checklist/test-suites/extensions/blocks/contact-form.md"
+    },
+    {
+      "id": "contributors-test-memberships",
+      "parent": "contributors-test-blocks",
+      "slug": "memberships",
+      "title": "Test Memberships blocks",
+      "markdown_source": "testing/regression-checklist/test-suites/extensions/blocks/memberships.md"
+    },
+    {
+      "id": "contributors-test-modules",
+      "parent": "contributors-test-suites",
+      "slug": "modules",
+      "title": "Test Jetpack modules",
+      "markdown_source": "contributors/testing/test-suites/modules/index.md"
+    },
+    {
+      "id": "contributors-test-publicize",
+      "parent": "contributors-test-modules",
+      "slug": "publicize",
+      "title": "Test Jetpack Social sharing",
+      "markdown_source": "testing/regression-checklist/test-suites/modules/publicize.md"
+    },
+    {
+      "id": "contributors-test-stats",
+      "parent": "contributors-test-modules",
+      "slug": "stats",
+      "title": "Test Stats",
+      "markdown_source": "testing/regression-checklist/test-suites/modules/stats.md"
+    },
+    {
+      "id": "contributors-test-packages",
+      "parent": "contributors-test-suites",
+      "slug": "packages",
+      "title": "Test Jetpack packages",
+      "markdown_source": "contributors/testing/test-suites/packages/index.md"
+    },
+    {
+      "id": "contributors-test-connection",
+      "parent": "contributors-test-packages",
+      "slug": "connection",
+      "title": "Test the Connection package",
+      "markdown_source": "testing/regression-checklist/test-suites/packages/connection.md"
+    },
+    {
+      "id": "contributors-test-sync",
+      "parent": "contributors-test-packages",
+      "slug": "sync",
+      "title": "Test the Sync package",
+      "markdown_source": "testing/regression-checklist/test-suites/packages/sync.md"
+    },
+    {
+      "id": "contributors-testing-tips",
+      "parent": "contributors-testing",
+      "slug": "beta-tools",
+      "title": "Use Jetpack Beta testing tools",
+      "markdown_source": "testing/testing-tips.md"
+    },
+    {
+      "id": "contributors-monorepo",
+      "parent": "contributors",
+      "slug": "monorepo",
+      "title": "Understand the monorepo and project tools",
+      "markdown_source": "contributors/monorepo/index.md"
+    },
+    {
+      "id": "contributors-monorepo-reference",
+      "parent": "contributors-monorepo",
+      "slug": "reference",
+      "title": "Understand the Jetpack monorepo",
+      "markdown_source": "monorepo.md"
+    },
+    {
+      "id": "contributors-unison",
+      "parent": "contributors-monorepo",
+      "slug": "unison-wordpress-com",
+      "title": "Configure Unison for WordPress.com development",
+      "markdown_source": "unison-wordpress-com.md"
+    },
+    {
+      "id": "contributors-releases",
+      "parent": "contributors",
+      "slug": "releases",
+      "title": "Maintain and release Jetpack",
+      "markdown_source": "contributors/releases/index.md"
+    },
+    {
+      "id": "contributors-changelog",
+      "parent": "contributors-releases",
+      "slug": "changelog-entries",
+      "title": "Write a good changelog entry",
+      "markdown_source": "writing-a-good-changelog-entry.md"
+    },
+    {
+      "id": "contributors-release-management",
+      "parent": "contributors-releases",
+      "slug": "release-management",
+      "title": "Manage a Jetpack release",
+      "markdown_source": "release-management.md"
+    },
+    {
+      "id": "contributors-deprecations",
+      "parent": "contributors-releases",
+      "slug": "deprecations",
+      "title": "Deprecate features safely",
+      "markdown_source": "deprecating-features.md"
+    },
+    {
+      "id": "contributors-translations",
+      "parent": "contributors-releases",
+      "slug": "translations",
+      "title": "Translate Jetpack",
+      "markdown_source": "translations.md"
+    },
+    {
+      "id": "contributors-prompts",
+      "parent": "contributors",
+      "slug": "prompts",
+      "title": "Prompt library for Jetpack contributors",
+      "markdown_source": "contributors/prompt-library.md"
+    },
+
+    {
+      "id": "reference",
+      "parent": "root",
+      "slug": "reference",
+      "title": "Jetpack reference",
+      "markdown_source": "reference/index.md"
+    },
+    {
+      "id": "reference-products",
+      "parent": "reference",
+      "slug": "products-and-features",
+      "title": "Products and features",
+      "markdown_source": "reference/products-and-features.md"
+    },
+    {
+      "id": "reference-support",
+      "parent": "reference",
+      "slug": "support-and-tools",
+      "title": "Support and developer tools",
+      "markdown_source": "reference/support-and-tools.md"
+    },
+    {
+      "id": "reference-glossary",
+      "parent": "reference",
+      "slug": "glossary",
+      "title": "Jetpack glossary",
+      "markdown_source": "reference/glossary.md"
+    },
+    {
+      "id": "reference-ai",
+      "parent": "reference",
+      "slug": "use-docs-with-ai",
+      "title": "Use Jetpack documentation with AI",
+      "markdown_source": "reference/use-docs-with-ai.md"
+    },
+    {
+      "id": "reference-documentation-map",
+      "parent": "reference",
+      "slug": "documentation-map",
+      "title": "Documentation map and writing model",
+      "markdown_source": "reference/documentation-map.md"
+    }
+  ]
+}

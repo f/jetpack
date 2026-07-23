@@ -1,33 +1,27 @@
-# Deprecating features
+---
+title: "Deprecate features safely"
+description: "Mark Jetpack code as deprecated and communicate a supported replacement."
+audience: "Jetpack maintainers and contributors"
+document_type: how-to
+sidebar_position: 30
+---
+Mark Jetpack code as deprecated and communicate a supported replacement.
 
 ## Deprecating code
 
-See the [coding-standards](/docs/coding-guidelines.md) document for more information about deprecating code.
+Start with the repository-wide [deprecation guidelines](coding-guidelines.md#deprecating-code).
 
 ## Adding deprecation notices in Jetpack
 
 This refers to styled deprecation notices on specific admin pages, with custom calls to action, within the Jetpack plugin. These are meant for self-hosted and WoA sites, but not Simple sites (where notices won't show by default).
 
-In the [`Deprecate`](/projects/plugins/jetpack/src/class-deprecate.php) class within the Jetpack plugin, an array of notices exists within the constructor. By default this includes just one demo notice.
+In the Jetpack plugin's [`Deprecate` class](https://github.com/Automattic/jetpack/blob/trunk/projects/plugins/jetpack/src/class-deprecate.php), an array of notices exists within the constructor. By default this includes just one demo notice.
 
 In order to show a deprecation notice on WP Admin (dashboard only), Jetpack Settings and Dashboard page, as well as My Jetpack, you'll need to add to the `$notices` array in the `Deprecate` class. A demonstrative example already exists in the array.
 
 Here is an example:
 
-```
-$this->notices = array(
-	'my-admin' => array(
-		'title'       => __( "Retired feature: Jetpack's XYZ Feature", 'jetpack' ),
-		'message'     => __( 'This feature is being retired and will be removed effective November, 2024. Please use the Classic Theme Helper plugin instead.', 'jetpack' ),
-		'link'        => array(
-			'label' => __( 'Learn more', 'jetpack' ),
-			'url'   => 'jetpack-support-xyz',
-		),
-		'show'        => false,
-		'hide_in_woa' => true,
-	),
-);
-```
+<!-- wp:docspress/colorful-code {"language":"php","filename":"projects/plugins/jetpack/src/class-deprecate.php","code":"$this->notices = array(\n\t'my-admin' => array(\n\t\t'title'       => __( \"Retired feature: Jetpack's XYZ Feature\", 'jetpack' ),\n\t\t'message'     => __( 'This feature is being retired on the announced removal date. Please use the documented replacement instead.', 'jetpack' ),\n\t\t'link'        => array(\n\t\t\t'label' => __( 'Learn more', 'jetpack' ),\n\t\t\t'url'   => 'jetpack-support-xyz',\n\t\t),\n\t\t'show'        => false,\n\t\t'hide_in_woa' => true,\n\t),\n);","highlightedLines":"3-10","showLineNumbers":true,"caption":"A notice needs clear replacement guidance, an owned support redirect, explicit visibility, and a removal plan."} /-->
 To explain in more detail what the properties are:
 * The `title`, `message` and `url` properties are required.
 * The support URL is generated using the `Redirect` class, or `getRedirectUrl` for Jetpack dashboard / settings notice URLs.
@@ -54,5 +48,4 @@ WP Admin example:
 
 The existing notice display logic is based on cookies. If a notice is dismissed, a cookie is added. If that cookie exists when checked for, then the relevant notice won't show.
 
-Other relevant files with deprecation notice logic include the [`JetpackNotices`](/projects/plugins/jetpack/_inc/client/components/jetpack-notices/index.jsx) class and the associated [`DeprecationNotice`](/projects/plugins/jetpack/_inc/client/components/jetpack-notices/deprecation-notice.jsx) itself. It also includes a JavaScript file where notice styles are added and where the cookie is set when a notice is dismissed [here](/projects/plugins/jetpack/_inc/deprecate.js).
-
+Other relevant files include [`JetpackNotices`](https://github.com/Automattic/jetpack/blob/trunk/projects/plugins/jetpack/_inc/client/components/jetpack-notices/index.jsx), [`DeprecationNotice`](https://github.com/Automattic/jetpack/blob/trunk/projects/plugins/jetpack/_inc/client/components/jetpack-notices/deprecation-notice.jsx), and the [deprecation-notice script](https://github.com/Automattic/jetpack/blob/trunk/projects/plugins/jetpack/_inc/deprecate.js) that adds styles and records dismissal.

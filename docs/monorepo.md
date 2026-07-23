@@ -1,5 +1,10 @@
-# Jetpack Monorepo Overview
-
+---
+title: "Understand the Jetpack monorepo"
+description: "Navigate Jetpack projects, generators, builds, tests, mirrors, publishing, and release tooling."
+audience: "Jetpack contributors"
+document_type: reference
+sidebar_position: 10
+---
 Welcome to the Jetpack Monorepo! This document will give you some idea of the layout, and what is required for your project to fit in with our tooling.
 
 ## Table of contents
@@ -22,26 +27,20 @@ Welcome to the Jetpack Monorepo! This document will give you some idea of the la
 
 Projects are divided into WordPress plugins, Composer packages, JS packages, and GitHub Actions.
 
-* WordPress plugins live in subdirectories of `projects/plugins/`. The directory name should probably match the WordPress plugin name, with a leading "jetpack-" removed if applicable.
-* Composer packages live in subdirectories of `projects/packages/`. The directory name should probably match the package name with the leading "Automattic/jetpack-" removed.
-* JS packages live in subdirectories of `projects/js-packages/`. The directory name should probably match the package name with the leading "Automattic/jetpack-" removed.
-* GitHub Actions live in subdirectories of `projects/github-actions/`. The directory name should match the action name with the leading "Automattic/action-" removed.
+<!-- wp:docspress/file-tree {"root":"jetpack/","tree":"AGENTS.md\n.github/\n  actions/\n  files/\n  matchers/\n  versions.sh\ndocs/\nprojects/\n  github-actions/\n  js-packages/\n  packages/\n  plugins/\ntools/\n  cli/\n  docker/\n    wordpress/\n      wp-content/\n        plugins/","caption":"Projects own product code; tools and CI support the complete repository; docs explain shared contributor workflows."} /-->
 
-Tooling that's applicable to the monorepo as a whole, including tooling for generically handling projects, lives in `tools/`.
+| Project type | Location | Naming convention |
+| --- | --- | --- |
+| WordPress plugin | `projects/plugins/<slug>/` | Usually the plugin slug without a leading `jetpack-` |
+| Composer package | `projects/packages/<slug>/` | Usually the package name without `automattic/jetpack-` |
+| JavaScript package | `projects/js-packages/<slug>/` | Usually the npm package name without `@automattic/` |
+| GitHub Action | `projects/github-actions/<slug>/` | Usually the action name without `Automattic/action-` |
 
-WordPress, being a part of the Docker environment, gets installed into the directory `tools/docker/wordpress`, with non-monorepo plugins stored in `tools/docker/wordpress/wp-content/plugins`.
-
-Documentation that's applicable to the monorepo as a whole lives in `docs/`.
-
-All GitHub Actions configuration for the monorepo, including CI, lives in `.github`. We should strive to make things here generic rather than specific to any one project.
-
-* Actual actions live in `.github/actions/`. If it doesn't have an `action.yml` file, it shouldn't be in there.
-* Pattern matchers (not associated with an action) go in `.github/matchers/`.
-* Other files specific to actions, including scripts used with `run:`, go in `.github/files/`.
+Repository-wide tooling lives in `tools/`; shared documentation lives in `docs/`; CI workflows and reusable action support live in `.github/`. An entry under `.github/actions/` must contain an `action.yml`; matchers belong in `.github/matchers/`, and other workflow support files belong in `.github/files/`.
 
 ## Compatibility
 
-All projects should be compatible with PHP versions WordPress supports. That's currently PHP 7.2 to 8.5.
+Projects follow the repository defaults in `.github/versions.sh` unless their own metadata declares a narrower supported range. Read the affected `composer.json`, `package.json`, tests, and nearest `AGENTS.md` before choosing syntax or dependencies.
 
 ## First Time
 
@@ -49,8 +48,7 @@ First time working with the monorepo? We got you covered.
 
 For the first time only:
 
-* From the root of the repo, run `pnpm install && pnpm jetpack cli link` (if you want the `jetpack` CLI tool installed globally) or `pnpm install` (if you don't).
-* That’s it. You won’t need to do that again unless you nuke your node_modules directory.
+<!-- wp:docspress/code-tabs {"tabs":[{"label":"Link the CLI","language":"bash","filename":"Terminal","code":"pnpm install\npnpm jetpack cli link"},{"label":"Repository-local CLI only","language":"bash","filename":"Terminal","code":"pnpm install\npnpm jetpack --help"}],"showLineNumbers":false,"caption":"Link the command for use throughout the checkout, or keep it local and invoke it through pnpm."} /-->
 
 Once you’ve done that, it’s easy: run `jetpack` (or `pnpm jetpack`) while anywhere in the Jetpack repo. To explore on your own, run `jetpack --help` to see the available commands.
 
@@ -58,9 +56,12 @@ Once you’ve done that, it’s easy: run `jetpack` (or `pnpm jetpack`) while an
 
 Starting a new project? Great! Let the Jetpack Generate Wizard help jumpstart the files you need. To get started:
 
-* Make sure you're checked out to the branch you want.
-* Use the CLI command `jetpack generate` to start the process.
-* The wizard will walk you through the steps of starting a new package, plugin, or GitHub action.
+1. Check out the branch that should contain the new project.
+2. Start the generator from the monorepo.
+3. Choose the project type, name, and requested options.
+4. Review every generated file before adding product behavior.
+
+<!-- wp:docspress/terminal-session {"title":"Start the project generator","shell":"bash","prompt":"$","command":"jetpack generate","output":""} /-->
 
 ### Accepted Arguments
 
@@ -69,36 +70,15 @@ The wizard accepts a few arguments to speed things up:
 * `[project type]` - Accepted values: `package`, `js-package`, `plugin`, `github-action`
 * `--name`, `--n` - The name of your project (no spaces)
 
-Example: `jetpack generate plugin --name my_cool_plugin` will generate plugin files for a plugin called `my_cool_plugin` under `../jetpack/projects/plugins`
+<!-- wp:docspress/terminal-session {"title":"Generate a named plugin non-interactively","shell":"bash","prompt":"$","command":"jetpack generate plugin --name my_cool_plugin","output":""} /-->
+
+The command creates the project under `projects/plugins/my_cool_plugin/`.
 
 ### What's Included
 
-The Jetpack Generate Wizard includes the following for each project:
-#### All Projects:
+The exact output evolves with the generator. A generated project starts from the shared metadata and adds type-specific files:
 
-- composer.json
-- package.json
-- readme.md
-- license.txt
-- .gitignore
-#### Packages
-
-- bootstrap.php
-- .gitkeep
-- .gitattributes
-- phpunit.*.xml.dist
-#### Plugins
-
-- bootstrap.php
-- .gitkeep
-- .gitattributes
-- phpunit.*.xml.dist
-- readme.txt
-- A main plugin.php (plugin_name.php), with filled in header
-
-#### GitHub Actions
-
-- action.yml
+<!-- wp:docspress/file-tree {"root":"projects/[type]/[project]/","tree":".gitattributes\n.gitignore\ncomposer.json\nlicense.txt\npackage.json\nreadme.md\nbootstrap.php\nphpunit.[version].xml.dist\nreadme.txt\n[plugin-slug].php\naction.yml","caption":"Not every project receives every file: packages add PHP and test scaffolding, plugins add WordPress metadata and an entry file, and GitHub Actions add action.yml."} /-->
 
 ### Next Steps
 
@@ -138,15 +118,9 @@ We use `composer.json` to hold metadata about projects. Much of our generic tool
 * `.extra.npmjs-autopublish`: Set truthy to enable automatic publishing of tagged versions to npmjs.com. See [Mirror repositories > Npmjs Auto-publisher](#npmjs-auto-publisher) for details.
 * `.extra.release-branch-prefix`: Our mirroring and release tooling considers any branch named like "_prefix_/branch-_version_" to be a release branch, and this specifies which _prefix_ belongs to the project.
   * This may also be an array of multiple prefixes. In that case the first element in the array should be a prefix used only by this plugin, with any additional prefixes shared by multiple plugins coming after.
-* `.extra.version-constants`: When `tools/project-version.sh` is checking or updating versions, this specifies PHP constants to check or update. The value is an object matching constants to the file (relative to the package root) in which the constant is defined.
-  * Note that constant definitions must be on a single line and use single quotes to be detected by the script. Like this:
-    ```php
-    define( 'CONSTANT', 'version' );
-    ```
-  * Class constants may be specified by prefixing the constant name with "::", e.g. `::CONSTANT`. In that case the definition must look like this:
-    ```php
-    const CONSTANT = 'version';
-    ```
+* `.extra.version-constants`: When `tools/project-version.sh` is checking or updating versions, this specifies PHP constants to check or update. The value is an object matching constants to the file, relative to the package root. Definitions must remain on one line; global constants use single-quoted values, while class-constant keys are prefixed with `::`.
+
+<!-- wp:docspress/code-tabs {"tabs":[{"label":"Global constant","language":"php","filename":"plugin.php","code":"define( 'CONSTANT', 'version' );"},{"label":"Class constant","language":"php","filename":"src/class-example.php","code":"const CONSTANT = 'version';"}],"showLineNumbers":true,"caption":"The project-version script recognizes these single-line shapes when updating versions."} /-->
 * `.extra.wp-plugin-slug`: This specifies the WordPress.org plugin slug, for use by scripts that deploy the plugin to WordPress.org.
   * `.extra.beta-plugin-slug`: This specifies the plugin slug for the Jetpack Beta Tester plugin, for cases where a plugin has not been published to WordPress.org but should still be offered by that plugin.
 * `.extra.wp-svn-autopublish`: Set truthy to enable automatic publishing of tagged versions to WordPress.org. See [Mirror repositories > WordPress.org SVN Auto-publisher](#wordpressorg-svn-auto-publisher) for details.
@@ -163,7 +137,7 @@ The Jetpack Monorepo includes GitHub actions to build all projects, and optional
 A project must define `.scripts.build-development` and/or `.scripts.build-production` in `composer.json` to specify the commands needed to build.
 The build commands should assume that `pnpm install` and `composer install` have already been run, and _must not_ run them again.
 
-* If you're building JavaScript bundles with Webpack and [@automattic/jetpack-webpack-config](../projects/js-packages/webpack-config/README.md) (more information on setup [in the README.md](../projects/js-packages/webpack-config/README.md)), note that your build-production command should set `NODE_ENV=production` and `BABEL_ENV=production`.
+* If you're building JavaScript bundles with [@automattic/jetpack-webpack-config](https://github.com/Automattic/jetpack/blob/trunk/projects/js-packages/webpack-config/README.md), note that your production build command should set `NODE_ENV=production` and `BABEL_ENV=production`.
 * If you run into problems with Composer not recognizing the local git branch as being the right version, try setting `COMPOSER_ROOT_VERSION=dev-trunk` in the environment.
 * When building for the mirror repos, note that `COMPOSER_MIRROR_PATH_REPOS=1` will be set in the environment and the list of repositories in `composer.json` may be altered.
   This is not normally done in development environments, even with `jetpack build --production`.
@@ -199,7 +173,7 @@ The following environment variables are available for all tests:
 
 ### Linting
 
-We use eslint and phpcs to lint JavaScript and PHP code. Projects should comply with the [coding standards](development-environment.md#coding-standards) enforced by these tools.
+We use ESLint and PHPCS to lint JavaScript and PHP code. Projects should comply with the [coding standards](development-environment.md#follow-coding-standards) enforced by these tools.
 
 * Projects may include `eslint.config.mjs` to adjust eslint configuration as necessary, but try to keep to the spirit of it. Configurations should generally start with `...makeBaseConfig( import.meta.url )` (imported from `jetpack-js-tools/eslintrc/base.mjs`) with any appropriate options, and override from there.
 * We're using a fork of phpcs and a custom filter that adds support for per-directory configuration (`.phpcs.dir.xml`) and use of `.gitignore` and `.phpcsignore` files. Again, try to keep to the spirit of things.
@@ -215,9 +189,8 @@ Phan in the monorepo should be run locally via [Jetpack's CLI tool](#first-time)
 On most Linux distributions, you can install the PHP ast extension using your package manager:
 
 - For Ubuntu/Debian-based systems:
-  ```
-  sudo apt-get install php8.4-ast
-  ```
+
+  <!-- wp:docspress/terminal-session {"title":"Install the AST extension on Ubuntu or Debian","shell":"bash","prompt":"$","command":"sudo apt-get install php8.4-ast","output":""} /-->
 - For Arch Linux:
   Install the AUR package "php-ast" from https://aur.archlinux.org/packages/php-ast
 
@@ -231,14 +204,9 @@ Mac users have reported having trouble installing the PHP ast extension. See the
 
 This assumes you have PHP installed via Homebrew, e.g. you've done `brew install php@8.4`.
 
-1. First, check whether ast is already installed by running `php --ri ast`. If it prints something like this, you should already be good (unless you need a newer version; see [Phan's README](https://github.com/phan/phan#getting-started) for version requirements):
-   ```
-   ast
+1. First, check whether ast is already installed. If it reports enabled support, you should already be good unless [Phan requires a newer extension version](https://github.com/phan/phan#getting-started):
 
-   ast support => enabled
-   extension version => 1.1.3
-   AST version => Current version is 120. All versions (including experimental): {50, 60, 70, 80, 85, 90, 100, 110, 120}
-   ```
+   <!-- wp:docspress/terminal-session {"title":"Inspect the installed AST extension","shell":"bash","prompt":"$","command":"php --ri ast","output":"ast\n\nast support => enabled\nextension version => [installed-version]\nAST version => [supported-versions]"} /-->
 2. You may need to `brew install pkg-config zlib` to install some necessary dependencies.
 3. Update the list of available extensions: `pecl channel-update pecl.php.net`
 4. Build the extension: `pecl install ast`
@@ -252,9 +220,9 @@ This assumes you have PHP installed via Homebrew, e.g. you've done `brew install
 
 </details>
 
-Alternatives, if you can't install the ast extension, include running Phan with the `--allow-polyfill-parser` option (note this may cause false positives and cannot be used to update baseline files) or running Phan inside the [Docker development environment](../tools/docker/README.md).
+If you cannot install the AST extension, run Phan with `--allow-polyfill-parser` or use the [Docker development environment](https://github.com/Automattic/jetpack/blob/trunk/tools/docker/README.md). The polyfill parser may report false positives and cannot update baseline files.
 
-[^1]: In 2024 we evaluated Phan, Psalm, and PHPStan. Psalm was unable to produce a consistent baseline. PHPStan was confused about which constants were defined, and would have needed a bootstrapping file re-defining them all to work. Thus we settled on Phan. Details in pdWQjU-IH-p2.
+[^1]: In 2024 the project evaluated Phan, Psalm, and PHPStan. Phan produced the most workable repository baseline at that time. Re-evaluate the owning project's current configuration before proposing a tool change.
 
 ### PHP tests
 
@@ -262,7 +230,7 @@ If a project contains PHP tests (typically PHPUnit), it must define `.scripts.te
 
 A MySQL database is available if needed; credentials may be found in `~/.my.cnf`. Note that the host must be specified as `127.0.0.1`, as when passed `localhost` PHP will try to connect via a Unix domain socket which is not available in the Actions environment.
 
-Tests are run with a variety of supported PHP versions from 7.2 to 8.5. If you have tests that only need to be run once, run them when `PHP_VERSION` matches that in `.github/versions.sh`.
+Tests run against the PHP matrix defined by the current workflows and `.github/versions.sh`. If a test only needs one matrix entry, select that entry from repository configuration instead of copying a version into the project.
 
 #### PHP tests for non-plugins
 
@@ -274,12 +242,12 @@ We currently make use of the following packages in testing; it's encouraged to u
 * [automattic/phpunit-select-config](https://packagist.org/packages/automattic/phpunit-select-config) allows for selecting a configuration file based on the version of PHPUnit in use, since configs are often not compatible across major versions since PHPUnit 9.
 * PHPUnit's built-in mocking is used for class mocks.
 * [brain/monkey](https://packagist.org/packages/brain/monkey) is used for mocking functions, and can also provide some functions for minimal WordPress compatibility.
-* [automattic/jetpack-test-environment](../projects/packages/test-environment/README.md) is used to pull in WordPress for testing.
+* [automattic/jetpack-test-environment](https://github.com/Automattic/jetpack/blob/trunk/projects/packages/test-environment/README.md) provides WordPress for testing.
   * If using both Brain Monkey and the Jetpack Test Environment, note the following requirements:
     * You must `require_once __DIR__ . '/../../vendor/antecedent/patchwork/Patchwork.php';` in `bootstrap.php` before the Jetpack Test Environment's setup, so Brain Monkey can mock WordPress functions.
     * Follow Brain Monkey's [functions-setup.md](https://github.com/Brain-WP/BrainMonkey/blob/master/docs/functions-testing-tools/functions-setup.md) instead of [wordpress-setup.md](https://github.com/Brain-WP/BrainMonkey/blob/master/docs/wordpress-specific-tools/wordpress-setup.md); don't call `Monkey\setUp()` or try to use its WordPress-specific tools.
 	* To initiate the Jetpack Test Environment, call `\Automattic\Jetpack\Test_Environment\Bootstrap::init();` in `bootstrap.php`.
-	* See the [Jetpack Test Environment README](../projects/packages/test-environment/README.md) for more details.
+	* See the [Jetpack Test Environment README](https://github.com/Automattic/jetpack/blob/trunk/projects/packages/test-environment/README.md) for details.
 
 #### PHP tests for plugins
 
@@ -287,7 +255,7 @@ WordPress plugins may want to run within WordPress. All monorepo plugins are cop
 
 Tests will be run against the latest version of WordPress using the variety of supported PHP versions, and against the previous and trunk versions of WordPress using the PHP version in `.github/versions.sh`. The environment variable `WP_BRANCH` will be set to 'latest', 'previous', or 'trunk' accordingly. If you have tests that only need to be run once, run them when `WP_BRANCH` is 'latest'.
 
-When implementing tests within a new plugin, you can follow the example set in [the example bootstrap.php](./examples/bootstrap.php).
+When implementing tests within a new plugin, follow the [example test bootstrap](https://github.com/Automattic/jetpack/blob/trunk/docs/examples/bootstrap.php).
 
 ### JavaScript tests
 
@@ -319,13 +287,7 @@ For JS tests using `node --test`, your `test-js-coverage` will likely look like 
 
 <details><summary>Sample `.c8rc.json`</summary>
 
-```json
-{
-	"reporter": [ "json" ],
-	"all": true,
-	"include": [ "src", "index.js" ]
-}
-```
+<!-- wp:docspress/colorful-code {"language":"json","filename":".c8rc.json","code":"{\n\t\"reporter\": [ \"json\" ],\n\t\"all\": true,\n\t\"include\": [ \"src\", \"index.js\" ]\n}","highlightedLines":"2-4","showLineNumbers":true,"caption":"Write Istanbul-compatible JSON coverage for the repository aggregation step."} /-->
 
 </details>
 
@@ -340,9 +302,8 @@ If you want to generate coverage locally, this can be done with `jetpack test ph
 On most Linux distributions, you can install the PHP pcov extension using your package manager:
 
 - For Ubuntu/Debian-based systems:
-  ```
-  sudo apt-get install php8.4-pcov
-  ```
+
+  <!-- wp:docspress/terminal-session {"title":"Install pcov on Ubuntu or Debian","shell":"bash","prompt":"$","command":"sudo apt-get install php8.4-pcov","output":""} /-->
 - For Arch Linux:
   Install the AUR package "php-pcov" from https://aur.archlinux.org/packages/php-pcov
 
@@ -356,17 +317,9 @@ Mac users have reported having trouble installing the PHP pcov extension. See th
 
 This assumes you have PHP installed via Homebrew, e.g. you've done `brew install php@8.4`.
 
-1. First, check whether pcov is already installed by running `php --ri pcov`. If it prints something like this, you should already be good:
-   ```
-   pcov
+1. First, check whether pcov is already installed. Continue when the command reports enabled support:
 
-   PCOV support => Enabled
-   PCOV version => 1.0.11
-   pcov.directory => /some/path/
-   pcov.exclude => none
-   pcov.initial.memory => 65336 bytes
-   pcov.initial.files => 64
-   ```
+   <!-- wp:docspress/terminal-session {"title":"Inspect the installed pcov extension","shell":"bash","prompt":"$","command":"php --ri pcov","output":"pcov\n\nPCOV support => Enabled\nPCOV version => [installed-version]\npcov.directory => [configured-path]"} /-->
 2. You may need to `brew install pkg-config zlib` to install some necessary dependencies.
 3. Update the list of available extensions: `pecl channel-update pecl.php.net`
 4. Build the extension: `pecl install pcov`
@@ -397,7 +350,7 @@ Most projects in the monorepo should have a mirror repository holding a built ve
 		* Set "Workflow permissions" to "Read repository contents and packages permissions".
 		* Disable "Allow GitHub Actions to create and approve pull requests", as PRs are created in the monorepo, click "Save" button.
 		* Double check all the setting above. If you only clicked save once, the options might not have been saved correctly.
-	5. Set up any secrets and configuration for [Autotagger](#autotagger) and [Autopublisher](#wordpressorg-svn-auto-publisher)) (if needed). See PCYsg-xsv-p2#mirror-repo-secrets the secret details.
+	5. If needed, ask a repository maintainer to configure secrets for [Autotagger](#autotagger) and the [WordPress.org SVN auto-publisher](#wordpressorg-svn-auto-publisher). Do not copy credentials into an issue or pull request.
 	6. The default branch should be `trunk`, matching the monorepo. Note that you can't set the default branch until at least one branch is created in the repo.
 2. If this is a PHP package that will be published on Packagist, do the following:
 	* Copy the new package's `composer.json` from the PR that introduced it into the new repo and commit/push it to `trunk`.
@@ -418,9 +371,9 @@ If `.extra.autotagger` is set to an object with a truthy value for `major` (i.e.
 
 If `.extra.autotagger` is set to an object with falsey value for `v` (i.e. if `.extra.autotagger.v` is set and falsey), the tag will not be prefixed with "v".
 
-Note that, for this to work, you'll need to create a secret `API_TOKEN_GITHUB` in the mirror repo. The value of the secret must be a GitHub access token. See PCYsg-xsv-p2#mirror-repo-secrets for details.
+This workflow requires an `API_TOKEN_GITHUB` secret in the mirror repository. A repository administrator must create and scope it through the current internal secret-management process.
 
-This is intended to work in combination with [Changelogger](#jetpack-changelogger): When any change files are present in the project, a `-alpha` version entry will be written to the changelog so the autotagging will not be triggered. To release a new plugin version, see: PCYsg-SU8-p2
+This works with [Changelogger](#jetpack-changelogger): while change files are present, an `-alpha` version entry prevents autotagging. Maintainers should follow the affected plugin's current release runbook before publishing a new version.
 
 ### Auto-release
 
@@ -446,14 +399,7 @@ You'll also need to [configure the repo as a Trusted Provider](https://docs.npmj
 <details><summary>Example process for setting up a new package</summary>
 
 1. Tag the first release of your package. Find that it didn't get published to npmjs.com, with an error like this from the Npmjs Auto-publisher workflow run:
-   ```
-   npm notice Publishing to https://registry.npmjs.org/ with tag latest and public access
-   npm error code E404
-   npm error 404 Not Found - PUT https://registry.npmjs.org/@automattic%2fjetpack-whatever - Not found
-   npm error 404
-   npm error 404  The requested resource '@automattic/jetpack-whatever@0.1.0' could not be found or you do not have permission to access it.
-   npm error 404
-   ```
+   <!-- wp:docspress/terminal-session {"title":"Recognize a missing npm package","shell":"bash","prompt":"$","command":"npm publish --access public","output":"npm notice Publishing to https://registry.npmjs.org/ with tag latest and public access\nnpm error code E404\nnpm error 404 Not Found - PUT https://registry.npmjs.org/@automattic%2fjetpack-whatever - Not found\nnpm error 404 The package does not exist yet or this account cannot publish it."} /-->
 2. Locally, create an empty directory.
 3. Copy the package's `package.json` into that empty directory.
    * Delete any `scripts`, `dependencies`, and so on, just keep the metadata.
@@ -477,7 +423,7 @@ If additional files need to be excluded, create an `.npmignore`.
 
 If `.extra.wp-svn-autopublish` is set to a truthy value in the project's `composer.json`, a GitHub Action will be included in the mirror repo that will automatically publish tags to WordPress.org's SVN when a version tag is created. This works with Autotagger. Versions are recognized with and without a "v" prefix, with 2 to 4 components, and with an optional prerelease suffix.
 
-Note that, for this to work, you'll need to create secrets `WPSVN_USERNAME` and `WPSVN_PASSWORD` in the mirror repo. See PCYsg-xsv-p2#mirror-repo-secrets for details.
+This workflow requires `WPSVN_USERNAME` and `WPSVN_PASSWORD` secrets in the mirror repository. A repository administrator must configure them through the current internal secret-management process.
 Also note that `.extra.wp-plugin-slug` must be set in the project's `composer.json` or the action will fail.
 
 The action will update the plugin's trunk to the tagged source and will create a tag in SVN for the tagged version. If the tagged version does not have a prerelease component, the "Stable tag" field in the tag's readme.txt will be updated too. The "Stable tag" in trunk will not be updated; this must be done manually.
@@ -498,12 +444,7 @@ As implemented by the Jetpack Monorepo, any PR that touches the Jetpack plugin i
 
 **What does the change file look like?** It’s a text file with a header-and-body format, like HTTP or email. A change file might look like this:
 
-```
-Significance: patch
-Type: compat
-
-Block Editor: update all blocks to be fully compatible with WordPress 5.7.
-```
+<!-- wp:docspress/colorful-code {"language":"plaintext","filename":"projects/[type]/[project]/changelog/[change-file]","code":"Significance: patch\nType: compat\n\nBlock Editor: update all blocks to be fully compatible with the supported WordPress range.","highlightedLines":"1-2,4","showLineNumbers":true,"caption":"Headers drive release grouping; the body describes the user-visible outcome."} /-->
 
 The “Significance” header specifies the significance of change in the style of [semantic versioning](https://semver.org/): patch, minor, or major.
 
@@ -515,17 +456,13 @@ The body is separated from the headers by a blank line, and is the text that act
 
 The changelogger tool can be used via [Jetpack's CLI tool](#first-time). You may use the following command to generate changelog entries for each project that needs one:
 
-`jetpack changelog add`
+<!-- wp:docspress/terminal-session {"title":"Create a project changelog entry","shell":"bash","prompt":"$","command":"jetpack changelog add","output":""} /-->
 
 **Does it matter what the change file is named?** Starting the file name with `.` should not be used. Also consider avoiding names that have extensions like `.php` or `.js` to avoid confusing other tools.
 
 **What if a change is so trivial that it doesn’t need a changelog entry?** The change file is still required. If you specify the significance as “patch”, changelogger will allow the body section to be empty so as to not generate an entry in the changelog. In this case, use the “Comment” header instead, for example:
 
-```
-Significance: patch
-Type: compat
-Comment: Update composer.lock, no need for a changelog entry
-```
+<!-- wp:docspress/colorful-code {"language":"plaintext","filename":"projects/[type]/[project]/changelog/[change-file]","code":"Significance: patch\nType: compat\nComment: Update composer.lock, no changelog entry needed.","highlightedLines":"3","showLineNumbers":true,"caption":"A comment explains why a required change file intentionally produces no public changelog line."} /-->
 
 **Adding the first PR to a project after a release?** If a PR is the first to Jetpack after a release, version numbers may need to be bumped. This also applies to the first semantic versioning “minor” or “major” change to any projects that use semantic versioning.
 
@@ -554,7 +491,7 @@ In addition to the above, after creating the mirror repo,
 In addition to the above, after creating the mirror repo,
 * Add a first version of a `composer.json` file to the mirror repo.
 * Add the plugin to Packagist, just like for Composer packages above, for folks who want to consume it through Composer.
-* Add an entry for the new plugin in the Beta server settings. Find extra details on this process in the Jetpack Beta Builder repository. More information: PCYsg-gDE-p2
+* Ask the Beta Builder maintainers to add the new plugin to the current Beta server configuration.
 
 ### Importing an existing repo
 
@@ -568,18 +505,17 @@ In a checkout of the monorepo:
 * Use `git remote add` to add a new remote for the existing repo, e.g. `git remote add existing-source-repo git@github.com:Automattic/existing-source-repo`
 * `git fetch existing-source-repo`
 * Create a new (temporary) branch based on the existing source repo: `git checkout -b existing-repo/prepare-source existing-source-repo/trunk`
+* Agree on an import method with repository maintainers. Evaluate `git filter-repo` or a temporary history-preserving branch before moving files.
 * Move the files to where they should live in the monorepo, e.g. `git mv -k * .* projects/plugins/new-plugin`
   * You may need to do something like `mkdir --parents ./projects/plugins/new-plugin` for the move to work.
-  * TODO: Consider whether `git filter-repo` might be better. See p9dueE-2on-p2#comment-5761
 * Commit `git add --all && git commit -m "Prepare XXX for monorepo"`
 * Create the branch for the actual import: `git fetch origin && git checkout -b add/import-from-existing-repo origin/trunk`
 * `git merge --allow-unrelated-histories existing-repo/prepare-source`. This will merge in the source plugin into the monorepo while maintaining all previous commits.
 * Create additional commits to clean up the new project: adjust tooling to use what the monorepo provides, remove unneeded tooling, set monorepo configuration in `composer.json`, etc.
 * Run linting and such. Commit anything necessary.
-* `git push origin HEAD` and create your PR. Add the "DO NOT MERGE" tag.
-* When it's time to merge the PR, go to the [GitHub settings page](https://href.li/?https://github.com/Automattic/jetpack/settings) and enable "Allow merge commits". Then go to the PR. There should be a caret dropdown next to "Squash and Merge" which you can use to select "Create a merge commit" instead.
+* Push the branch and open a draft pull request that clearly says the import must not merge before the cutover is approved.
+* Coordinate with repository administrators to use a merge commit when preserving the imported history requires it. Do not change repository-wide merge settings without an agreed maintenance window.
 * Clean up:
-  * Go back to the settings and turn "Allow merge commits" back off.
   * `git branch -D existing-repo/prepare-source` to delete the temporary branch.
   * If you want to move any open PRs from the old repo, check out the branches, `git merge origin/trunk` (and resolve any conflicts), push to origin, and recreate.
   * `git remote remove existing-source-repo` to remove the remote.

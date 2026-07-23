@@ -1,17 +1,40 @@
-# Join the Beta Program and help test Jetpack
-
+---
+title: "Test a Jetpack beta"
+description: "Install a pre-release Jetpack build, exercise it safely, and report useful results."
+audience: "site owners and Jetpack testers"
+document_type: how-to
+sidebar_position: 10
+---
 Our Beta program is designed to make it simple for you to test and tell us what we’re doing wrong (and right) in the next version of Jetpack. Your mission as a Beta tester is to help us test the next version of Jetpack and let us know about your experience. Is the UI confusing? Is a feature not working properly? Is there something missing? We need to know!
 
 Beta testers give updates, fixes, and new modules a test run before they’re publicly released, so they’re an important part of the development process.
 
-To join our Beta group, **[download and install the Beta plugin here](http://jetpack.com/beta/).**
+Only test beta software on a disposable test or staging site. Do not use a production site or a site that contains data you cannot restore.
 
-## Start testing
+## Prepare the test site
 
-Once you've installed and activated the Beta plugin, head over to **Jetpack > Beta** in your dashboard to start testing.
+1. Create a backup or use a fresh test site.
+2. Record the WordPress, PHP, Jetpack, theme, and relevant plugin versions.
+3. Confirm that you can restore or recreate the site.
+4. [Download and install the Jetpack Beta plugin](https://jetpack.com/beta/).
+5. In WP Admin, open **Jetpack > Beta** and select the build you need to test.
 
-## Found a bug?
+## Run a focused test
 
-If you find an issue or have remarks about a Jetpack feature, you can [send us an email](https://jetpack.com/contact-support/beta-group/), or [create an issue on GitHub.](https://github.com/Automattic/Jetpack/issues/new?assignees=&labels=%5BType%5D+Bug&template=bug-report.yml)
+Start with one user goal and record:
 
-If you’re filing a bug, specific steps to reproduce are helpful. Please include the URL of the page that has the bug, along with what you expected to see and what happened instead. You can [check our recommendations to create great bug reports here](/docs/guides/report-bugs.md).
+- the build or branch tested;
+- the exact steps you followed;
+- what you expected;
+- what happened;
+- relevant screenshots, browser console errors, network errors, and `debug.log` entries.
+
+Use the [Jetpack Beta testing tips](testing-tips.md) to configure a useful test environment. Run the [regression checklist](regression-checklist/README.md) when you are validating a release rather than one focused change.
+
+## Report the result
+
+- For beta feedback or a product question, use the [Jetpack beta contact form](https://jetpack.com/contact-support/beta-group/).
+- For a reproducible software defect, [create a Jetpack bug report](../guides/report-bugs.md).
+- For a suspected security issue, follow the repository [security policy](https://github.com/Automattic/jetpack/blob/trunk/SECURITY.md). Never publish vulnerability details in a GitHub issue.
+
+Remove passwords, access tokens, private URLs, customer data, and other secrets from every report.

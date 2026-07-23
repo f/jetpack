@@ -1,92 +1,83 @@
-# Regression checklist
-This is the "global" checklist, that might be used for beta testing.
-NOTE: it might become outdated, so it could be a good idea to generate this file via test-suites files.
+---
+title: "Check global regression coverage"
+description: "Verify environments, WordPress versions, hosting, connection, features, and products during regression testing."
+audience: "Jetpack testers"
+document_type: checklist
+sidebar_position: 10
+---
+Use this checklist to choose representative coverage for a release. Do not run every permutation by default: select the smallest matrix that covers the changed code and its highest-risk dependencies.
 
-## Global
+Record the build, environment, expected result, actual result, and evidence for every selected check.
 
-### Environments
+## Environments
 
-- Multisite
-- Subdirectory
-- Single site
-- Subdirectory
-- Subdomain
+- [ ] Single site
+- [ ] Multisite with subdirectories
+- [ ] Multisite with subdomains
+- [ ] Fresh installation
+- [ ] Existing site upgraded from the previous public Jetpack release
 
-### WP versions
+## WordPress and PHP versions
 
-- Current version
-- Current -1
-- With Gutenberg plugin
-- Classic editor (? I don’t think we still support this actually)
+- [ ] Current supported WordPress version
+- [ ] Oldest supported WordPress version
+- [ ] Current stable PHP version used by Jetpack CI
+- [ ] Minimum supported PHP version for the affected project
+- [ ] Latest Gutenberg plugin when the change affects editor behavior
 
-### PHP versions(Low)
+Read current tool and compatibility values from [`.github/versions.sh`](https://github.com/Automattic/jetpack/blob/trunk/.github/versions.sh) and the affected project's metadata. Do not copy version numbers from an old test report.
 
-- 7.2 - current
+## Hosting and protocol
 
-### Hosting providers(High)
-
-- Bluehost
-- Atomic/Pressable
-- VIP
-
-### Protocols (Low)
-
-- http
-- https
+- [ ] A standard self-hosted test site
+- [ ] WordPress.com Atomic or another managed environment when affected
+- [ ] WordPress VIP when affected
+- [ ] HTTPS
+- [ ] HTTP only when the changed behavior explicitly supports or handles it
 
 ## Connection
 
 - [ ] In-place connection with free plan
 - [ ] In-place connection with paid plan
 - [ ] In-place connection with product purchase
-- [ ] Classic connection. Use Safari, or set a constant JETPACK_SHOULD_NOT_USE_CONNECTION_IFRAME to true
+- [ ] Non-iframe connection flow when affected
 - [ ] Disconnect/reconnect connection
 - [ ] Secondary user connection
 - [ ] Connection on multisite
 
 ## Sync
 
-- [ ] Site changes registered in Calypso’s Activity Log
+- [ ] Relevant site changes appear in the WordPress.com Activity Log
+- [ ] A temporary connection or network failure recovers without losing later changes
 
 ## Features
 
-- [ ] Jetpack Social: Connect and share a post
-- [ ] SSO login
-- [ ] Stats registers views
-- [ ] Stats registers views in AMP views
-- [ ] Lazy loading
-- [ ] Site accelerator (make sure that images and core files are served from WPCOM)
-- [ ] Infinite scroll
+- [ ] Jetpack Social connects and shares a post
+- [ ] Secure Sign On completes and fails safely
+- [ ] Stats records representative signed-out visits
+- [ ] Site Accelerator serves eligible assets and falls back safely
+- [ ] Any affected block or theme feature works in the editor and frontend
 
 ## Products
 
-- [ ] Backups and Restores
-- [ ] Security scan
-- [ ] Search
+- [ ] Backup completes and a test restore follows the documented workflow
+- [ ] Scan reports or clears a known test condition
+- [ ] Search returns expected test content
 
-## Other services/plugins relying on Jetpack
+## Dependent products
 
-- [ ] Woo onboarding
-- [ ] Woo analytics
+- [ ] Affected WooCommerce onboarding or analytics flow
+- [ ] Affected standalone Jetpack plugin
+- [ ] Affected package consumer
 
 ## Blocks
 
-Test using Core’s block editor and latest Gutenberg plugin.
+Test affected blocks with the supported WordPress editor. Add the latest Gutenberg plugin only when the change or release requires that coverage.
 
-- [ ] Tiled Gallery
-- [ ] Business Hours
-- [ ] Calendly
-- [ ] Form
-- [ ] Contact Info
-- [ ] Eventbrite
-- [ ] Google calendar
-- [ ] Mailchimp
-- [ ] Map
-- [ ] OpenTable
-- [ ] Pinterest
-- [ ] Podcast player
-- [ ] Star rating
-- [ ] Recurring Payments
-- [ ] Repeat Visitor
-- [ ] Simple Payments
-- [ ] Slideshow
+- [ ] Insert and configure the affected block
+- [ ] Save, reload, and edit existing content
+- [ ] Verify frontend output on desktop and mobile widths
+- [ ] Verify validation, permission, and error states
+- [ ] Check backwards compatibility with content saved by the previous public release
+
+Use the [focused block suites](../../contributors/testing/test-suites/blocks/index.md) for product-specific checks.

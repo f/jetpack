@@ -1,15 +1,31 @@
-  # Advanced Unison Configuration
+---
+title: "Configure Unison for WordPress.com development"
+description: "Use advanced Unison preferences for Jetpack development on a WordPress.com sandbox."
+audience: "Jetpack contributors with WordPress.com access"
+document_type: how-to
+sidebar_position: 20
+---
+Use this optional workflow only if you have access to a WordPress.com development sandbox and already use the repository's Unison setup.
 
-  Jetpack currently uses a `sun`/`moon` strategy where the current production files are in one folder and the "staging/test" version are in the other folder.
+## Choose one target
 
-  If you don't want to keep track of which folder is in use during development, you can update your Unison preference file to point to `wp-content/mu-plugins/jetpack-plugin/dev` on your sandbox. If this directory exists, it will be used instead of `sun` or `moon`.
+Jetpack uses a `sun` and `moon` strategy in which production files and a development version live in separate directories.
 
-  In the event that you want to sync changes to both `sun` and `moon`, you may want to create _two_ Unison preference files, one file which syncs to the `sun` location and one file which syncs to the `moon` location. Then you would run two separate instances of `unison watch` (as described above).
+To avoid tracking the active directory manually, point your Unison preference file to `wp-content/mu-plugins/jetpack-plugin/dev` on the sandbox. When that directory exists, the development loader uses it instead of `sun` or `moon`.
 
-  For even more advanced usage, you can use the following command to launch tmux with each unison command running in a separate window.
+## Sync both targets
 
-  ```
-  tmux new-session -d 'unison -ui text -repeat watch jetpack-plugin-moon' \; split-window -d 'unison -ui text -repeat watch jetpack-plugin-sun' \; attach
-  ```
+Create one Unison preference for `sun` and another for `moon`, then run a separate watcher for each. For example:
 
-  Note: You will need to adjust the above command depending on the name(s) of your Unison configuration files.
+<!-- wp:docspress/terminal-session {"title":"Watch the moon and sun profiles in tmux","shell":"bash","prompt":"$","command":"tmux new-session -d 'unison -ui text -repeat watch jetpack-plugin-moon' \\; \\\n\tsplit-window -d 'unison -ui text -repeat watch jetpack-plugin-sun' \\; \\\n\tattach","output":""} /-->
+
+Replace the profile names with the names of your own Unison preferences.
+
+## Verify the sync
+
+1. Change a harmless file locally.
+2. Confirm the intended sandbox target receives the change.
+3. Confirm the other target is unchanged unless you intentionally run both watchers.
+4. Stop the watchers before switching profiles or branches.
+
+Do not sync credentials, local environment files, or unrelated working-tree changes.
