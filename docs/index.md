@@ -32,7 +32,7 @@ sidebar_collapsed: false
 <!-- /wp:buttons -->
 
 <!-- wp:image {"sizeSlug":"full","linkDestination":"none","className":"jp-home-hero__blueprint"} -->
-<figure class="wp-block-image size-full jp-home-hero__blueprint"><img src="https://jetpackdeveloperdocs.wpcomstaging.com/wp-content/uploads/2026/07/jetpack-developer-blueprint-v2.png" alt="Jetpack logo reconstructed as a technical blueprint with construction lines, angles, and dimensions."/></figure>
+<figure class="wp-block-image size-full jp-home-hero__blueprint"><img src="https://jetpackdeveloperdocs.wpcomstaging.com/wp-content/uploads/2026/07/jetpack-developer-blueprint-v2.png" alt="Jetpack logo reconstructed as a technical blueprint with construction lines, angles, and dimensions." style="border:0;border-radius:0;background:transparent;box-shadow:none"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"className":"jp-agent-entry","layout":{"type":"constrained"}} -->
