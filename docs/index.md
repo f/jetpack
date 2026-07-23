@@ -11,15 +11,7 @@ Jetpack serves several kinds of WordPress users. Start with the path that matche
 
 ## Choose your path
 
-Start with the role that best matches your work. Each path keeps its setup, decisions, procedures, troubleshooting, and prompt examples together.
-
-<!-- wp:docspress/callout {"tone":"success","title":"Use Jetpack on my site","content":"<p>Install and connect Jetpack, choose features, improve security and performance, grow an audience, and solve common problems. <a href=\"/developer-docs/site-owners/\"><strong>Open the site-owner documentation →</strong></a></p>","collapsible":false} /-->
-
-<!-- wp:docspress/callout {"tone":"note","title":"Build with Jetpack","content":"<p>Integrate supported hooks, blocks, REST endpoints, packages, connection data, and compatibility tests into a plugin or theme. <a href=\"/developer-docs/wordpress-developers/\"><strong>Open the developer documentation →</strong></a></p>","collapsible":false} /-->
-
-<!-- wp:docspress/callout {"tone":"tip","title":"Run client sites","content":"<p>Plan a client stack, separate staging and production, launch safely, manage multiple sites, and prepare a durable handoff. <a href=\"/developer-docs/agencies/\"><strong>Open the agency documentation →</strong></a></p>","collapsible":false} /-->
-
-<!-- wp:docspress/callout {"tone":"note","title":"Contribute to Jetpack","content":"<p>Set up the monorepo, find the right project, implement and test a change, open a pull request, and help ship a release. <a href=\"/developer-docs/contributors/\"><strong>Open the contributor documentation →</strong></a></p>","collapsible":false} /-->
+<!-- wp:docspress/audience-paths {"anchor":"choose-your-path","eyebrow":"Choose your Jetpack path","title":"What are you here to do?","description":"Start with the role that best matches your work. Each path keeps its setup, decisions, procedures, troubleshooting, and prompt examples together.","paths":[{"title":"Use Jetpack on my site","description":"Install and connect Jetpack, choose features, improve security and performance, grow an audience, and solve common problems.","url":"/developer-docs/site-owners/","cta":"Site-owner documentation","icon":"WP","accent":"blue","newTab":false},{"title":"Build with Jetpack","description":"Integrate supported hooks, blocks, REST endpoints, packages, connection data, and compatibility tests into a plugin or theme.","url":"/developer-docs/wordpress-developers/","cta":"Developer documentation","icon":"DEV","accent":"gold","newTab":false},{"title":"Run client sites","description":"Plan a client stack, separate staging and production, launch safely, manage multiple sites, and prepare a durable handoff.","url":"/developer-docs/agencies/","cta":"Agency documentation","icon":"AG","accent":"coral","newTab":false},{"title":"Contribute to Jetpack","description":"Set up the monorepo, find the right project, implement and test a change, open a pull request, and help ship a release.","url":"/developer-docs/contributors/","cta":"Contributor documentation","icon":"JP","accent":"green","newTab":false}],"columns":2,"tone":"theme","textAlign":"left","showNumbers":false} /-->
 
 ## Choose by goal
 
