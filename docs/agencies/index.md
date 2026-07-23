@@ -9,16 +9,7 @@ sidebar_collapsed: true
 
 Use this path when you select, configure, monitor, or hand off Jetpack for client sites.
 
-## Follow the client lifecycle
-
-| Stage | Read this |
-| --- | --- |
-| Discovery and technical planning | [Plan a client site](plan-a-client-site.md) |
-| Build, quality assurance, and go-live | [Launch a client site](launch-a-client-site.md) |
-| Ongoing updates and monitoring | [Manage client sites](manage-client-sites.md) |
-| Safe development and deployment | [Use staging and deployment workflows](staging-and-deployment.md) |
-| Client ownership and operational transfer | [Hand off and support a client site](handoff-and-support.md) |
-| AI-assisted planning and review | [Prompt library for agencies](prompt-library.md) |
+<!-- wp:docspress/audience-paths {"compact":true,"anchor":"follow-the-client-lifecycle","eyebrow":"Follow the client lifecycle","title":"Where is the client site today?","description":"Choose the delivery stage you are responsible for and follow its decisions, checks, and handoff requirements.","paths":[{"title":"Discovery and planning","description":"Define goals, ownership, constraints, products, environments, and measurable success.","url":"/developer-docs/agencies/plan-a-client-site/","cta":"Plan the client site","icon":"PLAN","accent":"blue","newTab":false},{"title":"Build and go live","description":"Move from implementation through quality assurance, launch, and post-launch checks.","url":"/developer-docs/agencies/launch-a-client-site/","cta":"Launch the client site","icon":"SHIP","accent":"gold","newTab":false},{"title":"Operate multiple sites","description":"Standardize updates, monitoring, access, billing, and incident response.","url":"/developer-docs/agencies/manage-client-sites/","cta":"Manage client sites","icon":"RUN","accent":"coral","newTab":false},{"title":"Develop and deploy safely","description":"Separate staging and production while protecting connection and customer data.","url":"/developer-docs/agencies/staging-and-deployment/","cta":"Use staging workflows","icon":"CI","accent":"green","newTab":false},{"title":"Transfer ownership","description":"Document access, licenses, recovery, support boundaries, and operational responsibility.","url":"/developer-docs/agencies/handoff-and-support/","cta":"Prepare the handoff","icon":"OWN","accent":"blue","newTab":false},{"title":"Plan and review with AI","description":"Use source-aware prompts for discovery, rollout, fleet review, and client handoff.","url":"/developer-docs/agencies/prompts/","cta":"Open agency prompts","icon":"AI","accent":"gold","newTab":false}],"compact":true,"columns":3,"tone":"paper","textAlign":"left","showNumbers":false} /-->
 
 ## Keep ownership explicit
 

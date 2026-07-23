@@ -9,19 +9,9 @@ sidebar_collapsed: true
 
 Use this path when you want to change Jetpack source, documentation, tests, translations, or release tooling.
 
-## Choose a contribution
+<!-- wp:docspress/audience-paths {"compact":true,"anchor":"choose-a-contribution","eyebrow":"Choose a contribution","title":"How do you want to contribute?","description":"Start with the path closest to your current task, then follow its setup and quality checks.","paths":[{"title":"Understand the contribution process","description":"Review contribution options, community expectations, and submission requirements.","url":"/developer-docs/contributors/contribution-guide/","cta":"Read the contribution guide","icon":"RULE","accent":"blue","newTab":false},{"title":"Run Jetpack for the first time","description":"Clone the monorepo, install required tools, build Jetpack, and start WordPress.","url":"/developer-docs/contributors/getting-started/quick-start/","cta":"Use the quick start","icon":"RUN","accent":"gold","newTab":false},{"title":"Configure the full toolchain","description":"Set up Docker, dependencies, builds, tests, linting, and debugging.","url":"/developer-docs/contributors/getting-started/development-environment/","cta":"Configure your environment","icon":"ENV","accent":"coral","newTab":false},{"title":"Prepare a pull request","description":"Create focused commits, add a changelog entry, open a PR, and respond to review.","url":"/developer-docs/contributors/workflow/","cta":"Follow the contributor workflow","icon":"PR","accent":"green","newTab":false},{"title":"Meet quality standards","description":"Apply coding guidelines, automated checks, and useful bug-report practices.","url":"/developer-docs/contributors/quality/","cta":"Review quality standards","icon":"QA","accent":"blue","newTab":false},{"title":"Test a release or product area","description":"Choose beta, regression, automated, or focused product-area testing.","url":"/developer-docs/contributors/testing/","cta":"Choose a testing path","icon":"TEST","accent":"gold","newTab":false}],"compact":true,"columns":3,"tone":"paper","textAlign":"left","showNumbers":false} /-->
 
-| I want to… | Start here |
-| --- | --- |
-| Understand contribution options and community expectations | [Contribution guide](../CONTRIBUTING.md) |
-| Run the monorepo for the first time | [Contributor quick start](../quick-start.md) |
-| Configure the complete development toolchain | [Development environment](../development-environment.md) |
-| Prepare commits and a pull request | [Contributor workflow](workflow/index.md) |
-| Follow code, test, and review expectations | [Quality standards](quality/index.md) |
-| Test a release or product area | [Contributor testing](testing/index.md) |
-| Understand packages, plugins, and repository tooling | [Monorepo and project tools](monorepo/index.md) |
-| Maintain, deprecate, translate, or release | [Maintenance and releases](releases/index.md) |
-| Ask an AI assistant to plan or review repository work | [Prompt library for contributors](prompt-library.md) |
+<!-- wp:docspress/audience-paths {"compact":true,"anchor":"specialist-contribution-paths","eyebrow":"Specialist paths","title":"Maintain the monorepo and releases","description":"Use these paths when your work spans repository structure, release operations, or AI-assisted planning.","paths":[{"title":"Understand projects and tooling","description":"Navigate packages, plugins, repository commands, and project-level instructions.","url":"/developer-docs/contributors/monorepo/","cta":"Explore the monorepo","icon":"REPO","accent":"coral","newTab":false},{"title":"Maintain and release Jetpack","description":"Write changelogs, manage releases, deprecate safely, and translate Jetpack.","url":"/developer-docs/contributors/releases/","cta":"Open release guides","icon":"SHIP","accent":"green","newTab":false},{"title":"Plan or review with AI","description":"Use source-aware prompts for repository exploration, implementation, testing, and review.","url":"/developer-docs/contributors/prompts/","cta":"Open contributor prompts","icon":"AI","accent":"blue","newTab":false}],"compact":true,"columns":3,"tone":"blueprint","textAlign":"left","showNumbers":false} /-->
 
 ## The shortest successful path
 

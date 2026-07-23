@@ -8,15 +8,7 @@ sidebar_position: 5
 
 You can contribute code, tests, documentation, bug reports, translations, and release feedback.
 
-## Choose a contribution path
-
-| Contribution | Start here |
-| --- | --- |
-| Test a pre-release build | [Test a Jetpack beta](testing/beta-testing.md) |
-| Report a reproducible defect | [Create a useful bug report](guides/report-bugs.md) |
-| Fix a bug or build an enhancement | [Start Jetpack development](quick-start.md) |
-| Improve documentation | Edit the relevant Markdown page and follow the [documentation writing model](reference/documentation-map.md) |
-| Translate Jetpack | [Translate Jetpack](translations.md) |
+<!-- wp:docspress/audience-paths {"compact":true,"anchor":"choose-a-contribution-path","eyebrow":"Choose a contribution path","title":"What would you like to improve?","description":"Start with the contribution type that matches your change and follow its focused requirements.","paths":[{"title":"Test a pre-release build","description":"Install Jetpack Beta, choose a build, record the environment, and report results.","url":"/developer-docs/contributors/testing/beta-testing/","cta":"Test a Jetpack beta","icon":"BETA","accent":"blue","newTab":false},{"title":"Report a reproducible defect","description":"Capture exact steps, expected and actual behavior, environment details, and evidence.","url":"/developer-docs/contributors/quality/report-bugs/","cta":"Create a useful bug report","icon":"BUG","accent":"gold","newTab":false},{"title":"Fix a bug or add a feature","description":"Set up the monorepo, build Jetpack, make a focused change, and run relevant checks.","url":"/developer-docs/contributors/getting-started/quick-start/","cta":"Start Jetpack development","icon":"DEV","accent":"coral","newTab":false},{"title":"Improve documentation","description":"Edit the relevant Markdown source and follow the audience-first writing model.","url":"/developer-docs/reference/documentation-map/","cta":"Use the writing model","icon":"DOC","accent":"green","newTab":false},{"title":"Translate Jetpack","description":"Use the correct translation platform and avoid editing generated language files directly.","url":"/developer-docs/contributors/releases/translations/","cta":"Open the translation guide","icon":"L10N","accent":"blue","newTab":false}],"compact":true,"columns":3,"tone":"paper","textAlign":"left","showNumbers":false} /-->
 
 If you are not sure where to begin, look for [`[Type] Good First Bug`](https://github.com/Automattic/jetpack/labels/%5BType%5D%20Good%20First%20Bug) or [`Good For Community`](https://github.com/Automattic/jetpack/issues?q=is%3Aopen+sort%3Aupdated-desc+label%3A%22Good+For+Community%22) issues.
 

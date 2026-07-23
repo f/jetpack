@@ -9,12 +9,6 @@ sidebar_collapsed: true
 
 Choose the smallest test set that proves the change, then expand for risk.
 
-| Test need | Guide |
-| --- | --- |
-| Run repository test suites | [Automated testing](../../automated-testing.md) |
-| Test a pre-release build without contributing code | [Join the beta program](../../testing/beta-testing.md) |
-| Perform a release regression pass | [Regression checklist](../../testing/regression-checklist/README.md) |
-| Test a specific block, module, or package | [Product-area test suites](test-suites/index.md) |
-| Use Jetpack Beta testing utilities | [Testing tips](../../testing/testing-tips.md) |
+<!-- wp:docspress/audience-paths {"compact":true,"anchor":"choose-a-testing-path","eyebrow":"Choose a testing path","title":"What do you need to prove?","description":"Match the test scope to the change and risk, then record enough environment detail to reproduce the result.","paths":[{"title":"Run repository test suites","description":"Choose targeted automated tests, linters, and project checks for a code change.","url":"/developer-docs/contributors/quality/automated-testing/","cta":"Run automated tests","icon":"AUTO","accent":"blue","newTab":false},{"title":"Test a pre-release build","description":"Install and evaluate a Jetpack Beta build without contributing source code.","url":"/developer-docs/contributors/testing/beta-testing/","cta":"Join the beta program","icon":"BETA","accent":"gold","newTab":false},{"title":"Perform a regression pass","description":"Exercise global behavior and affected features before a release ships.","url":"/developer-docs/contributors/testing/regression/","cta":"Use the regression checklist","icon":"REG","accent":"coral","newTab":false},{"title":"Test a product area","description":"Run focused suites for a block, module, package, or shared integration.","url":"/developer-docs/contributors/testing/test-suites/","cta":"Choose a product suite","icon":"AREA","accent":"green","newTab":false},{"title":"Use Jetpack Beta tools","description":"Switch branches or builds, collect diagnostics, and use testing utilities effectively.","url":"/developer-docs/contributors/testing/beta-tools/","cta":"Open testing tips","icon":"TOOL","accent":"blue","newTab":false}],"compact":true,"columns":3,"tone":"paper","textAlign":"left","showNumbers":false} /-->
 
 Record the build, WordPress version, PHP version, browser, connection state, environment, and exact steps for every manual result.

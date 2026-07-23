@@ -7,16 +7,7 @@ sidebar_position: 20
 ---
 Use this reference when the [quick start](quick-start.md) does not cover your operating system, project, test suite, or debugging workflow.
 
-## Choose a setup path
-
-| Need | Start with |
-| --- | --- |
-| First local Jetpack contribution on macOS or Linux | [Quick start](quick-start.md) |
-| Supported local WordPress environment | [Run Jetpack with Docker](#run-jetpack-locally) |
-| Windows-specific setup | [Windows development](#windows-development) |
-| WordPress.com sandbox and cloud features | [Test Jetpack cloud features](#test-jetpack-cloud-features) |
-| Unit tests and linting | [Run unit tests](#run-unit-tests) and [Meet code quality requirements](#meet-code-quality-requirements) |
-| Debugging tools | [Use development and debugging tools](#use-development-and-debugging-tools) |
+<!-- wp:docspress/audience-paths {"compact":true,"anchor":"choose-a-setup-path","eyebrow":"Choose a setup path","title":"Which environment do you need?","description":"Open the shortest setup or reference section for your operating system, test workflow, or Jetpack feature.","paths":[{"title":"Make a first local contribution","description":"Use the focused macOS and Linux path to clone, install, build, and run Jetpack.","url":"/developer-docs/contributors/getting-started/quick-start/","cta":"Use the quick start","icon":"GO","accent":"blue","newTab":false},{"title":"Run the supported local site","description":"Use the repository Docker environment for WordPress, PHP, and database services.","url":"#run-jetpack-locally","cta":"Set up Docker","icon":"WP","accent":"gold","newTab":false},{"title":"Develop on Windows","description":"Configure WSL 2, keep the repository in Linux, and connect your editor.","url":"#windows-development","cta":"Open Windows setup","icon":"WIN","accent":"coral","newTab":false},{"title":"Test WordPress.com features","description":"Configure sandbox access for cloud-backed Jetpack behavior and services.","url":"#test-jetpack-cloud-features","cta":"Set up cloud testing","icon":"WPC","accent":"green","newTab":false},{"title":"Run tests and quality checks","description":"Run unit tests, linting, formatting, and the checks required by your project.","url":"#run-unit-tests","cta":"Open test commands","icon":"TEST","accent":"blue","newTab":false},{"title":"Debug a local change","description":"Use development mode, logging, browser tools, and repository debugging utilities.","url":"#use-development-and-debugging-tools","cta":"Open debugging tools","icon":"DBG","accent":"gold","newTab":false}],"compact":true,"columns":3,"tone":"paper","textAlign":"left","showNumbers":false} /-->
 
 ## Set up your environment
 
