@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Sync docs to WordPress.com
-        uses: f/docspress@main
+        uses: Automattic/docspress@ad1547a65c55583caf65000c244ca4765becca66
         with:
           wordpress-site: ${{ vars.DOCSPRESS_WORDPRESS_SITE }}
           wordpress-access-token: ${{ secrets.WP_ACCESS_TOKEN }}
