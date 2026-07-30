@@ -2,6 +2,8 @@
 /**
  * Minimal server-side rendering tests without bootstrapping WordPress.
  *
+ * @phan-file-suppress PhanRedefineFunction
+ *
  * @package JetpackDeveloperDocsSite
  */
 

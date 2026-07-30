@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Jetpack Developer Docs Site
  * Description: Site-specific presentation blocks for the Jetpack Developer Docs website.
- * Version: 0.1.1
+ * Version: 0.1.2
  * Requires at least: 6.6
  * Requires PHP: 7.2
  * Author: Automattic
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JETPACK_DEVELOPER_DOCS_SITE_VERSION', '0.1.1' );
+define( 'JETPACK_DEVELOPER_DOCS_SITE_VERSION', '0.1.2' );
 define( 'JETPACK_DEVELOPER_DOCS_SITE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'JETPACK_DEVELOPER_DOCS_SITE_URL', plugin_dir_url( __FILE__ ) );
 
@@ -127,9 +127,7 @@ function jetpack_developer_docs_site_normalize_carousel_items( $items ) {
  * @return string
  */
 function jetpack_developer_docs_site_render_product_carousel( $attributes ) {
-	$raw_items = isset( $attributes['items'] )
-		? $attributes['items']
-		: jetpack_developer_docs_site_product_carousel_defaults();
+	$raw_items = $attributes['items'] ?? jetpack_developer_docs_site_product_carousel_defaults();
 	$items     = jetpack_developer_docs_site_normalize_carousel_items( $raw_items );
 
 	if ( empty( $items ) ) {
