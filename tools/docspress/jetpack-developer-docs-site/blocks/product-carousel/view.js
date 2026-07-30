@@ -1,6 +1,5 @@
 ( function () {
-	'use strict';
-
+	/* eslint-disable jsdoc/require-jsdoc */
 	const utils = window.jetpackDeveloperDocsCarouselUtils;
 
 	if ( ! utils ) {
@@ -28,7 +27,7 @@
 			hovered: false,
 			focused: false,
 			dragging: false,
-			manuallyPaused: false
+			manuallyPaused: false,
 		};
 		let clone = null;
 		let loopWidth = 0;
@@ -222,22 +221,34 @@
 		viewport.addEventListener( 'pointerup', finishPointerInteraction );
 		viewport.addEventListener( 'pointercancel', finishPointerInteraction );
 
-		viewport.addEventListener( 'click', function ( event ) {
-			if ( Date.now() < suppressClickUntil ) {
-				event.preventDefault();
-				event.stopPropagation();
-			}
-		}, true );
+		viewport.addEventListener(
+			'click',
+			function ( event ) {
+				if ( Date.now() < suppressClickUntil ) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			},
+			true
+		);
 
-		viewport.addEventListener( 'scroll', function () {
-			if ( ! state.dragging && ! utils.shouldAutoplay( state ) ) {
+		viewport.addEventListener(
+			'scroll',
+			function () {
+				if ( ! state.dragging && ! utils.shouldAutoplay( state ) ) {
+					pauseTemporarily();
+				}
+			},
+			{ passive: true }
+		);
+
+		viewport.addEventListener(
+			'wheel',
+			function () {
 				pauseTemporarily();
-			}
-		}, { passive: true } );
-
-		viewport.addEventListener( 'wheel', function () {
-			pauseTemporarily();
-		}, { passive: true } );
+			},
+			{ passive: true }
+		);
 
 		document.addEventListener( 'visibilitychange', function () {
 			state.documentHidden = document.hidden;
@@ -251,12 +262,15 @@
 		}
 
 		if ( typeof window.IntersectionObserver === 'function' ) {
-			const intersectionObserver = new window.IntersectionObserver( function ( entries ) {
-				state.visible = entries.some( function ( entry ) {
-					return entry.isIntersecting;
-				} );
-				syncAnimation();
-			}, { threshold: 0.05 } );
+			const intersectionObserver = new window.IntersectionObserver(
+				function ( entries ) {
+					state.visible = entries.some( function ( entry ) {
+						return entry.isIntersecting;
+					} );
+					syncAnimation();
+				},
+				{ threshold: 0.05 }
+			);
 			intersectionObserver.observe( carousel );
 		}
 

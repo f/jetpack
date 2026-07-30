@@ -30,7 +30,7 @@ test( 'autoplay runs only while every motion precondition is satisfied', () => {
 		hovered: false,
 		focused: false,
 		dragging: false,
-		manuallyPaused: false
+		manuallyPaused: false,
 	};
 
 	assert.equal( utils.shouldAutoplay( activeState ), true );
@@ -41,7 +41,7 @@ test( 'autoplay runs only while every motion precondition is satisfied', () => {
 		'hovered',
 		'focused',
 		'dragging',
-		'manuallyPaused'
+		'manuallyPaused',
 	] ) {
 		const state = { ...activeState };
 		state[ pausedState ] = pausedState === 'visible' ? false : true;

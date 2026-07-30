@@ -1,12 +1,23 @@
+/* global __dirname */
+
 const assert = require( 'node:assert/strict' );
 const fs = require( 'node:fs' );
 const path = require( 'node:path' );
 const test = require( 'node:test' );
 
 const pluginRoot = path.resolve( __dirname, '..' );
-const viewSource = fs.readFileSync( path.join( pluginRoot, 'blocks/product-carousel/view.js' ), 'utf8' );
-const styleSource = fs.readFileSync( path.join( pluginRoot, 'blocks/product-carousel/style.css' ), 'utf8' );
-const editorSource = fs.readFileSync( path.join( pluginRoot, 'blocks/product-carousel/editor.js' ), 'utf8' );
+const viewSource = fs.readFileSync(
+	path.join( pluginRoot, 'blocks/product-carousel/view.js' ),
+	'utf8'
+);
+const styleSource = fs.readFileSync(
+	path.join( pluginRoot, 'blocks/product-carousel/style.css' ),
+	'utf8'
+);
+const editorSource = fs.readFileSync(
+	path.join( pluginRoot, 'blocks/product-carousel/editor.js' ),
+	'utf8'
+);
 
 test( 'front-end behavior includes every pause, input, and visibility contract', () => {
 	for ( const contract of [
@@ -20,7 +31,7 @@ test( 'front-end behavior includes every pause, input, and visibility contract',
 		'pointerup',
 		'wheel',
 		'suppressClickUntil',
-		'revealScrollDelta'
+		'revealScrollDelta',
 	] ) {
 		assert.match( viewSource, new RegExp( contract.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' ) ) );
 	}
@@ -45,7 +56,7 @@ test( 'CSS preserves a responsive, theme-aware, horizontal fallback', () => {
 		'focus-visible',
 		'@media (prefers-reduced-motion: reduce)',
 		'@media (max-width: 600px)',
-		'@media (forced-colors: active)'
+		'@media (forced-colors: active)',
 	] ) {
 		assert.ok( styleSource.includes( contract ), contract );
 	}

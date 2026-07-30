@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Jetpack Developer Docs Site
  * Description: Site-specific presentation blocks for the Jetpack Developer Docs website.
- * Version: 0.1.2
+ * Version: 0.1.3
  * Requires at least: 6.6
  * Requires PHP: 7.2
  * Author: Automattic
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JETPACK_DEVELOPER_DOCS_SITE_VERSION', '0.1.2' );
+define( 'JETPACK_DEVELOPER_DOCS_SITE_VERSION', '0.1.3' );
 define( 'JETPACK_DEVELOPER_DOCS_SITE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'JETPACK_DEVELOPER_DOCS_SITE_URL', plugin_dir_url( __FILE__ ) );
 

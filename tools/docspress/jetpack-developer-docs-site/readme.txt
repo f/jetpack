@@ -2,7 +2,7 @@
 Contributors: automattic
 Requires at least: 6.6
 Requires PHP: 7.2
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ enqueued only when that block renders.
 3. Activate the plugin before synchronizing content containing the block.
 
 == Changelog ==
+
+= 0.1.3 =
+* Format the adapter scripts for the Jetpack monorepo JavaScript checks.
 
 = 0.1.2 =
 * Keep the adapter compatible with the monorepo static-analysis checks.

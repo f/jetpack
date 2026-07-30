@@ -1,6 +1,5 @@
 ( function ( root, factory ) {
-	'use strict';
-
+	/* eslint-disable jsdoc/require-jsdoc */
 	const api = factory();
 
 	if ( typeof module === 'object' && module.exports ) {
@@ -8,9 +7,7 @@
 	}
 
 	root.jetpackDeveloperDocsCarouselUtils = api;
-}( typeof globalThis !== 'undefined' ? globalThis : window, function () {
-	'use strict';
-
+} )( typeof globalThis !== 'undefined' ? globalThis : window, function () {
 	const DRAG_THRESHOLD = 7;
 
 	function normalizeLoopPosition( scrollLeft, loopWidth ) {
@@ -43,13 +40,13 @@
 	function shouldAutoplay( state ) {
 		return Boolean(
 			state &&
-			state.visible &&
-			! state.documentHidden &&
-			! state.reducedMotion &&
-			! state.hovered &&
-			! state.focused &&
-			! state.dragging &&
-			! state.manuallyPaused
+				state.visible &&
+				! state.documentHidden &&
+				! state.reducedMotion &&
+				! state.hovered &&
+				! state.focused &&
+				! state.dragging &&
+				! state.manuallyPaused
 		);
 	}
 
@@ -58,6 +55,6 @@
 		movedBeyondThreshold,
 		normalizeLoopPosition,
 		revealScrollDelta,
-		shouldAutoplay
+		shouldAutoplay,
 	};
-} ) );
+} );
