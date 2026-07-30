@@ -2,7 +2,7 @@
 Contributors: automattic
 Requires at least: 6.6
 Requires PHP: 7.2
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ enqueued only when that block renders.
 3. Activate the plugin before synchronizing content containing the block.
 
 == Changelog ==
+
+= 0.1.1 =
+* Make the carousel span the viewport from a constrained homepage layout.
 
 = 0.1.0 =
 * Add the site-only product documentation carousel.

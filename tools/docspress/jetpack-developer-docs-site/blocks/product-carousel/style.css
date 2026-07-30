@@ -5,15 +5,20 @@
 	--jp-docs-carousel-text: var(--dp-ink, #171a22);
 	position: relative;
 	box-sizing: border-box;
-	width: 100%;
+	width: 100vw;
 	max-width: none;
 	margin-block: 0;
+	margin-inline: calc(50% - 50vw);
 	overflow: hidden;
 	border-block: 1px solid var(--jp-docs-carousel-border);
 	background:
 		linear-gradient(90deg, color-mix(in sRGB, var(--jp-docs-carousel-accent) 8%, transparent), transparent 18%, transparent 82%, color-mix(in sRGB, var(--jp-docs-carousel-accent) 8%, transparent)),
 		var(--jp-docs-carousel-background);
 	color: var(--jp-docs-carousel-text);
+}
+
+body:has(.wp-block-jetpack-developer-docs-product-carousel.jetpack-developer-docs-product-carousel) {
+	overflow-x: clip;
 }
 
 .jetpack-developer-docs-product-carousel__viewport {

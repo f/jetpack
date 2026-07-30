@@ -35,6 +35,9 @@ test( 'visual clones stay out of assistive technology and keyboard navigation', 
 test( 'CSS preserves a responsive, theme-aware, horizontal fallback', () => {
 	for ( const contract of [
 		'overflow-x: auto',
+		'width: 100vw',
+		'margin-inline: calc(50% - 50vw)',
+		'overflow-x: clip',
 		'touch-action: pan-x pan-y pinch-zoom',
 		'var(--dp-paper',
 		'var(--dp-ink',
@@ -46,7 +49,6 @@ test( 'CSS preserves a responsive, theme-aware, horizontal fallback', () => {
 	] ) {
 		assert.ok( styleSource.includes( contract ), contract );
 	}
-	assert.equal( styleSource.includes( '100vw' ), false, '100vw can cause page-level horizontal overflow' );
 } );
 
 test( 'the editor owns the site-specific dynamic block and its product controls', () => {
