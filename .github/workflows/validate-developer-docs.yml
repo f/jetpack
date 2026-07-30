@@ -1,0 +1,81 @@
+name: Validate Jetpack Developer Docs
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-developer-docs.yml"
+      - "docs/**"
+      - "tools/docspress/**"
+
+permissions:
+  contents: read
+
+jobs:
+  documentation:
+    name: Catalog, routes, content, and carousel contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          fetch-depth: 0
+
+      - name: Validate documentation organization
+        run: node tools/docspress/validate-developer-docs.mjs
+
+      - name: Test carousel behavior contracts
+        run: node --test tools/docspress/jetpack-developer-docs-site/tests/*.test.cjs
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check tools/docspress/validate-developer-docs.mjs
+          node --check tools/docspress/jetpack-developer-docs-site/blocks/product-carousel/editor.js
+          node --check tools/docspress/jetpack-developer-docs-site/blocks/product-carousel/utils.js
+          node --check tools/docspress/jetpack-developer-docs-site/blocks/product-carousel/view.js
+
+      - name: Check changed-file whitespace
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: git diff --check "${BASE_SHA}...HEAD"
+
+  server-and-package:
+    name: PHP, WordPress standards, rendering, and package
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+
+      - name: Set up repository tools
+        uses: ./.github/actions/tool-setup
+        with:
+          node: false
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Check PHP syntax
+        run: find tools/docspress/jetpack-developer-docs-site -name "*.php" -print0 | xargs -0 -n1 php -l
+
+      - name: Run WordPress coding standards
+        run: >
+          composer phpcs:lint --
+          --standard=.github/files/php-linting-phpcs.xml
+          tools/docspress/jetpack-developer-docs-site/jetpack-developer-docs-site.php
+
+      - name: Test server-side rendering and asset loading
+        run: php tools/docspress/jetpack-developer-docs-site/tests/render-test.php
+
+      - name: Build and verify a deterministic installable ZIP
+        shell: bash
+        run: |
+          package_directory="$(mktemp -d)"
+          trap 'rm -rf "${package_directory}"' EXIT
+          package_script="tools/docspress/jetpack-developer-docs-site/package.sh"
+          "${package_script}" "${package_directory}/first.zip"
+          "${package_script}" "${package_directory}/second.zip"
+          cmp "${package_directory}/first.zip" "${package_directory}/second.zip"
+          unzip -t "${package_directory}/first.zip"

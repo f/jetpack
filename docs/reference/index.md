@@ -9,7 +9,8 @@ sidebar_collapsed: true
 
 Use this section when you need orientation rather than a role-specific workflow.
 
-- [Products and features](products-and-features.md)
+- [Jetpack product directory](../products/index.md)
+- [Products, features, and canonical sources](products-and-features.md)
 - [Support and developer tools](support-and-tools.md)
 - [Jetpack glossary](glossary.md)
 - [Use Jetpack documentation with AI](use-docs-with-ai.md)

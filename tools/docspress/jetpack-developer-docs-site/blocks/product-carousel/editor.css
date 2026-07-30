@@ -1,0 +1,56 @@
+.wp-block-jetpack-developer-docs-product-carousel.jetpack-developer-docs-product-carousel {
+	margin-block: 1rem;
+}
+
+.wp-block-jetpack-developer-docs-product-carousel .jetpack-developer-docs-product-carousel__viewport {
+	cursor: default;
+}
+
+.wp-block-jetpack-developer-docs-product-carousel .jetpack-developer-docs-product-carousel__link {
+	pointer-events: none;
+}
+
+.jetpack-developer-docs-product-carousel-editor__item {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto;
+	gap: 8px;
+	align-items: end;
+	margin-block: 12px;
+}
+
+.jetpack-developer-docs-product-carousel-editor__actions {
+	display: flex;
+	gap: 4px;
+	padding-bottom: 8px;
+}
+
+@media (max-width: 782px) {
+
+	.jetpack-developer-docs-product-carousel-editor__item {
+		grid-template-columns: 1fr;
+	}
+
+	.jetpack-developer-docs-product-carousel-editor__actions {
+		padding-bottom: 0;
+	}
+}
+
+.jetpack-developer-docs-product-carousel-editor__item {
+	margin-block-end: 1rem;
+	padding-block-end: 1rem;
+	border-block-end: 1px solid #ddd;
+}
+
+.jetpack-developer-docs-product-carousel-editor__actions {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.editor-styles-wrapper .jetpack-developer-docs-product-carousel__viewport {
+	cursor: default;
+}
+
+.editor-styles-wrapper .jetpack-developer-docs-product-carousel__link {
+	pointer-events: none;
+}

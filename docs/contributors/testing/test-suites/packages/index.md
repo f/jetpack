@@ -12,4 +12,6 @@ Available focused suites:
 - [Connection](../../../../testing/regression-checklist/test-suites/packages/connection.md)
 - [Sync](../../../../testing/regression-checklist/test-suites/packages/sync.md)
 
-Package tests should cover direct consumers as well as the package in isolation.
+Connection and Sync remain shared platform guidance under the [Jetpack hub](../../../../products/jetpack/index.md), not duplicated under each product.
+
+Package tests should cover direct consumers as well as the package in isolation. For other package and plugin owners, start with the [product documentation directory](../../../../products/index.md).

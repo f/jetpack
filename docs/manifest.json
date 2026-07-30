@@ -122,6 +122,105 @@
     },
 
     {
+      "id": "products",
+      "parent": "root",
+      "slug": "products",
+      "title": "Jetpack products",
+      "markdown_source": "products/index.md"
+    },
+    {
+      "id": "products-jetpack",
+      "parent": "products",
+      "slug": "jetpack",
+      "title": "Jetpack",
+      "markdown_source": "products/jetpack/index.md"
+    },
+    {
+      "id": "products-akismet",
+      "parent": "products",
+      "slug": "akismet",
+      "title": "Akismet Anti-spam",
+      "markdown_source": "products/akismet/index.md"
+    },
+    {
+      "id": "products-backup",
+      "parent": "products",
+      "slug": "backup",
+      "title": "VaultPress Backup",
+      "markdown_source": "products/backup/index.md"
+    },
+    {
+      "id": "products-boost",
+      "parent": "products",
+      "slug": "boost",
+      "title": "Jetpack Boost",
+      "markdown_source": "products/boost/index.md"
+    },
+    {
+      "id": "products-crm",
+      "parent": "products",
+      "slug": "crm",
+      "title": "Jetpack CRM",
+      "markdown_source": "products/crm/index.md"
+    },
+    {
+      "id": "products-forms",
+      "parent": "products",
+      "slug": "forms",
+      "title": "Jetpack Forms",
+      "markdown_source": "products/forms/index.md"
+    },
+    {
+      "id": "products-protect",
+      "parent": "products",
+      "slug": "protect",
+      "title": "Jetpack Protect",
+      "markdown_source": "products/protect/index.md"
+    },
+    {
+      "id": "products-scan",
+      "parent": "products",
+      "slug": "scan",
+      "title": "Jetpack Scan",
+      "markdown_source": "products/scan/index.md"
+    },
+    {
+      "id": "products-search",
+      "parent": "products",
+      "slug": "search",
+      "title": "Jetpack Search",
+      "markdown_source": "products/search/index.md"
+    },
+    {
+      "id": "products-social",
+      "parent": "products",
+      "slug": "social",
+      "title": "Jetpack Social",
+      "markdown_source": "products/social/index.md"
+    },
+    {
+      "id": "products-stats",
+      "parent": "products",
+      "slug": "stats",
+      "title": "Jetpack Stats",
+      "markdown_source": "products/stats/index.md"
+    },
+    {
+      "id": "products-videopress",
+      "parent": "products",
+      "slug": "videopress",
+      "title": "Jetpack VideoPress",
+      "markdown_source": "products/videopress/index.md"
+    },
+    {
+      "id": "products-ai",
+      "parent": "products",
+      "slug": "ai",
+      "title": "Jetpack AI Assistant",
+      "markdown_source": "products/ai/index.md"
+    },
+
+    {
       "id": "agencies",
       "parent": "root",
       "slug": "agencies",
