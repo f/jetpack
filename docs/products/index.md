@@ -1,5 +1,5 @@
 ---
-title: Jetpack products
+title: Products
 description: Browse developer, contributor, reference, and support paths for every product in the Jetpack family.
 audience: everyone
 document_type: overview

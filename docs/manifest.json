@@ -125,7 +125,7 @@
       "id": "products",
       "parent": "root",
       "slug": "products",
-      "title": "Jetpack products",
+      "title": "Products",
       "markdown_source": "products/index.md"
     },
     {

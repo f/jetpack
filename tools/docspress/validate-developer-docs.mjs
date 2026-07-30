@@ -254,11 +254,13 @@ check( Boolean( productsManifestPage ), 'manifest: Products root is missing' );
 if ( productsManifestPage ) {
 	check( productsManifestPage.parent === 'root', 'manifest: Products must be a top-level branch' );
 	check( productsManifestPage.slug === 'products', 'manifest: Products must use the products slug' );
+	check( productsManifestPage.title === 'Products', 'manifest: Products must use the Products title' );
 }
 
 const productsLandingFile = path.join( docsRoot, 'products', 'index.md' );
 const productsLanding = fs.readFileSync( productsLandingFile, 'utf8' );
 const productsFrontMatter = parseFrontMatter( productsLanding, productsLandingFile );
+check( productsFrontMatter.title === 'Products', 'products landing: title must be Products' );
 check( productsFrontMatter.sidebar_position === 25, 'products landing: sidebar_position must be 25' );
 check( productsFrontMatter.sidebar_collapsed === true, 'products landing: sidebar_collapsed must be true' );
 for ( const groupHeading of [ 'Jetpack platform', 'Growth', 'Performance and media', 'Security' ] ) {
