@@ -9,7 +9,7 @@ sidebar_collapsed: true
 
 Start with the [Gutenberg extensions checklist](../../../../testing/regression-checklist/test-suites/extensions/all.md), then use the focused suites:
 
-- [Contact Form](../../../../testing/regression-checklist/test-suites/extensions/blocks/contact-form.md)
+- [Contact Form](../../../../testing/regression-checklist/test-suites/extensions/blocks/contact-form.md), with product ownership and source paths in the [Jetpack Forms hub](../../../../products/forms/index.md)
 - [Memberships](../../../../testing/regression-checklist/test-suites/extensions/blocks/memberships.md)
 
 Test both editor and frontend behavior, including saved content, permissions, responsive layout, keyboard operation, and disconnected states.

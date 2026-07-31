@@ -7,47 +7,9 @@ sidebar_position: 0
 sidebar_collapsed: false
 ---
 
-<!-- wp:group {"align":"full","anchor":"top","className":"jp-home-hero","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull jp-home-hero" id="top"><!-- wp:group {"align":"wide","className":"jp-home-hero__inner","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignwide jp-home-hero__inner"><!-- wp:paragraph {"className":"jp-home-eyebrow"} -->
-<p class="jp-home-eyebrow">Jetpack Developer Docs</p>
-<!-- /wp:paragraph -->
+<!-- wp:docspress/hero {"eyebrow":"Source-aware Jetpack documentation","title":"Build with Jetpack. Ship with confidence.","description":"Choose a role, move straight to the task, and keep every decision grounded in the code that ships.","primaryLabel":"Choose your path","primaryUrl":"#start","primaryNewTab":false,"secondaryLabel":"Start contributing","secondaryUrl":"/developer-docs/contributors/getting-started/quick-start/","secondaryNewTab":false,"mediaUrl":"https://jetpackdeveloperdocs.wpcomstaging.com/wp-content/uploads/2026/07/jetpack-developer-blueprint-v2.png","mediaAlt":"Jetpack logo reconstructed as a technical blueprint with construction lines, angles, and dimensions.","visualLabel":"JETPACK","layout":"editorial","mediaPosition":"right","mediaWidth":34,"imageScale":120,"height":"standard","tone":"paper","textAlign":"left","showGrid":true,"showOrbit":false,"accentColor":"#277a1f"} /-->
 
-<!-- wp:heading {"level":1,"className":"jp-home-hero__title"} -->
-<h1 class="wp-block-heading jp-home-hero__title">Build with Jetpack.</h1>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph {"className":"jp-home-hero__lead"} -->
-<p class="jp-home-hero__lead">Hooks, customization guides, and contribution docs for the Jetpack plugin suite — written for developers and readable by coding agents.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:buttons {"className":"jp-home-hero__actions"} -->
-<div class="wp-block-buttons jp-home-hero__actions"><!-- wp:button {"className":"is-style-fill jp-button-primary"} -->
-<div class="wp-block-button is-style-fill jp-button-primary"><a class="wp-block-button__link wp-element-button" href="#start">Explore the docs</a></div>
-<!-- /wp:button -->
-
-<!-- wp:button {"className":"is-style-outline jp-button-secondary"} -->
-<div class="wp-block-button is-style-outline jp-button-secondary"><a class="wp-block-button__link wp-element-button" href="/developer-docs/contributors/getting-started/quick-start/">Set up the monorepo</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons -->
-
-<!-- wp:image {"sizeSlug":"full","linkDestination":"none","className":"jp-home-hero__blueprint"} -->
-<figure class="wp-block-image size-full jp-home-hero__blueprint"><img src="https://jetpackdeveloperdocs.wpcomstaging.com/wp-content/uploads/2026/07/jetpack-developer-blueprint-v2.png" alt="Jetpack logo reconstructed as a technical blueprint with construction lines, angles, and dimensions." style="border:0;border-radius:0;background:transparent;box-shadow:none"/></figure>
-<!-- /wp:image -->
-
-<!-- wp:group {"className":"jp-agent-entry","layout":{"type":"constrained"}} -->
-<div class="wp-block-group jp-agent-entry"><!-- wp:paragraph {"className":"jp-agent-entry__label"} -->
-<p class="jp-agent-entry__label">Working with an agent? Try a prompt like these.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:docspress/code-tabs {"tabs":[{"label":"Get started","language":"plaintext","filename":"agent prompt","code":"Read https://developer.jetpack.com/llms.txt before answering Jetpack development questions."},{"label":"Forms","language":"plaintext","filename":"agent prompt","code":"Read https://developer.jetpack.com/llms.txt, then help me change the Jetpack contact form success message and redirect visitors after they submit."},{"label":"Search","language":"plaintext","filename":"agent prompt","code":"Read https://developer.jetpack.com/llms.txt, then help me customize Jetpack Search to boost recent posts and filter results by post type."},{"label":"Related Posts","language":"plaintext","filename":"agent prompt","code":"Read https://developer.jetpack.com/llms.txt, then help me change the Related Posts headline and exclude a category from the results."},{"label":"Contribute","language":"plaintext","filename":"agent prompt","code":"Read https://developer.jetpack.com/llms.txt, then help me set up the Jetpack monorepo and scaffold a new package with the Jetpack CLI."}],"showLineNumbers":false} /-->
-
-<!-- wp:paragraph {"className":"jp-agent-entry__links"} -->
-<p class="jp-agent-entry__links"><a href="/llms.txt">Open llms.txt</a><span aria-hidden="true">↗</span> <a href="#agents">Agent-friendly documentation</a><span aria-hidden="true">↓</span></p>
-<!-- /wp:paragraph --></div>
-<!-- /wp:group --></div>
-<!-- /wp:group --></div>
-<!-- /wp:group -->
+<!-- wp:jetpack-developer-docs/product-carousel {"align":"full","ariaLabel":"Browse product documentation","speed":34,"pauseOnHover":true,"items":[{"label":"Jetpack","url":"/developer-docs/products/jetpack/"},{"label":"Akismet Anti-spam","url":"/developer-docs/products/akismet/"},{"label":"VaultPress Backup","url":"/developer-docs/products/backup/"},{"label":"Jetpack Boost","url":"/developer-docs/products/boost/"},{"label":"Jetpack CRM","url":"/developer-docs/products/crm/"},{"label":"Jetpack Forms","url":"/developer-docs/products/forms/"},{"label":"Jetpack Protect","url":"/developer-docs/products/protect/"},{"label":"Jetpack Scan","url":"/developer-docs/products/scan/"},{"label":"Jetpack Search","url":"/developer-docs/products/search/"},{"label":"Jetpack Social","url":"/developer-docs/products/social/"},{"label":"Jetpack Stats","url":"/developer-docs/products/stats/"},{"label":"Jetpack VideoPress","url":"/developer-docs/products/videopress/"},{"label":"Jetpack AI Assistant","url":"/developer-docs/products/ai/"}]} /-->
 
 <!-- wp:group {"align":"wide","anchor":"start","className":"jp-home-section jp-home-start","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignwide jp-home-section jp-home-start" id="start"><!-- wp:docspress/audience-paths {"align":"wide","eyebrow":"Start here","title":"Choose your way into Jetpack","description":"Go straight to the reference, development setup, or workflow that matches the work in front of you.","paths":[{"title":"Actions & filters","description":"Find supported hooks and copy practical PHP examples for forms, Search, Related Posts, and more.","url":"/developer-docs/wordpress-developers/hooks-and-filters/","cta":"Browse hooks","icon":"{ }","accent":"green","newTab":false},{"title":"Build an integration","description":"Choose the right extension point across blocks, REST endpoints, connection data, plugins, and themes.","url":"/developer-docs/wordpress-developers/choose-an-integration/","cta":"Choose an integration","icon":"DEV","accent":"blue","newTab":false},{"title":"Developer environment","description":"Clone the monorepo, install dependencies, start WordPress locally, and verify your first build.","url":"/developer-docs/contributors/getting-started/development-environment/","cta":"Set up locally","icon":"CLI","accent":"gold","newTab":false}],"columns":3,"tone":"paper","textAlign":"left","showNumbers":false} /--></div>
@@ -70,13 +32,13 @@ sidebar_collapsed: false
 
 <!-- wp:buttons {"className":"jp-hook-chips"} -->
 <div class="wp-block-buttons jp-hook-chips"><!-- wp:button {"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="/developer-docs/wordpress-developers/hooks-and-filters/#forms">Forms</a></div>
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="/developer-docs/products/forms/">Forms</a></div>
 <!-- /wp:button -->
 <!-- wp:button {"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="/developer-docs/wordpress-developers/hooks-and-filters/#search">Search</a></div>
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="/developer-docs/products/search/">Search</a></div>
 <!-- /wp:button -->
 <!-- wp:button {"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="/developer-docs/wordpress-developers/hooks-and-filters/#related-posts">Related Posts</a></div>
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="/developer-docs/wordpress-developers/hooks-and-filters/">Related Posts</a></div>
 <!-- /wp:button -->
 <!-- wp:button {"className":"is-style-outline"} -->
 <div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="/developer-docs/wordpress-developers/hooks-and-filters/">All hooks</a></div>
@@ -91,7 +53,7 @@ sidebar_collapsed: false
 <!-- /wp:group -->
 
 <!-- wp:group {"align":"wide","anchor":"guides","className":"jp-home-section jp-home-guides","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignwide jp-home-section jp-home-guides" id="guides"><!-- wp:docspress/audience-paths {"align":"wide","compact":true,"eyebrow":"Customization guides","title":"Build the integration you actually need","description":"Focused paths for extending Jetpack from a plugin, theme, block, REST client, or connected application.","paths":[{"title":"Hooks & filters","description":"Change documented behavior with practical PHP examples.","url":"/developer-docs/wordpress-developers/hooks-and-filters/","cta":"Open guide","icon":"PHP","accent":"green","newTab":false},{"title":"Blocks & editor","description":"Extend Jetpack blocks and editor behavior safely.","url":"/developer-docs/wordpress-developers/blocks-and-editor/","cta":"Open guide","icon":"WP","accent":"blue","newTab":false},{"title":"REST API","description":"Work with WordPress.com and Jetpack REST endpoints.","url":"/developer-docs/rest-api/","cta":"Open guide","icon":"API","accent":"gold","newTab":false},{"title":"Connection & data","description":"Understand the connection layer and data flow.","url":"/developer-docs/wordpress-developers/connection-and-data/","cta":"Open guide","icon":"SYNC","accent":"coral","newTab":false},{"title":"Choose an integration","description":"Match the outcome to the supported extension point.","url":"/developer-docs/wordpress-developers/choose-an-integration/","cta":"Choose a path","icon":"DEV","accent":"green","newTab":false},{"title":"Test an integration","description":"Verify compatibility before shipping to production.","url":"/developer-docs/wordpress-developers/test-an-integration/","cta":"Plan tests","icon":"QA","accent":"blue","newTab":false}],"columns":2,"tone":"paper","textAlign":"left","showNumbers":false} /--></div>
+<div class="wp-block-group alignwide jp-home-section jp-home-guides" id="guides"><!-- wp:docspress/audience-paths {"align":"wide","compact":true,"eyebrow":"Customization guides","title":"Build the integration you actually need","description":"Focused paths for extending Jetpack from a plugin, theme, block, REST client, or connected application.","paths":[{"title":"Hooks & filters","description":"Change documented behavior with practical PHP examples.","url":"/developer-docs/wordpress-developers/hooks-and-filters/","cta":"Open guide","icon":"PHP","accent":"green","newTab":false},{"title":"Blocks & editor","description":"Extend Jetpack blocks and editor behavior safely.","url":"/developer-docs/wordpress-developers/blocks-and-editor/","cta":"Open guide","icon":"WP","accent":"blue","newTab":false},{"title":"REST API","description":"Work with WordPress.com and Jetpack REST endpoints.","url":"/developer-docs/wordpress-developers/rest-api/","cta":"Open guide","icon":"API","accent":"gold","newTab":false},{"title":"Connection & data","description":"Understand the connection layer and data flow.","url":"/developer-docs/wordpress-developers/connection-and-data/","cta":"Open guide","icon":"SYNC","accent":"coral","newTab":false},{"title":"Choose an integration","description":"Match the outcome to the supported extension point.","url":"/developer-docs/wordpress-developers/choose-an-integration/","cta":"Choose a path","icon":"DEV","accent":"green","newTab":false},{"title":"Test an integration","description":"Verify compatibility before shipping to production.","url":"/developer-docs/wordpress-developers/test-an-integration/","cta":"Plan tests","icon":"QA","accent":"blue","newTab":false}],"columns":2,"tone":"paper","textAlign":"left","showNumbers":false} /--></div>
 <!-- /wp:group -->
 
 <!-- wp:group {"align":"full","anchor":"contribute","className":"jp-home-band jp-home-contribute","layout":{"type":"constrained"}} -->

@@ -1,0 +1,166 @@
+.wp-block-jetpack-developer-docs-product-carousel.jetpack-developer-docs-product-carousel {
+	--jp-docs-carousel-accent: var(--dp-green, #069e08);
+	--jp-docs-carousel-background: var(--dp-paper, #fff);
+	--jp-docs-carousel-border: var(--dp-line, #dcdcde);
+	--jp-docs-carousel-text: var(--dp-ink, #171a22);
+	position: relative;
+	box-sizing: border-box;
+	width: 100vw;
+	max-width: none;
+	margin-block: 0;
+	margin-inline: calc(50% - 50vw);
+	overflow: hidden;
+	border-block: 1px solid var(--jp-docs-carousel-border);
+	background:
+		linear-gradient(90deg, color-mix(in sRGB, var(--jp-docs-carousel-accent) 8%, transparent), transparent 18%, transparent 82%, color-mix(in sRGB, var(--jp-docs-carousel-accent) 8%, transparent)),
+		var(--jp-docs-carousel-background);
+	color: var(--jp-docs-carousel-text);
+}
+
+body:has(.wp-block-jetpack-developer-docs-product-carousel.jetpack-developer-docs-product-carousel) {
+	overflow-x: clip;
+}
+
+.jetpack-developer-docs-product-carousel__viewport {
+	width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	cursor: grab;
+	overscroll-behavior-inline: contain;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+	touch-action: pan-x pan-y pinch-zoom;
+}
+
+.jetpack-developer-docs-product-carousel__viewport::-webkit-scrollbar {
+	display: none;
+}
+
+.jetpack-developer-docs-product-carousel__viewport.is-dragging {
+	cursor: grabbing;
+	user-select: none;
+}
+
+.jetpack-developer-docs-product-carousel__track {
+	display: flex;
+	width: max-content;
+	min-width: 100%;
+}
+
+.jetpack-developer-docs-product-carousel__list {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: stretch;
+	min-width: max-content;
+	margin: 0;
+	padding-block: 0;
+	padding-inline: 0;
+	padding-inline-start: clamp(1.5rem, 3vw, 2.75rem);
+	list-style: none;
+}
+
+.jetpack-developer-docs-product-carousel__item {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	margin: 0;
+}
+
+.jetpack-developer-docs-product-carousel__item::after {
+	display: inline-block;
+	margin-inline: clamp(1.25rem, 3vw, 2.75rem);
+	color: var(--jp-docs-carousel-accent);
+	font-size: 0.55rem;
+	content: "◆";
+	opacity: 0.78;
+}
+
+.jetpack-developer-docs-product-carousel__link {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	min-height: clamp(4.75rem, 7vw, 6.25rem);
+	padding-block: 0.4rem;
+	color: inherit;
+	font-family: var(--wp--preset--font-family--heading, "EB Garamond", Georgia, serif);
+	font-size: clamp(1.35rem, 2.2vw, 2.15rem);
+	font-weight: 650;
+	letter-spacing: -0.025em;
+	line-height: 1;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.jetpack-developer-docs-product-carousel__link::after {
+	position: absolute;
+	right: 0;
+	bottom: clamp(0.85rem, 1.8vw, 1.35rem);
+	left: 0;
+	height: 2px;
+	background: var(--jp-docs-carousel-accent);
+	content: "";
+	transform: scaleX(0);
+	transform-origin: right;
+	transition: transform 180ms ease;
+}
+
+.jetpack-developer-docs-product-carousel__link:hover,
+.jetpack-developer-docs-product-carousel__link:focus,
+.jetpack-developer-docs-product-carousel__link:focus-visible {
+	color: color-mix(in sRGB, var(--jp-docs-carousel-accent) 78%, var(--jp-docs-carousel-text));
+	text-decoration: none;
+}
+
+.jetpack-developer-docs-product-carousel__link:hover::after,
+.jetpack-developer-docs-product-carousel__link:focus::after,
+.jetpack-developer-docs-product-carousel__link:focus-visible::after {
+	transform: scaleX(1);
+	transform-origin: left;
+}
+
+.jetpack-developer-docs-product-carousel__link:focus,
+.jetpack-developer-docs-product-carousel__link:focus-visible {
+	border-radius: 2px;
+	outline: 3px solid var(--jp-docs-carousel-accent);
+	outline-offset: 5px;
+}
+
+.jetpack-developer-docs-product-carousel.is-reduced-motion .jetpack-developer-docs-product-carousel__viewport {
+	scroll-snap-type: inline proximity;
+}
+
+.jetpack-developer-docs-product-carousel.is-reduced-motion .jetpack-developer-docs-product-carousel__item {
+	scroll-snap-align: start;
+}
+
+@media (max-width: 600px) {
+
+	.jetpack-developer-docs-product-carousel__item::after {
+		margin-inline: 1.1rem;
+	}
+
+	.jetpack-developer-docs-product-carousel__link {
+		min-height: 4.5rem;
+		font-size: 1.35rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.jetpack-developer-docs-product-carousel__link::after {
+		transition: none;
+	}
+}
+
+@media (forced-colors: active) {
+
+	.wp-block-jetpack-developer-docs-product-carousel.jetpack-developer-docs-product-carousel {
+		border-color: CanvasText;
+		background: Canvas;
+		color: CanvasText;
+	}
+
+	.jetpack-developer-docs-product-carousel__link:focus-visible {
+		outline-color: Highlight;
+	}
+}
