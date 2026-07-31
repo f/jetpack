@@ -1,0 +1,185 @@
+{
+	"recorded_from": "f3218e8dee",
+	"page_count": 69,
+	"dry_run": {
+		"run_id": 30569703342,
+		"status": "publish",
+		"desired_pages": 69,
+		"reported_actions": [ "Would update developer-docs" ],
+		"reported_conflicts": 0,
+		"reported_deletions": 0
+	},
+	"pages": [
+		{ "id": "root", "route": "/developer-docs/" },
+		{ "id": "site-owners", "route": "/developer-docs/site-owners/" },
+		{ "id": "site-owners-get-started", "route": "/developer-docs/site-owners/get-started/" },
+		{
+			"id": "site-owners-choose-products",
+			"route": "/developer-docs/site-owners/choose-products/"
+		},
+		{ "id": "site-owners-security", "route": "/developer-docs/site-owners/security/" },
+		{ "id": "site-owners-performance", "route": "/developer-docs/site-owners/performance/" },
+		{ "id": "site-owners-growth", "route": "/developer-docs/site-owners/growth/" },
+		{ "id": "site-owners-troubleshoot", "route": "/developer-docs/site-owners/troubleshoot/" },
+		{ "id": "site-owners-prompts", "route": "/developer-docs/site-owners/prompts/" },
+		{ "id": "developers", "route": "/developer-docs/wordpress-developers/" },
+		{
+			"id": "developers-choose-integration",
+			"route": "/developer-docs/wordpress-developers/choose-an-integration/"
+		},
+		{
+			"id": "developers-hooks",
+			"route": "/developer-docs/wordpress-developers/hooks-and-filters/"
+		},
+		{
+			"id": "developers-blocks",
+			"route": "/developer-docs/wordpress-developers/blocks-and-editor/"
+		},
+		{
+			"id": "developers-connection",
+			"route": "/developer-docs/wordpress-developers/connection-and-data/"
+		},
+		{
+			"id": "developers-test-integration",
+			"route": "/developer-docs/wordpress-developers/test-an-integration/"
+		},
+		{ "id": "developers-prompts", "route": "/developer-docs/wordpress-developers/prompts/" },
+		{ "id": "developers-rest-api", "route": "/developer-docs/wordpress-developers/rest-api/" },
+		{ "id": "agencies", "route": "/developer-docs/agencies/" },
+		{ "id": "agencies-plan", "route": "/developer-docs/agencies/plan-a-client-site/" },
+		{ "id": "agencies-launch", "route": "/developer-docs/agencies/launch-a-client-site/" },
+		{ "id": "agencies-manage", "route": "/developer-docs/agencies/manage-client-sites/" },
+		{ "id": "agencies-staging", "route": "/developer-docs/agencies/staging-and-deployment/" },
+		{ "id": "agencies-handoff", "route": "/developer-docs/agencies/handoff-and-support/" },
+		{ "id": "agencies-prompts", "route": "/developer-docs/agencies/prompts/" },
+		{ "id": "agencies-hosting-partners", "route": "/developer-docs/agencies/hosting-partners/" },
+		{ "id": "contributors", "route": "/developer-docs/contributors/" },
+		{ "id": "contributors-guide", "route": "/developer-docs/contributors/contribution-guide/" },
+		{ "id": "contributors-setup", "route": "/developer-docs/contributors/getting-started/" },
+		{
+			"id": "contributors-quick-start",
+			"route": "/developer-docs/contributors/getting-started/quick-start/"
+		},
+		{
+			"id": "contributors-development-environment",
+			"route": "/developer-docs/contributors/getting-started/development-environment/"
+		},
+		{ "id": "contributors-workflow", "route": "/developer-docs/contributors/workflow/" },
+		{ "id": "contributors-git", "route": "/developer-docs/contributors/workflow/git/" },
+		{
+			"id": "contributors-pull-requests",
+			"route": "/developer-docs/contributors/workflow/pull-requests/"
+		},
+		{
+			"id": "contributors-code-reviews",
+			"route": "/developer-docs/contributors/workflow/code-reviews/"
+		},
+		{ "id": "contributors-quality", "route": "/developer-docs/contributors/quality/" },
+		{
+			"id": "contributors-coding-guidelines",
+			"route": "/developer-docs/contributors/quality/coding-guidelines/"
+		},
+		{
+			"id": "contributors-automated-testing",
+			"route": "/developer-docs/contributors/quality/automated-testing/"
+		},
+		{
+			"id": "contributors-report-bugs",
+			"route": "/developer-docs/contributors/quality/report-bugs/"
+		},
+		{ "id": "contributors-testing", "route": "/developer-docs/contributors/testing/" },
+		{
+			"id": "contributors-beta-testing",
+			"route": "/developer-docs/contributors/testing/beta-testing/"
+		},
+		{
+			"id": "contributors-regression",
+			"route": "/developer-docs/contributors/testing/regression/"
+		},
+		{
+			"id": "contributors-regression-global",
+			"route": "/developer-docs/contributors/testing/regression/global-checklist/"
+		},
+		{
+			"id": "contributors-test-suites",
+			"route": "/developer-docs/contributors/testing/test-suites/"
+		},
+		{
+			"id": "contributors-test-blocks",
+			"route": "/developer-docs/contributors/testing/test-suites/blocks/"
+		},
+		{
+			"id": "contributors-test-extensions",
+			"route": "/developer-docs/contributors/testing/test-suites/blocks/gutenberg-extensions/"
+		},
+		{
+			"id": "contributors-test-contact-form",
+			"route": "/developer-docs/contributors/testing/test-suites/blocks/contact-form/"
+		},
+		{
+			"id": "contributors-test-memberships",
+			"route": "/developer-docs/contributors/testing/test-suites/blocks/memberships/"
+		},
+		{
+			"id": "contributors-test-modules",
+			"route": "/developer-docs/contributors/testing/test-suites/modules/"
+		},
+		{
+			"id": "contributors-test-publicize",
+			"route": "/developer-docs/contributors/testing/test-suites/modules/publicize/"
+		},
+		{
+			"id": "contributors-test-stats",
+			"route": "/developer-docs/contributors/testing/test-suites/modules/stats/"
+		},
+		{
+			"id": "contributors-test-packages",
+			"route": "/developer-docs/contributors/testing/test-suites/packages/"
+		},
+		{
+			"id": "contributors-test-connection",
+			"route": "/developer-docs/contributors/testing/test-suites/packages/connection/"
+		},
+		{
+			"id": "contributors-test-sync",
+			"route": "/developer-docs/contributors/testing/test-suites/packages/sync/"
+		},
+		{
+			"id": "contributors-testing-tips",
+			"route": "/developer-docs/contributors/testing/beta-tools/"
+		},
+		{ "id": "contributors-monorepo", "route": "/developer-docs/contributors/monorepo/" },
+		{
+			"id": "contributors-monorepo-reference",
+			"route": "/developer-docs/contributors/monorepo/reference/"
+		},
+		{
+			"id": "contributors-unison",
+			"route": "/developer-docs/contributors/monorepo/unison-wordpress-com/"
+		},
+		{ "id": "contributors-releases", "route": "/developer-docs/contributors/releases/" },
+		{
+			"id": "contributors-changelog",
+			"route": "/developer-docs/contributors/releases/changelog-entries/"
+		},
+		{
+			"id": "contributors-release-management",
+			"route": "/developer-docs/contributors/releases/release-management/"
+		},
+		{
+			"id": "contributors-deprecations",
+			"route": "/developer-docs/contributors/releases/deprecations/"
+		},
+		{
+			"id": "contributors-translations",
+			"route": "/developer-docs/contributors/releases/translations/"
+		},
+		{ "id": "contributors-prompts", "route": "/developer-docs/contributors/prompts/" },
+		{ "id": "reference", "route": "/developer-docs/reference/" },
+		{ "id": "reference-products", "route": "/developer-docs/reference/products-and-features/" },
+		{ "id": "reference-support", "route": "/developer-docs/reference/support-and-tools/" },
+		{ "id": "reference-glossary", "route": "/developer-docs/reference/glossary/" },
+		{ "id": "reference-ai", "route": "/developer-docs/reference/use-docs-with-ai/" },
+		{ "id": "reference-documentation-map", "route": "/developer-docs/reference/documentation-map/" }
+	]
+}
