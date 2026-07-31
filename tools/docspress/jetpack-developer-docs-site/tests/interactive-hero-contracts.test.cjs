@@ -29,6 +29,10 @@ test( 'light mode removes the grid and keeps construction lines visible', () => 
 	);
 	assert.match(
 		styleSource,
+		/docspress-hero__visual::before\s*\{[\s\S]*display:\s*none;[\s\S]*content:\s*none/
+	);
+	assert.match(
+		styleSource,
 		/jetpack-developer-docs-hero[\s\S]*\+\s*\.jetpack-developer-docs-product-carousel\s*\{[\s\S]*border-block-start:\s*0/
 	);
 	assert.match( styleSource, /html\[data-theme="dark"\]/ );
