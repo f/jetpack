@@ -49,6 +49,11 @@ test( 'dragged nodes deform connected strokes and spring home', () => {
 	assert.match( viewSource, /window\.addEventListener\( 'pointerup', releasePointDrag \)/ );
 } );
 
+test( 'annotation sprites keep their texture aspect ratio', () => {
+	assert.match( viewSource, /sprite\.scale\.set\( width, width \* 0\.375, 1 \)/ );
+	assert.match( viewSource, /if \( ! part\.userData\.fixedScale \) \{\s*part\.scale\.setScalar/ );
+} );
+
 test( 'reduced motion and responsive rendering remain supported', () => {
 	assert.match( viewSource, /prefers-reduced-motion: reduce/ );
 	assert.match( viewSource, /ResizeObserver/ );

@@ -431,7 +431,9 @@ const initializeHero = visual => {
 		animatedParts.forEach( ( part, index ) => {
 			if ( reducedMotion ) {
 				setPartOpacity( part, layerOpacity( part.userData.layer ) );
-				part.scale.setScalar( 1 );
+				if ( ! part.userData.fixedScale ) {
+					part.scale.setScalar( 1 );
+				}
 				return;
 			}
 			const start = layerDelay( part.userData.layer ) + ( index % 8 ) * 0.018;
@@ -442,7 +444,9 @@ const initializeHero = visual => {
 			);
 			const eased = easeOutCubic( progress );
 			setPartOpacity( part, eased * layerOpacity( part.userData.layer ) );
-			part.scale.setScalar( part.userData.fixedScale ? 1 : 0.96 + eased * 0.04 );
+			if ( ! part.userData.fixedScale ) {
+				part.scale.setScalar( 0.96 + eased * 0.04 );
+			}
 		} );
 
 		renderer.render( scene, camera );

@@ -32,6 +32,7 @@ WebGL, and network-error fallback.
 
 = 0.1.6 =
 * Remove the theme overlay that drew lines across the homepage hero.
+* Preserve the intended aspect ratio of technical annotation labels.
 
 = 0.1.5 =
 * Remove the separator below the interactive homepage hero.
