@@ -2,7 +2,7 @@
 Contributors: automattic
 Requires at least: 6.6
 Requires PHP: 7.2
-Stable tag: 0.1.3
+Stable tag: 0.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,10 @@ The plugin registers the dynamic
 `jetpack-developer-docs/product-carousel` block. Its front-end assets are
 enqueued only when that block renders.
 
+It also progressively enhances the mapped homepage hero with an interactive
+technical drawing. The published image remains available as a no-JavaScript,
+WebGL, and network-error fallback.
+
 == Installation ==
 
 1. Run `./package.sh` from this directory.
@@ -25,6 +29,16 @@ enqueued only when that block renders.
 3. Activate the plugin before synchronizing content containing the block.
 
 == Changelog ==
+
+= 0.1.6 =
+* Remove the theme overlay that drew lines across the homepage hero.
+* Preserve the intended aspect ratio of technical annotation labels.
+
+= 0.1.5 =
+* Remove the separator below the interactive homepage hero.
+
+= 0.1.4 =
+* Add a light-compatible interactive homepage blueprint with elastic points.
 
 = 0.1.3 =
 * Format the adapter scripts for the Jetpack monorepo JavaScript checks.

@@ -1,0 +1,132 @@
+.homepage-content > .wp-block-docspress-hero.jetpack-developer-docs-hero {
+	border: 0;
+	background-image: none;
+}
+
+.homepage-content > .wp-block-docspress-hero.jetpack-developer-docs-hero .docspress-hero__copy,
+.homepage-content > .wp-block-docspress-hero.jetpack-developer-docs-hero .docspress-hero__visual {
+	border: 0;
+}
+
+.homepage-content > .wp-block-docspress-hero.jetpack-developer-docs-hero .docspress-hero__visual {
+	min-height: 100%;
+	padding: 0;
+	background: transparent;
+	box-shadow: none;
+}
+
+.homepage-content > .wp-block-docspress-hero.jetpack-developer-docs-hero .docspress-hero__visual::before {
+	display: none;
+	content: none;
+}
+
+.homepage-content > .wp-block-docspress-hero.jetpack-developer-docs-hero + .jetpack-developer-docs-product-carousel {
+	border-block-start: 0;
+}
+
+.jetpack-developer-docs-hero__visual {
+	--jp-docs-hero-construction: #7b8287;
+	--jp-docs-hero-point-fill: #fff;
+	position: relative;
+	width: 100%;
+	max-width: none;
+	height: 100%;
+	min-height: clamp(500px, 48vw, 680px);
+	margin: 0;
+	overflow: hidden;
+	cursor: grab;
+	touch-action: none;
+}
+
+.jetpack-developer-docs-hero__visual[data-hovering="true"] {
+	cursor: pointer;
+}
+
+.jetpack-developer-docs-hero__visual[data-dragging="true"] {
+	cursor: grabbing;
+}
+
+.jetpack-developer-docs-hero__canvas {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+}
+
+.jetpack-developer-docs-hero__canvas canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.jetpack-developer-docs-hero__visual .docspress-hero__image {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 1;
+	width: min(88%, 520px);
+	height: auto;
+	opacity: 1;
+	transform: translate(-50%, -50%);
+	transition: opacity 180ms ease;
+	pointer-events: none;
+}
+
+.jetpack-developer-docs-hero__visual[data-state="ready"] .docspress-hero__image {
+	opacity: 0;
+}
+
+.jetpack-developer-docs-hero__hint {
+	position: absolute;
+	z-index: 3;
+	inset-inline-end: clamp(16px, 3vw, 34px);
+	inset-block-end: clamp(16px, 3vw, 30px);
+	color: var(--dp-muted, #646970);
+	font-family: var(--dp-font-mono, ui-monospace, monospace);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	pointer-events: none;
+	transition:
+		opacity 240ms ease,
+		transform 240ms ease;
+}
+
+.jetpack-developer-docs-hero__visual[data-interacted="true"] .jetpack-developer-docs-hero__hint,
+.jetpack-developer-docs-hero__visual[data-state="fallback"] .jetpack-developer-docs-hero__hint {
+	opacity: 0;
+	transform: translateY(4px);
+}
+
+html[data-theme="dark"] .jetpack-developer-docs-hero__visual {
+	--jp-docs-hero-construction: #92999e;
+	--jp-docs-hero-point-fill: #1f2428;
+}
+
+@media ( max-width: 780px ) {
+
+	.homepage-content > .wp-block-docspress-hero.jetpack-developer-docs-hero .docspress-hero__visual {
+		min-height: 440px;
+		border: 0;
+	}
+
+	.jetpack-developer-docs-hero__visual {
+		min-height: 440px;
+	}
+}
+
+@media ( max-width: 600px ) {
+
+	.homepage-content > .wp-block-docspress-hero.jetpack-developer-docs-hero .docspress-hero__visual,
+	.jetpack-developer-docs-hero__visual {
+		min-height: 360px;
+	}
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+
+	.jetpack-developer-docs-hero__visual .docspress-hero__image,
+	.jetpack-developer-docs-hero__hint {
+		transition: none;
+	}
+}
