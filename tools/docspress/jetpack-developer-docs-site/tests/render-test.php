@@ -12,12 +12,15 @@
 define( 'ABSPATH', __DIR__ );
 
 $registered_scripts = array();
+$registered_modules = array();
 $registered_styles  = array();
 $registered_blocks  = array();
 $enqueued_scripts   = array();
+$enqueued_modules   = array();
 $enqueued_styles    = array();
 $inline_scripts     = array();
 $actions            = array();
+$filters            = array();
 $unique_id          = 0;
 
 function plugin_dir_path( $file ) {
@@ -64,6 +67,10 @@ function __( $value ) {
 	return $value;
 }
 
+function esc_html__( $value ) {
+	return esc_html( $value );
+}
+
 function wp_unique_id( $prefix = '' ) {
 	global $unique_id;
 	++$unique_id;
@@ -79,9 +86,19 @@ function add_action( $hook, $callback ) {
 	$actions[ $hook ][] = $callback;
 }
 
+function add_filter( $hook, $callback, $priority = 10, $accepted_arguments = 1 ) {
+	global $filters;
+	$filters[ $hook ][] = compact( 'callback', 'priority', 'accepted_arguments' );
+}
+
 function wp_register_script( $handle, $source, $dependencies, $version, $in_footer ) {
 	global $registered_scripts;
 	$registered_scripts[ $handle ] = compact( 'source', 'dependencies', 'version', 'in_footer' );
+}
+
+function wp_register_script_module( $handle, $source, $dependencies, $version ) {
+	global $registered_modules;
+	$registered_modules[ $handle ] = compact( 'source', 'dependencies', 'version' );
 }
 
 function wp_register_style( $handle, $source, $dependencies, $version ) {
@@ -102,6 +119,11 @@ function register_block_type( $name, $arguments ) {
 function wp_enqueue_script( $handle ) {
 	global $enqueued_scripts;
 	$enqueued_scripts[] = $handle;
+}
+
+function wp_enqueue_script_module( $handle ) {
+	global $enqueued_modules;
+	$enqueued_modules[] = $handle;
 }
 
 function wp_enqueue_style( $handle ) {
@@ -272,7 +294,15 @@ if ( 'cli-server' === PHP_SAPI ) {
 }
 
 assert_true( isset( $actions['init'] ), 'The block registration callback must be attached to init.' );
+assert_true( isset( $filters['render_block_docspress/hero'] ), 'The homepage hero enhancement must filter DocsPress hero rendering.' );
 jetpack_developer_docs_site_register_product_carousel();
+jetpack_developer_docs_site_register_interactive_hero();
+
+assert_true(
+	isset( $registered_modules['jetpack-developer-docs-interactive-hero'] ) &&
+	isset( $registered_styles['jetpack-developer-docs-interactive-hero'] ),
+	'Interactive hero assets must register without being enqueued globally.'
+);
 
 $block_name = 'jetpack-developer-docs/product-carousel';
 assert_true( isset( $registered_blocks[ $block_name ] ), 'The site-specific product carousel must be registered.' );
@@ -324,4 +354,33 @@ assert_true(
 	'The default render must include product destinations.'
 );
 
-echo "Server-side carousel rendering tests passed.\n";
+$scripts_before_hero = count( $enqueued_modules );
+$styles_before_hero  = count( $enqueued_styles );
+$base_hero_markup    = '<section class="docspress-hero wp-block-docspress-hero"><div class="docspress-hero__visual"><figure class="docspress-hero__media"><img class="docspress-hero__image" src="fallback.png" alt="Blueprint"></figure></div></section>';
+$unrelated_hero      = jetpack_developer_docs_site_render_interactive_hero(
+	$base_hero_markup,
+	array( 'attrs' => array( 'title' => 'Another page' ) )
+);
+
+assert_true( $unrelated_hero === $base_hero_markup, 'Unrelated DocsPress heroes must remain unchanged.' );
+assert_true(
+	count( $enqueued_modules ) === $scripts_before_hero && count( $enqueued_styles ) === $styles_before_hero,
+	'Unrelated heroes must not enqueue interactive assets.'
+);
+
+$interactive_hero = jetpack_developer_docs_site_render_interactive_hero(
+	$base_hero_markup,
+	array( 'attrs' => array( 'title' => 'Build with Jetpack. Ship with confidence.' ) )
+);
+
+assert_true( strpos( $interactive_hero, 'jetpack-developer-docs-hero' ) !== false, 'The mapped homepage hero must receive its enhancement class.' );
+assert_true( strpos( $interactive_hero, 'data-jp-docs-hero' ) !== false, 'The interactive canvas mount must render.' );
+assert_true( strpos( $interactive_hero, 'fallback.png' ) !== false, 'The original image must remain as the no-JavaScript fallback.' );
+assert_true( strpos( $interactive_hero, 'Drag a point' ) !== false, 'The interaction hint must render.' );
+assert_true(
+	in_array( 'jetpack-developer-docs-interactive-hero', $enqueued_modules, true ) &&
+	in_array( 'jetpack-developer-docs-interactive-hero', $enqueued_styles, true ),
+	'Interactive assets must enqueue only when the mapped homepage hero renders.'
+);
+
+echo "Server-side carousel and interactive hero rendering tests passed.\n";

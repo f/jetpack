@@ -34,6 +34,7 @@ jobs:
           node --check tools/docspress/jetpack-developer-docs-site/blocks/product-carousel/editor.js
           node --check tools/docspress/jetpack-developer-docs-site/blocks/product-carousel/utils.js
           node --check tools/docspress/jetpack-developer-docs-site/blocks/product-carousel/view.js
+          node --check tools/docspress/jetpack-developer-docs-site/blocks/interactive-hero/view.js
 
       - name: Check changed-file whitespace
         env:

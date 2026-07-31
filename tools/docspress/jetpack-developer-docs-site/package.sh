@@ -20,7 +20,10 @@ cleanup() {
 }
 trap cleanup EXIT
 
-mkdir -p "${archive_root}/blocks/product-carousel" "${output_directory}"
+mkdir -p \
+	"${archive_root}/blocks/product-carousel" \
+	"${archive_root}/blocks/interactive-hero" \
+	"${output_directory}"
 
 install -m 0644 "${plugin_directory}/${plugin_slug}.php" "${archive_root}/"
 install -m 0644 "${plugin_directory}/readme.txt" "${archive_root}/"
@@ -29,6 +32,8 @@ install -m 0644 "${plugin_directory}/blocks/product-carousel/editor.js" "${archi
 install -m 0644 "${plugin_directory}/blocks/product-carousel/style.css" "${archive_root}/blocks/product-carousel/"
 install -m 0644 "${plugin_directory}/blocks/product-carousel/utils.js" "${archive_root}/blocks/product-carousel/"
 install -m 0644 "${plugin_directory}/blocks/product-carousel/view.js" "${archive_root}/blocks/product-carousel/"
+install -m 0644 "${plugin_directory}/blocks/interactive-hero/style.css" "${archive_root}/blocks/interactive-hero/"
+install -m 0644 "${plugin_directory}/blocks/interactive-hero/view.js" "${archive_root}/blocks/interactive-hero/"
 
 find "${archive_root}" -exec touch -t 202001010000 {} +
 rm -f "${output_path}"

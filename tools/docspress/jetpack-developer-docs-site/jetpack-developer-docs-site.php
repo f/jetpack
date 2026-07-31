@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Jetpack Developer Docs Site
  * Description: Site-specific presentation blocks for the Jetpack Developer Docs website.
- * Version: 0.1.3
+ * Version: 0.1.4
  * Requires at least: 6.6
  * Requires PHP: 7.2
  * Author: Automattic
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JETPACK_DEVELOPER_DOCS_SITE_VERSION', '0.1.3' );
+define( 'JETPACK_DEVELOPER_DOCS_SITE_VERSION', '0.1.4' );
 define( 'JETPACK_DEVELOPER_DOCS_SITE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'JETPACK_DEVELOPER_DOCS_SITE_URL', plugin_dir_url( __FILE__ ) );
 
@@ -276,3 +276,68 @@ function jetpack_developer_docs_site_register_product_carousel() {
 	);
 }
 add_action( 'init', 'jetpack_developer_docs_site_register_product_carousel' );
+
+/**
+ * Register the site-specific interactive hero assets.
+ */
+function jetpack_developer_docs_site_register_interactive_hero() {
+	$block_url = JETPACK_DEVELOPER_DOCS_SITE_URL . 'blocks/interactive-hero/';
+
+	wp_register_style(
+		'jetpack-developer-docs-interactive-hero',
+		$block_url . 'style.css',
+		array(),
+		JETPACK_DEVELOPER_DOCS_SITE_VERSION
+	);
+
+	wp_register_script_module(
+		'jetpack-developer-docs-interactive-hero',
+		$block_url . 'view.js',
+		array(),
+		JETPACK_DEVELOPER_DOCS_SITE_VERSION
+	);
+}
+add_action( 'init', 'jetpack_developer_docs_site_register_interactive_hero' );
+
+/**
+ * Replace the homepage hero image with an interactive light-compatible canvas.
+ *
+ * The original image remains in the markup as an accessible, no-JavaScript,
+ * WebGL, and network-error fallback.
+ *
+ * @param string $block_content Rendered DocsPress hero markup.
+ * @param array  $block         Parsed block data.
+ * @return string
+ */
+function jetpack_developer_docs_site_render_interactive_hero( $block_content, $block ) {
+	$attributes = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
+	$title      = isset( $attributes['title'] ) ? sanitize_text_field( $attributes['title'] ) : '';
+
+	if ( 'Build with Jetpack. Ship with confidence.' !== $title ) {
+		return $block_content;
+	}
+
+	$figure = '<figure class="docspress-hero__media">';
+	if ( false === strpos( $block_content, $figure ) ) {
+		return $block_content;
+	}
+
+	$interactive_figure = '<figure class="docspress-hero__media jetpack-developer-docs-hero__visual" data-jp-docs-hero data-state="fallback">'
+		. '<div class="jetpack-developer-docs-hero__canvas" data-jp-docs-hero-canvas aria-hidden="true"></div>'
+		. '<span class="jetpack-developer-docs-hero__hint" aria-hidden="true">'
+		. esc_html__( 'Drag a point', 'jetpack-developer-docs-site' )
+		. '</span>';
+
+	$block_content = str_replace( $figure, $interactive_figure, $block_content );
+	$block_content = str_replace(
+		'wp-block-docspress-hero',
+		'wp-block-docspress-hero jetpack-developer-docs-hero',
+		$block_content
+	);
+
+	wp_enqueue_style( 'jetpack-developer-docs-interactive-hero' );
+	wp_enqueue_script_module( 'jetpack-developer-docs-interactive-hero' );
+
+	return $block_content;
+}
+add_filter( 'render_block_docspress/hero', 'jetpack_developer_docs_site_render_interactive_hero', 10, 2 );
